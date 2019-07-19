@@ -1,0 +1,924 @@
+You need sql dorks =???? 
+
+inurl:”forecast.php?page=”
+inurl:”mobile.php?page=”
+inurl:”ku/news.php?readmore=”
+inurl:”cat.php?pid=”
+inurl:”photogallery.php?album_id=”
+inurl:”photogallery.php?album_id=”
+inurl:”articles.php?cat_id=”
+inurl:”articles.php?cat_id=”
+inurl:”readarticle.php?article_id=”
+inurl:”readarticle.php?article_id=”
+inurl:”news.php?readmore=”
+inurl:”mobile.php?id=”
+inurl:”submit_article.php?c=”
+inurl:”cmspage.php?intid=”
+inurl:”cmspage.php?id=”
+inurl:”merchant.php?id=”
+inurl:”merchant.php?pag
+
+inurl:"typen.asp?id="
+inurl:"ficha.php?id="
+"powered by K:CMS v2.1.1" index.php?profile="
+"powered by K:CMS v2.1.1"
+inurl:"option=com_mytube"
+/index.php?&option=com_mytube&Itemid=88&view=videos&type=member&user_id=
+
+comment:Vulnerable files***-----
+filetype:pl -intext:"/usr/bin/perl" inurl:webcal (inurl:webcal | inurl:add | inurl:delete | inurl:config)
+"File Upload Manager v1.3" "rename to"
+"Powered by Land Down Under 601"
+"powered by YellDL"
+ext:asp "powered by DUForum" inurl:(messages|details|login|default|register) -site:duware.com
+ext:asp inurl:DUgallery intitle:"3.0" -site:dugallery.com -site:duware.com
+ext:cgi inurl:ubb6_test
+ezBOO "Administrator Panel" -cvs
+filetype:cgi inurl:cachemgr.cgi
+filetype:cnf my.cnf -cvs -example
+filetype:inc inc intext:setcookie
+filetype:lit lit (books|ebooks)
+filetype:mdb inurl:"news/news"
+filetype:php inurl:"viewfile" -"index.php" -"idfil
+filetype:wsdl wsdl
+intitle:gallery inurl:setup "Gallery configuration" -----Gallery configuration setup files-----
+intitle:"ASP FileMan" Resend -site:iisworks.com
+intitle:"Directory Listing" "tree view"
+intitle:"Index of /" modified php.exe
+intitle:"PHP Explorer" ext:php (inurl:phpexplorer.php | inurl:list.php | inurl:browse.php)
+intitle:"phpremoteview" filetype:php "Name, Size, Type, Modify"
+intitle:mywebftp "Please enter your password"
+inurl:" WWWADMIN.PL" intitle:"wwwadmin"
+inurl:"nph-*****.cgi" "Start browsing through this CGI-based *****"
+inurl:"plog/register.php"
+inurl:cgi.asx?StoreID
+inurl:changepassword.cgi -cvs
+inurl:click.php intext:PHPClickLog
+inurl:php.exe filetype:exe -example.com
+inurl:robpoll.cgi filetype:cgi
+link:http://www.toastforums.com/
+"create the Super User" "now by clicking here" -----PHP-Nuke - create super user right now !-----
+intitle:"Index of" _vti_inf.html
+intitle:"Index of" service.pwd
+intitle:"Index of" users.pwd
+intitle:"Index of" authors.pwd
+intitle:"Index of" administrators.pwd
+intitle:"Index of" shtml.dll
+intitle:"Index of" shtml.exe
+intitle:"Index of" fpcount.exe
+intitle:"Index of" default.asp
+intitle:"Index of" showcode.asp
+intitle:"Index of" sendmail.cfm
+intitle:"Index of" getFile.cfm
+intitle:"Index of" imagemap.exe
+intitle:"Index of" test.bat
+intitle:"Index of" msadcs.dll
+intitle:"Index of" htimage.exe
+intitle:"Index of" counter.exe
+intitle:"Index of" browser.inc
+intitle:"Index of" hello.bat
+intitle:"Index of" default.asp\\
+intitle:"Index of" dvwssr.dll
+intitle:"Index of" dvwssr.dll
+intitle:"Index of" dvwssr.dll
+intitle:"Index of" cart32.exe
+intitle:"Index of" add.exe
+intitle:"Index of" index.JSP
+intitle:"Index of" index.jsp
+intitle:"Index of" SessionServlet
+intitle:"Index of" shtml.dll
+intitle:"Index of" index.cfm
+intitle:"Index of" page.cfm
+intitle:"Index of" shtml.exe
+intitle:"Index of" web_store.cgi
+intitle:"Index of" shop.cgi
+intitle:"Index of" upload.asp
+intitle:"Index of" default.asp
+content.php?id=
+view_items.php?id=
+default.php?cPath=
+book.php?id=
+view_items.php?id=
+products/parts/detail.php?id=
+category.php?cid=
+book.html?isbn=
+view_item.php?id=
+picgallery/category.php?cid=
+detail.php?id=
+print.php?sid=
+displayArticleB.php?id=
+knowledge_base/detail.php?id=
+bpac/calendar/event.php?id=
+mb_showtopic.php?topic_id=
+pages.php?id=
+content.php?id=
+exhibition_overview.php?id=
+singer/detail.php?siteid=
+Category.php?cid=
+detail.php?id=
+print.php?sid=
+category.php?cid=
+more_detail.php?X_EID=
+book.php?ISBN=
+view_items.php?id=
+category.php?cid=
+htmlpage.php?id=
+story.php?id=
+tools/print.php?id=
+print.php?sid=
+php/event.php?id=
+print.php?sid=
+articlecategory.php?id=
+print.php?sid=
+ibp.php?ISBN=
+club.php?cid=
+view_items.php?id=
+aboutchiangmai/details.php?id=
+view_items.php?id=
+book.php?isbn=
+blog_detail.php?id=
+event.php?id=
+default.php?cPath=
+product_info.php?products_id=
+shop_display_products.php?cat_id=
+print.php?sid=
+modules/content/index.php?id=
+printcards.php?ID=
+events/event.php?ID=
+more_details.php?id=
+default.php?TID=
+general.php?id=
+detail.php?id=
+event.php?id=
+referral/detail.php?siteid=
+view_items.php?id=
+event.php?id=
+view_items.php?id=
+category.php?id=
+cemetery.php?id=
+index.php?cid=
+content.php?id=
+exhibitions/detail.php?id=
+bookview.php?id=
+edatabase/home.php?cat=
+view_items.php?id=
+store/view_items.php?id=
+print.php?sid=
+events/event_detail.php?id=
+view_items.php?id=
+detail.php?id=
+pages/video.php?id=
+about_us.php?id=
+recipe/category.php?cid=
+view_item.php?id=
+en/main.php?id=
+print.php?sid=
+More_Details.php?id=
+category.php?cid=
+home.php?cat=
+article.php?id=
+page.php?id=
+print-story.php?id=
+psychology/people/detail.php?id=
+print.php?sid=
+print.php?ID=
+article_preview.php?id=
+Pages/whichArticle.php?id=
+view_items.php?id=
+Sales/view_item.php?id=
+book.php?isbn=
+knowledge_base/detail.php?id=
+gallery/gallery.php?id=
+event.php?id=
+detail.php?id=
+store/home.php?cat=
+view_items.php?id=
+detail.php?ID=
+event_details.php?id=
+detailedbook.php?isbn=
+fatcat/home.php?view=
+events/index.php?id=
+static.php?id=
+answer/default.php?pollID=
+news/detail.php?id=
+view_items.php?id=
+events/unique_event.php?ID=
+gallery/detail.php?ID=
+print.php?sid=
+view_items.php?id=
+board/showthread.php?t=
+book.php?id=
+event.php?id=
+more_detail.php?id=
+knowledge_base/detail.php?id=
+html/print.php?sid=
+index.php?id=
+content.php?ID=
+Shop/home.php?cat=
+store/home.php?cat=
+print.php?sid=
+gallery.php?id=
+resources/index.php?cat=
+events/event.php?id=
+view_items.php?id=
+default.php?cPath=
+content.php?id=
+products/products.php?p=
+auction/item.php?id=
+products.php?cat=
+clan_page.php?cid=
+product.php?sku=
+item.php?id=
+events?id=
+comments.php?id=
+products/?catID=
+modules.php?****=
+fshstatistic/index.php?PID=
+products/products.php?p=
+sport.php?revista=
+products.php?p=
+products.php?openparent=
+home.php?cat=
+news/shownewsarticle.php?articleid=
+discussions/10/9/?CategoryID=
+trailer.php?id=
+news.php?id=
+?page=
+index.php?page=
+item/detail.php?num=
+features/view.php?id=
+site/?details&prodid=
+product_info.php?products_id=
+remixer.php?id=
+proddetails_print.php?prodid=
+pylones/item.php?item=
+index.php?cont=
+product.php?ItemId=
+video.php?id=
+detail.php?item_id=
+filemanager.php?delete=
+news/newsletter.php?id=
+shop/home.php?cat=
+designcenter/item.php?id=
+board/kboard.php?board=
+index.php?id=
+board/view_temp.php?table=
+magazine-details.php?magid=
+
+inurl: checkout.asp?UserID= 
+inurl: checkout.asp?cartid= 
+inurl: checkout.cfm?UserID= 
+inurl: checkout.cfm?cartid= 
+inurl: checkout.php?UserID= 
+inurl: checkout.php?cartid= 
+inurl: checkout1.asp?cartid= 
+inurl: checkout1.cfm?cartid= 
+inurl: checkout1.php?cartid= 
+inurl: checkout_confirmed.asp?order_id= 
+inurl: checkout_confirmed.cfm?order_id= 
+inurl: checkout_confirmed.php?order_id= 
+inurl: db/CART/product_details.asp?product_id= 
+inurl: db/CART/product_details.php?product_id= 
+inurl: eshop.php?id= 
+inurl: estore/products.php?cat= 
+inurl: garden_equipment/Fruit-Cage/product.asp?pr= 
+inurl: garden_equipment/Fruit-Cage/product.php?pr= 
+inurl: garden_equipment/pest-weed-control/product.asp?pr= 
+inurl: garden_equipment/pest-weed-control/product.php?pr= 
+inurl: getbook.asp?bookid= 
+inurl: getbook.cfm?bookid= 
+inurl: getbook.php?bookid= 
+inurl: giftDetail.asp?id= 
+inurl: giftDetail.cfm?id= 
+inurl: giftDetail.php?id= 
+inurl: giftshop/product.php?proid= 
+inurl: global/product/product.asp?gubun= 
+inurl: global/product/product.php?gubun= 
+inurl: goods_detail.asp?data= 
+inurl: goods_detail.php?data= 
+inurl: goods_detail.php?goodsIdx= 
+inurl: prod_detail.php?id= 
+inurl: prod_detail.php?id= 
+inurl: prod_info.php?id= 
+inurl: prod_info.php?id= 
+inurl: product-item.php?id= 
+inurl: product-item.php?id= 
+inurl: product.php?id= 
+inurl: product.php?id= 
+inurl: product_ranges_view.php?ID= 
+inurl: product_ranges_view.php?id= 
+inurl: productdetail.php?id= 
+inurl: productdetail.php?id= 
+inurl: productinfo.php?id= 
+inurl: productinfo.php?id= 
+inurl: produit.php?id= 
+inurl: produit.php?id= 
+inurl:shop.php?do=part&id= 
+inurl:shop.php?do=part&id= 
+inurl:shop_category.php?id= 
+inurl:shopping.php?id= 
+inurl:shopping.php?id= 
+inurl:view_product.php?id= 
+inurl:view_product.php?id= 
+inurl: irbeautina/product_detail.asp?product_id= 
+inurl: irbeautina/product_detail.php?product_id= 
+inurl: item.asp?eid= 
+inurl: item.asp?id= 
+inurl: item.asp?iid= 
+inurl: item.asp?item_id= 
+inurl: item.asp?itemid= 
+inurl: item.asp?model= 
+inurl: item.asp?prodtype= 
+inurl: item.asp?shopcd= 
+inurl: item.asp?sub_id= 
+inurl: item.cfm?eid= 
+inurl: item.cfm?item_id= 
+inurl: item.cfm?itemid= 
+inurl: item.cfm?model= 
+item.cfm?prodtype= 
+item.cfm?shopcd= 
+item.php?SKU= 
+item.php?cat= 
+item.php?code= 
+item.php?eid= 
+item.php?id= 
+item.php?iid= 
+item.php?item= 
+item.php?item_id= 
+item.php?itemid= 
+item.php?model= 
+item.php?prodtype= 
+item.php?shopcd= 
+item.php?sub_id= 
+item/detail.php?num= 
+item/wpa-storefront-the-ultimate-wpecommerce-theme/discussion/61891?page= 
+itemDesc.asp?CartId= 
+itemDesc.cfm?CartId= 
+itemDesc.php?CartId= 
+item_book.asp?CAT= 
+item_book.php?CAT= 
+item_details.asp?catid= 
+item_details.cfm?catid= 
+item_details.php?catid= 
+item_id= 
+item_list.asp?cat_id= 
+item_list.asp?maingroup 
+item_list.cfm?maingroup 
+item_list.php?cat_id= 
+item_list.php?maingroup 
+item_show.asp?code_no= 
+item_show.asp?id= 
+item_show.asp?lid= 
+item_show.cfm?code_no= 
+item_show.php?code_no= 
+item_show.php?id= 
+item_show.php?itemID= 
+item_show.php?lid= 
+itemdetail.asp?item= 
+itemdetail.cfm?item= 
+itemdetail.php?item= 
+itemdetails.asp?catalogid= 
+itemdetails.cfm?catalogid= 
+itemdetails.php?catalogid= 
+itemlist.php?categoryID= 
+kr/product/product.php?gubun= 
+kshop/home.php?cat= 
+kshop/product.asp?productid= 
+kshop/product.php?productid= 
+order-now.php?prodid= 
+order.asp?BookID= 
+order.asp?id= 
+order.asp?item_ID= 
+order.asp?lotid= 
+order.cfm?BookID= 
+order.cfm?id= 
+order.cfm?item_ID= 
+order.php?BookID= 
+order.php?id= 
+order.php?item_ID= 
+order.php?l= order.php?l= 
+order.php?lang= order.php?lang= 
+order.php?list= order.php?list= 
+order.php?ln= order.php?ln= 
+order.php?p= order.php?p= 
+order.php?pag= order.php?pag= 
+order.php?page= order.php?page= 
+order.php?pg= order.php?pg= 
+order.php?wp= .php?wp= 
+order.php?wp= order.php?wp= 
+order/cart/index.php?maincat_id= 
+prod.asp?cat= 
+prod.php?cat= 
+prod.php?prod= .php?prod=" 
+prodView.asp?idProduct= 
+prodView.cfm?idProduct= 
+prodView.php?idProduct= 
+prod_detail.php?id= 
+prod_details.php?id= 
+prod_details.php?products_id= 
+prod_indiv.php?groupid= 
+prod_info.php?id= 
+prod_show.asp?id= 
+prod_show.asp?prodid= 
+prodbycat.asp?intCatalogID= 
+prodbycat.cfm?intCatalogID= 
+prodbycat.php?intCatalogID= 
+proddetail.php?prod= 
+proddetail.php?prod= .php?prod=" 
+proddetails_print.php?prodid= 
+prodetails.asp?prodid= 
+prodetails.cfm?prodid= 
+prodetails.php?prodid= 
+prodlist.asp?catid= 
+prodlist.cfm?catid= 
+prodlist.php?catid= 
+prodotti.asp?id_cat= 
+prodotti.php?id_cat= 
+prodrev.php?cat= 
+product-detail.php?prodid= 
+product-details.php?prodID= 
+product-info.php?cat= 
+product-item.php?id= 
+product-list.asp?category_id= 
+product-list.asp?cid= 
+product-list.asp?id= 
+product-list.php?category_id= 
+product-list.php?cid= 
+product-list.php?id= 
+product-range.asp?rangeID= 
+product-range.php?rangeID= 
+product.asp?****= 
+product.asp?ItemID= 
+product.asp?bid= 
+product.asp?bookID= 
+product.asp?cat= 
+product.asp?id= 
+product.asp?id_h= 
+product.asp?intProdID= 
+product.asp?intProductID= 
+product.asp?pid= 
+product.asp?prd= 
+product.asp?prodid= 
+product.asp?product= 
+product.asp?product_id= 
+product.asp?productid= 
+product.asp?shopprodid= 
+product.asp?sku= 
+product.cfm?bookID= 
+product.cfm?intProdID= 
+product.php?****= 
+product.php?ItemId= 
+product.php?bid= 
+product.php?bookID= 
+product.php?brand= 
+product.php?c= 
+product.php?cat= 
+product.php?cat_id= 
+product.php?fdProductId= 
+product.php?id= 
+product.php?id_h= 
+product.php?inid= 
+product.php?intProdID= 
+product.php?intProductID= 
+product.php?lang= 
+product.php?par= 
+product.php?pcid= 
+product.php?pid= 
+product.php?pl= 
+product.php?prd= 
+product.php?prod_num= 
+product.php?prodid= 
+product.php?product= 
+product.php?product_id= 
+product.php?product_no= 
+product.php?productid= 
+product.php?products_id= 
+product.php?proid= 
+product.php?rangeid= 
+product.php?shopprodid= 
+product.php?sku= 
+product.search.php?proid= 
+product/detail.asp?id= 
+product/detail.php?id= 
+product/list.asp?pid= 
+product/list.php?pid= 
+product/product.asp?cate= 
+product/product.asp?product_no= 
+product/product.php?cate= 
+product/product.php?product_no= 
+product2.php?id= 
+product3.php?id= 
+productDetail.php?prodId= 
+productDetails.asp?idProduct= 
+productDetails.cfm?idProduct= 
+productDetails.php?idProduct= 
+productDisplay.asp 
+productDisplay.cfm 
+productDisplay.php 
+productList.asp?cat= 
+productList.php?cat= 
+productList.php?id= 
+product_customed.php?pid= 
+product_detail.asp?product_id= 
+product_detail.cfm?id= 
+product_detail.php?id= 
+product_detail.php?prodid= 
+product_detail.php?product_id= 
+product_details.asp?id= 
+product_details.asp?prodid= 
+product_details.asp?product_id= 
+product_details.php?id= 
+product_details.php?prodID= 
+product_details.php?product_id= 
+product_guide/company_detail.php?id= 
+product_info.asp?id= 
+product_info.asp?item_id= 
+product_info.asp?products_id= 
+product_info.cfm?item_id= 
+product_info.php?id= 
+product_info.php?item_id= 
+product_info.php?products_id= 
+product_page.php?id= 
+product_ranges_view.asp?ID= 
+product_ranges_view.php?ID= 
+product_reviews.php?feature_id= 
+productdetail.php?id= 
+productdetails.php?prodId= 
+productinfo.asp?item= 
+productinfo.cfm?item= 
+productinfo.php?id= 
+productinfo.php?item= 
+productlist.asp?ViewType=Category&CategoryID= 
+productlist.asp?fid= 
+productlist.asp?grpid= 
+productlist.asp?id= 
+productlist.asp?tid= 
+productlist.cfm?ViewType=Category&CategoryID= 
+productlist.php?ViewType=Category&CategoryID= 
+productlist.php?fid= 
+productlist.php?grpid= 
+productlist.php?tid= 
+productpage.asp 
+productpage.cfm 
+productpage.php 
+productpage.php?ID= 
+products-display-details.asp?prodid= 
+products-display-details.php?prodid= 
+products.asp?DepartmentID= 
+products.asp?ID= 
+products.asp?act= 
+products.asp?cat= 
+products.asp?cat_id= 
+products.asp?categoryID= 
+products.asp?catid= 
+products.asp?groupid= 
+products.asp?keyword= 
+products.asp?openparent= 
+products.asp?p= 
+products.asp?rub= 
+products.asp?type= 
+products.cfm?ID= 
+products.cfm?keyword= 
+products.html?file= 
+products.php?DepartmentID= 
+products.php?act= 
+products.php?area_id= 
+products.php?cat= 
+products.php?catId= 
+products.php?cat_id= 
+products.php?categoryID= 
+products.php?cid= 
+products.php?groupid= 
+products.php?id= 
+products.php?keyword= 
+products.php?mainID= 
+products.php?openparent= 
+products.php?p= 
+products.php?page= 
+products.php?parent= 
+products.php?prod= .php?prod=" 
+products.php?req= 
+products.php?rub= 
+products.php?*******= 
+products.php?sku= 
+products.php?sub= 
+products.php?subgroupid= 
+products.php?type= 
+products/?catID= 
+products/Blitzball.htm?id= 
+products/card.asp?prodID= 
+products/card.php?prodID= 
+products/category.php?id= 
+products/display_product.php?product_id= 
+products/index.asp?rangeid= 
+products/index.php?cat= 
+products/index.php?rangeid= 
+products/item_show.php?itemId= 
+products/model.php?id= 
+products/parts/detail.asp?id= 
+products/parts/detail.php?id= 
+products/product-list.asp?id= 
+products/product-list.php?id= 
+products/product.asp?id= 
+products/product.asp?pid= 
+products/product.php?article= 
+products/product.php?id= 
+products/product.php?pid= 
+products/productdetails.php?prodID= 
+products/products.asp?p= 
+products/products.php?cat= 
+products/products.php?p= 
+products/testimony.php?id= 
+products/treedirectory.asp?id= 
+productsByCategory.asp?intCatalogID= 
+productsByCategory.cfm?intCatalogID= 
+productsByCategory.php?intCatalogID= 
+products_category.asp?CategoryID= 
+products_category.cfm?CategoryID= 
+products_category.php?CategoryID= 
+products_connections_detail.php?cat_id= 
+products_detail.asp?CategoryID= 
+products_detail.cfm?CategoryID= 
+products_detail.php?CategoryID= 
+products_detail.php?id= 
+productsview.asp?proid= 
+productsview.php?proid= 
+productview.php?id= 
+produit.php?id= 
+produit.php?prod= .php?prod=" 
+produkt.php?prod= .php?prod=" 
+shop.asp?a= 
+shop.asp?action= 
+shop.asp?bookid= 
+shop.asp?cartID= 
+shop.asp?id= 
+shop.cfm?a= 
+shop.cfm?action= 
+shop.cfm?bookid= 
+shop.cfm?cartID= 
+shop.php?a= 
+shop.php?action= 
+shop.php?bookid= 
+shop.php?cartID= 
+shop.php?do=part&id= 
+shop.php?id_cat= 
+shop.php?prod= .php?prod=" 
+shop.pl/page= 
+shop.pl/page= shop.pl/page= 
+shop/books_detail.asp?bookID= 
+shop/books_detail.php?bookID= 
+shop/category.asp?cat_id= 
+shop/category.php?cat_id= 
+shop/eventshop/product_detail.asp?itemid= 
+shop/eventshop/product_detail.php?itemid= 
+shop/home.php?cat= 
+shop/index.asp?cPath= 
+shop/index.php?cPath= 
+shop/index.php?cat_id= 
+shop/pages.php?page= 
+shop/product.php?id= 
+shop/product_details.php?ProdID= 
+shop/products.php?cat= 
+shop/products.php?cat_id= 
+shop/products.php?p= 
+shop/shop.php?id= 
+shop_category.php?id= 
+shop_details.asp?prodid= 
+shop_details.cfm?prodid= 
+shop_details.php?prodid= 
+shop_display_products.asp?cat_id= 
+shop_display_products.php?cat_id= 
+shopaddtocart.asp 
+shopaddtocart.asp?catalogid= 
+shopaddtocart.cfm 
+shopaddtocart.cfm?catalogid= 
+shopaddtocart.php 
+shopaddtocart.php?catalogid= 
+shopbasket.asp?bookid= 
+shopbasket.cfm?bookid= 
+shopbasket.php?bookid= 
+shopbycategory.asp?catid= 
+shopbycategory.cfm?catid= 
+shopbycategory.php?catid= 
+shopcafe-shop-product.asp?bookId= 
+shopcafe-shop-product.php?bookId= 
+shopcart.asp?title= 
+shopcart.cfm?title= 
+shopcart.php?title= 
+shopcreatorder.asp 
+shopcreatorder.cfm 
+shopcreatorder.php 
+shopcurrency.asp?cid= 
+shopcurrency.cfm?cid= 
+shopcurrency.php?cid= 
+shopdc.asp?bookid= 
+shopdc.cfm?bookid= 
+shopdc.php?bookid= 
+shopdisplaycategories.asp 
+shopdisplaycategories.cfm 
+shopdisplaycategories.php 
+shopdisplayproduct.asp?catalogid= 
+shopdisplayproduct.cfm?catalogid= 
+shopdisplayproduct.php?catalogid= 
+shopdisplayproducts.asp 
+shopdisplayproducts.cfm 
+shopdisplayproducts.php 
+shopexd.asp 
+shopexd.asp?catalogid= 
+shopexd.cfm 
+shopexd.cfm?catalogid= 
+shopexd.php 
+shopexd.php?catalogid= 
+shopping.php?id= 
+shopping/index.php?id= 
+shopping_article.php?id= 
+shopping_basket.asp?cartID= 
+shopping_basket.cfm?cartID= 
+shopping_basket.php?cartID= 
+shopprojectlogin.asp 
+shopprojectlogin.cfm 
+shopprojectlogin.php 
+shopquery.asp?catalogid= 
+shopquery.cfm?catalogid= 
+shopquery.php?catalogid= 
+shopremoveitem.asp?cartid= 
+shopremoveitem.cfm?cartid= 
+shopremoveitem.php?cartid= 
+shopreviewadd.asp?id= 
+shopreviewadd.cfm?id= 
+shopreviewadd.php?id= 
+shopreviewlist.asp?id= 
+shopreviewlist.cfm?id= 
+shopreviewlist.php?id= 
+shoptellafriend.asp?id= 
+shoptellafriend.cfm?id= 
+shoptellafriend.php?id= 
+shopthanks.asp 
+shopthanks.cfm 
+shopthanks.php 
+shopwelcome.asp?title= 
+shopwelcome.cfm?title= 
+shopwelcome.php?title= 
+shoutbox/expanded.php filetypep:hp 
+shoutbox/expanded.php?conf= 
+shoutbox/expanded.php?conf= 
+show-book.asp?id= 
+show-book.php?id= 
+show.asp?id= 
+show.php?*root*= 
+show.php?abre= 
+show.php?adresa= 
+show.php?b= 
+show.php?base_dir= 
+show.php?channel= 
+show.php?chapter= 
+show.php?cmd= 
+show.php?corpo= 
+show.php?d= 
+show.php?disp= 
+show.php?filepath= 
+show.php?get= 
+show.php?go= 
+show.php?header= 
+show.php?home= 
+show.php?id= 
+show.php?inc= 
+show.php?incl= 
+show.php?include= 
+show.php?index= 
+show.php?ir= 
+show.php?item= 
+show.php?j= 
+show.php?ki= 
+show.php?l= 
+show.php?left= 
+show.php?loader= 
+show.php?m= 
+show.php?mid= 
+show.php?middlePart= 
+show.php?modo= 
+show.php?module= 
+show.php?my= 
+show.php?n= 
+show.php?nivel= 
+show.php?oldal= 
+show.php?page1= .php?page1=" 
+show.php?page= 
+show.php?pageweb= 
+show.php?pagina= 
+show.php?param= 
+show.php?path= 
+show.php?play= 
+show.php?pname= 
+show.php?pre= 
+show.php?product= .php?product= 
+show.php?product= show.php?product= 
+show.php?qry= 
+show.php?r= 
+show.php?read= 
+show.php?recipe= 
+show.php?redirect= 
+show.php?seccion= 
+show.php?second= 
+show.php?sp= 
+show.php?thispage= 
+show.php?to= 
+show.php?type= 
+show.php?x= 
+show.php?xlink= 
+show.php?z= 
+showPage.php?type= 
+showStore.asp?catID= 
+showStore.cfm?catID= 
+showStore.php?catID= 
+show_an.php?id= 
+show_bug.cgi?id= 
+show_cv.php?id= 
+show_item.asp?id= 
+show_item.cfm?id= 
+show_item.php?id= 
+show_item_details.asp?item_id= 
+show_item_details.cfm?item_id= 
+show_item_details.php?item_id= 
+show_news.php?cutepath= 
+show_news.php?id= 
+show_prod.php?p= 
+show_upload.php?id= 
+showbook.asp?bookid= 
+showbook.cfm?bookid= 
+showbook.php?bookid= 
+showfeature.asp?id= 
+showfeature.php?id= 
+showimg.php?id= 
+showmedia.php?id= 
+showproduct.asp?cat= 
+showproduct.asp?prodid= 
+showproduct.asp?productId= 
+showproduct.php?cat= 
+showproduct.php?prodid= 
+showproduct.php?productId= 
+showproducts.php?cid= 
+stockists_list.asp?area_id= 
+stockists_list.php?area_id= 
+store-detail.php?ID= 
+store-details.asp?id= 
+store-details.cfm?id= 
+store-details.php?id= 
+store.asp?cat_id= 
+store.asp?id= 
+store.cfm?id= 
+store.php?cat_id= 
+store.php?id= 
+store/customer/product.php?productid= 
+store/default.asp?cPath= 
+store/default.php?cPath= 
+store/description.asp?iddesc= 
+store/description.php?iddesc= 
+store/detail.php?prodid= 
+store/home.asp?cat= 
+store/home.php?cat= 
+store/index.asp?cat_id= 
+store/index.php?cat_id= 
+store/item.php?id= 
+store/mcart.php?ID= 
+store/news_story.php?id= 
+store/product.asp?productid= 
+store/product.php?productid= 
+store/products.php?cat_id= 
+store/showcat.php?cat_id= 
+store/store.php?cat_id= 
+store/store_detail.php?id= 
+store/view_items.asp?id= 
+store/view_items.php?id= 
+store_bycat.asp?id= 
+store_bycat.cfm?id= 
+store_bycat.php?id= 
+store_listing.asp?id= 
+store_listing.cfm?id= 
+store_listing.php?id= 
+store_prod_details.php?ProdID= 
+storefront.asp?id= 
+storefront.cfm?id= 
+storefront.php?id= 
+storefronts.asp?title= 
+storefronts.cfm?title= 
+storefronts.php?title= 
+storeitem.asp?item= 
+storeitem.cfm?item= 
+storeitem.php?item= 
+storemanager/contents/item.asp?page_code= 
+storemanager/contents/item.php?page_code= 
+viewCart.asp?userID= 
+viewCart.cfm?userID= 
+viewCart.php?userID= 
+viewcart.asp?CartId= 
+viewcart.cfm?CartId= 
+viewcart.php?CartId= 
+x/product.php?productid= 
+xcart/home.php?cat
+
+
+
+http://sqlheaven.bbforum.co/http://sqlheaven.bbforum.co/
+http://sqlheaven.bbforum.co/
+http://sqlheaven.bbforum.co/

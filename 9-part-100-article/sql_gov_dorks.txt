@@ -1,0 +1,41 @@
+inurl:index.php?id= site:*gov.pl
+inurl:index.php?id= site:*gov
+inurl:news.php?id= site:*gov.af
+inurl:oferta.php?id= site:*gov.af
+inurl:trainers.php?id= site:*gov.pl
+inurl:article.php?ID= site:*gov.uk
+inurl:play_old.php?id= site:*gov.au
+inurl:declaration_more.php?decl_id= site:*gov.in
+inurl:Pageid= site:*gov
+inurl:pagina.php?left= site:*.gov.au
+inurl:layout.php?id=120'= site:*gov.pl
+inurl:principal.php?id=123'= site:*gov.uk
+inurl:standard.php?base_dir= site:*gov
+inurl:home.php?where= site:*gov.pl
+inurl:page.php?sivu= site:*.pl
+inurl:*inc*.php?adresa= site:*gov
+inurl:padrao.php?str= site:*gov
+inurl:include.php?my= site:*.gov.af
+inurl:show.php?home= site:*gov.br
+inurl:index.php?lid=20= site:*gov.au 
+inurl:principal.php?id=30= site:*gov
+inurl:file.php?id=205= site:*gov.au
+inurl:info.php?id=25155= site:*gov.af
+inurl:enter.php?id=203= site:*gov.uk
+inurl:general.php?id=50= site:*gov
+inurl:principal.php?id=705= site:*gov.za
+inurl:standard.php?id=303= site:*.gov.ie
+nurl:nota.php?v= site:*gov.bc.ca
+inurl:home.php?str= site:*ed.gov
+inurl:press.php?panel= site:*gov.mu
+inurl:page.php?mod= site:*gov
+inurl:default.php?param= site:*gov
+inurl:down*.php?texto= site:*go.af
+inurl:mod*.php?dir= site:*gov.ie
+inurl:view.php?where= site:*gov.za
+inurl:blank.php?subject= site:*gov.br
+inurl:path.php?play= site:*gov.uk
+inurl:base.php?l= site:*gov.au
+
+
+Happy hacking&Be careful!

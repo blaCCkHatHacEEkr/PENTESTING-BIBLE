@@ -1,0 +1,30 @@
+SEC760 - Advanced Exploit Development for Penetration Testers : https://mirr.re/d/pTv
+SEC617 - Wireless Penetration Testing and Ethical Hacking : https://mirr.re/d/pTy
+SEC642 - Advanced Web App Penetration Testing, Ethical Hacking, and Exploitation Techniques : https://mirr.re/d/pTx
+SEC660 - Advanced Penetration Testing, Exploit Writing, and Ethical Hacking : https://mirr.re/d/pTw
+SEC580 - Metasploit Kung Fu for Enterprise Pen Testing : https://mirr.re/d/pU0
+SEC599 - Defeating Advanced Adversaries - Implementing Kill Chain Defenses : https://mirr.re/d/pTz
+SEC561 - Immersive Hands-on Hacking Techniques : https://mirr.re/d/pU4
+SEC564 - Red Team Operations and Threat Emulation : https://mirr.re/d/pU3
+SEC566 - Implementing and Auditing the Critical Security Controls - In-Depth : https://mirr.re/d/pU2
+SEC573 - Automating Information Security with Python : https://mirr.re/d/pU1
+SEC560 - Network Penetration Testing and Ethical Hacking : https://mirr.re/d/pUA
+SEC550 - Active Defense, Offensive Countermeasures and Cyber Deception : https://mirr.re/d/pUC
+SEC555 - SIEM with Tactical Analytics : https://mirr.re/d/pUB
+SEC511 - Continuous Monitoring and Security Operations : https://mirr.re/d/pUE
+SEC542 - Web App Penetration Testing and Ethical Hacking : https://mirr.re/d/pUD
+SEC506 - Securing Linux-Unix : https://mirr.re/d/pUF
+SEC504 - Hacker Tools, Techniques, Exploits, and Incident Handling : https://mirr.re/d/pUH
+SEC505 - Securing Windows and PowerShell Automation : https://mirr.re/d/pUG
+SEC501 - Advanced Security Essentials - Enterprise Defender : https://mirr.re/d/pUJ
+SEC503 - Intrusion Detection In-Depth : https://mirr.re/d/pUI
+SEC401 - Security Essentials Bootcamp Style : https://mirr.re/d/pUP
+FOR610 - Reverse-Engineering Malware Malware Analysis Tools and Techniques : https://mirr.re/d/pUS
+ICS410 - ICS SCADA Security Essentials : https://mirr.re/d/pUR 
+MGT514 - Security Strategic Planning, Policy, and Leadership : https://mirr.re/d/pUQ
+FOR585 - Advanced Smartphone Forensics : https://mirr.re/d/pUT
+FOR508 - Advanced Digital Forensics, Incident Response, and Threat Hunting : https://mirr.re/d/pUX
+FOR518 - Mac and iOS Forensic Analysis and Incident Response : https://mirr.re/d/pUW
+FOR526 - Memory Forensics In-Depth : https://mirr.re/d/pUV
+FOR572 - Advanced Network Forensics Threat Hunting, Analysis, and Incident Response : https://mirr.re/d/pUU
+FOR500 - Windows Forensic Analysis : https://mirr.re/d/pUY
