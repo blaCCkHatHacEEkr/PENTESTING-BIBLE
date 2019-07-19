@@ -1,0 +1,194 @@
+Good reviews of CTP/OSCE (in no particular order):
+Note: * mark means look for other posts on this blog
+https://www.jollyfrogs.com
+*http://www.securitysift.com/offsec-ctp-osce/
+*http://buffered.io/posts/osce-and-me/
+http://www.iodigitalsec.com/offensive-security-ctp-course-and-osce-certification-review/
+*http://ethicalhacker.io/post/137403906740/osce-exam-prep
+https://blog.g0tmi1k.com/2013/08/cracking-perimeter-ctp-offensive/
+*https://infamoussyn.com/resources/
+http://www.vividmachines.com/shellcode/shellcode.html
+http://www.primalsecurity.net/course-review-osce/
+*http://netsec.ws/?p=517
+http://tekwizz123.blogspot.sg/2014/09/osce-review-and-experience.html
+https://networkfilter.blogspot.sg/2016/01/my-osce-review.html
+https://www.blogtecnico.net/certificacion-osce-review-cracking-the-perimeter-ctp/
+******* https://github.com/reider-roque
+http://shell-storm.org/shellcode/
+
+Tutorial sites (more stars = better/recommended):
+https://jivoi.github.io/2015/07/01/pentest-tips-and-tricks/
+http://www.0daysecurity.com/pentest.html
+http://ly0n.me/2015/10/19/lfi-beyond-procselfenviron/
+********************http://phrack.org/issues/62/7.html
+***************************http://0xdabbad00.com/2012/12/09/hurdles-for-a-beginner-to-exploit-a-simple-vulnerability-on-modern-windows/
+**********************https://community.rapid7.com/community/metasploit/blog/2012/07/05/part-1-metasploit-module-development--the-series
+***** http://resources.infosecinstitute.com/intro-to-fuzzing/
+******* https://madmantm.wordpress.com/
+https://www.fuzzysecurity.com/tutorials.html
+https://www.corelan.be/index.php/2010/03/27/exploiting-ken-ward-zipper-taking-advantage-of-payload-conversion/
+http://netsec.ws/?p=180
+http://netsec.ws/?p=430
+http://netsec.ws/?cat=57
+************************http://blog.stalkr.net/2011/04/pctf-2011-22-hashcalc1.html
+https://ionize.com.au/its-all-about-inclusion/
+https://www.idontplaydarts.com/2012/06/encoding-web-shells-in-png-idat-chunks/
+https://www.idontplaydarts.com/2011/03/php-remote-file-inclusion-command-shell-using-data-stream/
+https://www.idontplaydarts.com/2011/02/using-php-filter-for-local-file-inclusion/
+https://websec.wordpress.com/2010/02/22/exploiting-php-file-inclusion-overview/
+https://sites.google.com/site/xssvulnerabilities/bypassing-browser-anti-xss-filters
+http://carnal0wnage.attackresearch.com/
+**https://sploitfun.wordpress.com/2015/06/26/linux-x86-exploit-development-tutorial-series/
+https://www.kernel-exploits.com/
+http://www.thegreycorner.com/2010/01/seh-stack-based-windows-buffer-overflow.html
+http://www.thegreycorner.com/2010/02/windows-buffer-overflow-tutorial.html
+http://www.thegreycorner.com/2010/01/beginning-stack-based-buffer-overflow.html
+https://www.corelan.be/index.php/2011/07/03/universal-depaslr-bypass-with-msvcr71-dll-and-mona-py/
+https://www.corelan.be/index.php/2010/03/27/exploiting-ken-ward-zipper-taking-advantage-of-payload-conversion/
+https://www.corelan.be/index.php/2010/03/27/quickzip-stack-bof-0day-a-box-of-chocolates/
+https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/
+https://www.corelan.be/index.php/2009/07/23/writing-buffer-overflow-exploits-a-quick-and-basic-tutorial-part-2/
+https://www.corelan.be/index.php/2009/07/25/writing-buffer-overflow-exploits-a-quick-and-basic-tutorial-part-3-seh/
+https://www.corelan.be/index.php/2009/07/28/seh-based-exploit-writing-tutorial-continued-just-another-example-part-3b/
+https://www.corelan.be/index.php/2009/08/12/exploit-writing-tutorials-part-4-from-exploit-to-metasploit-the-basics/
+https://www.corelan.be/index.php/2009/09/05/exploit-writing-tutorial-part-5-how-debugger-modules-plugins-can-speed-up-basic-exploit-development/
+https://www.corelan.be/index.php/2009/09/21/exploit-writing-tutorial-part-6-bypassing-stack-cookies-safeseh-hw-dep-and-aslr/
+https://www.corelan.be/index.php/2009/11/06/exploit-writing-tutorial-part-7-unicode-from-0x00410041-to-calc/
+https://www.corelan.be/index.php/2010/01/09/exploit-writing-tutorial-part-8-win32-egg-hunting/
+https://www.corelan.be/index.php/2010/01/26/starting-to-write-immunity-debugger-pycommands-my-cheatsheet/
+https://www.corelan.be/index.php/2010/02/25/exploit-writing-tutorial-part-9-introduction-to-win32-shellcoding/
+https://websec.wordpress.com/2010/02/22/exploiting-php-file-inclusion-overview/
+https://sites.google.com/site/xssvulnerabilities/bypassing-browser-anti-xss-filters
+***** https://sploitfun.wordpress.com/2015/06/26/linux-x86-exploit-development-tutorial-series/
+https://github.com/sploitfun/lsploits
+http://blog.pusheax.com/2013/03/exploit-writing-stack-based-buffer.html
+http://www.keystone-engine.org/docs/tutorial.html
+http://resources.infosecinstitute.com/analysis-of-malware-samples/
+http://www.fuzzysecurity.com/tutorials/7.html
+***** https://www.nccgroup.trust/uk/about-us/newsroom-and-events/blogs/2016/june/writing-exploits-for-win32-systems-from-scratch/
+** http://phrack.org/issues/67/13.html
+http://www.securepla.net/
+***** http://programming4.us/security/688.aspx
+http://resources.infosecinstitute.com/buffer-overflow-vulnserver/
+***** http://www.primalsecurity.net/0x8-exploit-tutorial-the-elusive-egghunter/
+********** https://blog.techorganic.com/2014/05/14/from-fuzzing-to-0-day/
+*********************** http://www.flinkd.org/2011/07/fuzzing-with-peach-part-1/
+************ http://realpentesting.blogspot.sg/2013/04/0day-bug-hunting-realpentesting.html
+******** https://samsclass.info/127/proj/vuln-server.htm
+**************** http://www.rockfishsec.com/2014/01/fuzzing-vulnserver-with-peach-3.html
+********************* http://www.thegreycorner.com/p/vulnserver.html
+*********** http://resources.infosecinstitute.com/seh-exploit/
+*****************https://www.offensive-security.com/vulndev/quickzip-stack-bof-0day-a-box-of-chocolates/
+
+
+Cheatsheets: 
+https://highon.coffee/blog/lfi-cheat-sheet/
+http://ethicalhacker.io/post/137403906740/osce-exam-prep
+https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
+http://htmlpurifier.org/live/smoketests/xssAttacks.php
+https://www.bnxnet.com/wp-content/uploads/2015/01/WinAPIs_for_hackers.pdf
+http://www.securepla.net/wiki/index.php?title=Cheat_Sheets
+http://www.securepla.net/wiki/index.php?title=Network_Attack_Cheat_Sheet
+https://www.securepla.net/wiki/index.php?title=Web_App_Cheat_Sheet
+http://www.securepla.net/wiki/index.php?title=Web_Scanning_Cheat_Sheet
+http://www.securepla.net/wiki/index.php?title=Malware_Cheat_Sheet
+http://sparksandflames.com/files/x86InstructionChart.html
+
+Good practice sites:
+http://www.primalsecurity.net/tutorials/exploit-tutorials/
+http://www.securitysift.com/windows-exploit-development-part-6-seh-exploits/
+https://v00d00sec.com/2015/09/14/manually-backdooring-windows-executables/
+https://www.corelan.be/index.php/articles/
+http://fuzzysecurity.com/tutorials.html
+http://exploit-exercises.com/protostar
+http://exploit-exercises.com/fusion
+http://ihazomgsecurityskillz.blogspot.com/
+http://opensecuritytraining.info/Training.html
+https://trailofbits.github.io/ctf/index.html
+http://tuts4you.com/download.php?list.17
+http://tuts4you.com/download.php?list.29
+http://tuts4you.com/download.php?list.3
+http://www.openrce.org/downloads/
+http://www.securitytube-training.com/online-courses/securitytube-linux-assembly-expert/index.html
+http://tuts4you.com/download.php?list.67
+http://www.binary-auditing.com/
+https://blog.g0tmi1k.com/dvwa/index/
+http://www.vividmachines.com/shellcode/shellcode.html
+https://www.exploit-db.com/exploits/17527/
+https://www.exploit-db.com/exploits/11834/
+https://www.exploit-db.com/exploits/11872/
+https://www.exploit-db.com/exploits/11764/
+https://www.exploit-db.com/exploits/11656/
+https://www.exploit-db.com/exploits/33453/
+https://github.com/WebGoat/WebGoat
+http://www.gironsec.com/blog/2016/06/backdooring-a-dll/
+http://blog.knapsy.com/blog/2015/11/25/easy-file-sharing-web-server-v7-dot-2-remote-seh-buffer-overflow-dep-bypass-with-rop/
+https://www.offensive-security.com/0day/quick-tftp-poc.py.txt
+https://www.exploit-db.com/author/?a=278
+**** https://samsclass.info/127/proj/p4-lbuf-shell.htm
+**** http://www.securitysift.com/windows-exploit-development-part-1-basics/
+******* https://securitycafe.ro/2015/10/30/introduction-to-windows-shellcode-development-part1/
+******* https://securitycafe.ro/2015/12/14/introduction-to-windows-shellcode-development-part-2/
+************* http://www.vividmachines.com/shellcode/shellcode.html
+
+Vulnerable machines:
+vulnhub VMs:
+SickOS 1.1
+SickOS 1.2
+Droopy v0.2
+Kevgir
+Pegasus
+SecTalks: BNE0x00 - Minotaur
+SecTalks: BNE0x03 - Simple
+NullByte: 1
+FristiLeaks 1.3
+OWASP Vulnerable Web Applications Directory Project
+Mutillidae
+Damn Vulnerable Web Application
+
+LFI/RFI
+https://penetrate.io/2014/01/10/from-rfi-to-shell/
+
+Backdooring files with Python:
+https://github.com/secretsquirrel/the-backdoor-factory
+
+eBooks downloads:
+http://www.ebook777.com/gray-hat-hacking-ethical-hackers-handbook-fourth-edition/
+https://github.com/JpGallegos/CySecBooks
+https://www.securepla.net/the-hacker-playbook-2/
+"Hacking: The Art of Exploitation"
+
+https://www.linkedin.com/pulse/osce-cracking-perimeter-experience-sunny-neo
+- Fuzzing (Scapy, TAO, Sulley)
+- Linux Exploitation (vanila stack overflow, return to Glibc - NX bypass, repairing stack canaries, ASLR bypasses) and Windows exploitation (SEH overwrite,  Return Oriented Programming into disabling DEP)
+- Web Application Hacker's Handbook (might be too large: Consider "webgoat")
+
+Various sites:
+http://www.sweetscape.com/  (010 Editor)
+https://github.com/campagnola/pycca
+https://github.com/Gallopsled/pwntools
+https://github.com/reyammer/shellnoob
+https://zeltser.com/convert-shellcode-to-assembly/
+http://files.cnblogs.com/files/exclm/ollydbg_cmdline_cheat_sheet.pdf
+http://bernardodamele.blogspot.sg/2011/09/reverse-shells-one-liners.html
+https://www.digitalocean.com/community/tutorials/how-to-use-bash-history-commands-and-expansions-on-a-linux-vps
+https://github.com/peterferrie/win-exec-calc-shellcode
+http://www.secniu.com/why-my-shellcode-cannot-work/
+http://thestarman.pcministry.com/asm/2bytejumps.htm
+http://blog.noobroot.com/
+https://www.exploit-db.com/exploits/5342/
+http://exploit.co.il/hacking/manual-egghuntershellcode-encoding/
+https://github.com/salcho/codetz
+http://xangosec.blogspot.sg/2014/08/automating-sub-encoder.html
+http://www.fuzzing.org/
+http://resources.infosecinstitute.com/pattern-based-approach-memory-shellcodes-detection/
+https://www.offensive-security.com/metasploit-unleashed/alphanumeric-shellcode/
+https://0x41.no/hacking-networks-with-snmp/
+http://danielebellavista.blogspot.sg/2014/10/ia32-shellcodes-get-eip-value.html
+http://www.thepentesters.net/tutorials/tricks-escaping-linux-restricted-shells/
+http://codemachine.com/downloads.html
+
+Fun random stuff:
+http://patriciopalladino.com/files/hieroglyphy/
+http://n01g3l.tumblr.com/
+https://twitter.com/ch3rn0byl/status/832681279900487680
