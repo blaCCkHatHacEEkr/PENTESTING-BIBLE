@@ -1,0 +1,451 @@
+650 DORKS CC BY yZeruhh :3 "!
+
+DORKS ADMIN/CC <3
+
+/ccbill/secure/ccbill.log
+/cgi-bin/orders/mc.txt
+/WebCart/orders.txt
+/cgi-bin/orders/cc.txt
+/cvv2.txt
+/cgi-bin/orderlog.txt
+/WebShop/logs
+/orderb/shop.mdb
+/_private/shopping_cart.mdb
+/scripts/iisadmin/tools/mkilog.exe
+/cool-logs/mylog.html
+/cool-logs/mlog.html
+/easylog/easylog.html
+/HyperStat/stat_what.log
+/mall_log_files/
+/scripts/weblog
+/super_stats/access_logs
+/trafficlog
+/wwwlog
+/Admin_files/order.log
+/bin/orders/orders.txt
+/cgi/orders/orders.txt
+/cgi-bin/orders/orders.txt
+/cgi-sys/orders/orders.txt
+/cgi-local/orders/orders.txt
+/htbin/orders/orders.txt
+/cgibin/orders/orders.txt
+/cgis/orders/orders.txt
+/scripts/orders/orders.txt
+/cgi-win/orders/orders.txt
+/bin/pagelog.cgi
+/cgi/pagelog.cgi
+/cgi-bin/pagelog.cgi
+/cgi-sys/pagelog.cgi
+/cgi-local/pagelog.cgi
+/cgibin/pagelog.cgi
+/cgis/pagelog.cgi
+/scripts/pagelog.cgi
+/cgi-win/pagelog.cgi
+/bin/DCShop/auth_data/auth_user_file.txt
+/cgi/DCShop/auth_data/auth_user_file.txt
+/cgi-bin/DCShop/auth_data/auth_user_file.txt
+/cgi-sys/DCShop/auth_data/auth_user_file.txt
+/cgi-local/DCShop/auth_data/auth_user_file.txt
+/htbin/DCShop/auth_data/auth_user_file.txt
+/cgibin/DCShop/auth_data/auth_user_file.txt
+/cgis/DCShop/auth_data/auth_user_file.txt
+/scripts/DCShop/auth_data/auth_user_file.txt
+/cgi-win/DCShop/auth_data/auth_user_file.txt
+/bin/DCShop/orders/orders.txt
+/cgi/DCShop/orders/orders.txt
+/cgi-bin/DCShop/orders/orders.txt
+/cgi-sys/DCShop/orders/orders.txt
+/cgi-local/DCShop/orders/orders.txt
+/htbin/DCShop/orders/orders.txt
+/cgibin/DCShop/orders/orders.txt
+/cgis/DCShop/orders/orders.txt
+/scripts/DCShop/orders/orders.txt
+/cgi-win/DCShop/orders/orders.txt
+/dc/auth_data/auth_user_file.txt
+/dcshop/orders/orders.txt
+/dcshop/auth_data/auth_user_file.txt
+/dc/orders/orders.txt
+/orders/checks.txt
+/orders/mountain.cfg
+/cgi-bin/shopper.cgi&TEMPLATE=ORDER.LOG
+/webcart/carts
+/webcart-lite/orders/import.txt
+/webcart/config
+/webcart/config/clients.txt
+/webcart/orders
+/webcart/orders/import.txt
+/WebShop/logs/cc.txt
+/WebShop/templates/cc.txt
+/bin/shop/auth_data/auth_user_file.txt
+/cgi/shop/auth_data/auth_user_file.txt
+/cgi-bin/shop/auth_data/auth_user_file.txt
+/cgi-sys/shop/auth_data/auth_user_file.txt
+/cgi-local/shop/auth_data/auth_user_file.txt
+/htbin/shop/auth_data/auth_user_file.txt
+/cgibin/shop/auth_data/auth_user_file.txt
+/cgis/shop/auth_data/auth_user_file.txt
+/scripts/shop/auth_data/auth_user_file.txt
+/cgi-win/shop/auth_data/auth_user_file.txt
+/bin/shop/orders/orders.txt
+/cgi/shop/orders/orders.txt
+/cgi-bin/shop/orders/orders.txt
+/cgi-sys/shop/orders/orders.txt
+/cgi-local/shop/orders/orders.txt
+/htbin/shop/orders/orders.txt
+/cgibin/shop/orders/orders.txt
+/cgis/shop/orders/orders.txt
+/scripts/shop/orders/orders.txt
+/cgi-win/shop/orders/orders.txt
+/bin/shop.pl/page=;cat%20shop.pl
+/cgi/shop.pl/page=;cat%20shop.pl
+/cgi-bin/shop.pl/page=;cat%20shop.pl
+/cgi-sys/shop.pl/page=;cat%20shop.pl
+/cgi-local/shop.pl/page=;cat%20shop.pl
+/htbin/shop.pl/page=;cat%20shop.pl
+/cgibin/shop.pl/page=;cat%20shop.pl
+/cgis/shop.pl/page=;cat%20shop.pl
+/scripts/shop.pl/page=;cat%20shop.pl
+/cgi-win/shop.pl/page=;cat%20shop.pl
+/bin/cart.pl
+/cgi/cart.pl
+/cgi-bin/cart.pl
+/cgi-sys/cart.pl
+/cgi-local/cart.pl
+/htbin/cart.pl
+/cgibin/cart.pl
+/scripts/cart.pl
+/cgi-win/cart.pl
+/cgis/cart.pl
+/bin/cart.pl
+/cgi/cart.pl
+/cgi-bin/cart.pl
+/cgi-sys/cart.pl
+/cgi-local/cart.pl
+/htbin/cart.pl
+/cgibin/cart.pl
+/cgis/cart.pl
+/scripts/cart.pl
+/cgi-win/cart.pl
+/bin/cart32.exe
+/cgi/cart32.exe
+/cgi-bin/cart32.exe
+/cgi-sys/cart32.exe
+/cgi-local/cart32.exe
+/htbin/cart32.exe
+/cgibin/cart32.exe
+/cgis/cart32.exe
+/scripts/cart32.exe
+/cgi-win/cart32.exe
+/cgi-bin/www-sql;;;
+/server%20logfile;;;
+/cgi-bin/pdg_cart/order.log
+/cgi-bin/shopper.exe?search
+/orders/order.log
+/orders/import.txt
+/orders/checks.txt
+/orders/orders.txt
+/Orders/order.log
+/order/order.log
+/WebShop/logs/ck.log
+/WebShop/logs/cc.txt
+/WebShop/templates/cc.txt
+/_private/orders.txt
+ 
+DORKS PRINCIPAIS/SHOPPING <3
+
+ inurl:".php?cat="+intext:"Paypal"+site:UK
+inurl:".php?cat="+intext:"/Buy Now/"+site:.net
+inurl:".php?cid="+intext:"online+betting"
+inurl:".php?id=" intext:"View cart"
+inurl:".php?id=" intext:"Buy Now"
+inurl:".php?id=" intext:"add to cart"
+inurl:".php?id=" intext:"shopping"
+inurl:".php?id=" intext:"boutique"
+inurl:".php?id=" intext:"/store/"
+inurl:".php?id=" intext:"/shop/"
+inurl:".php?id=" intext:"toys"
+inurl:".php?cid="
+inurl:".php?cid=" intext:"shopping"
+inurl:".php?cid=" intext:"add to cart"
+inurl:".php?cid=" intext:"Buy Now"
+inurl:".php?cid=" intext:"View cart"
+inurl:".php?cid=" intext:"boutique"
+inurl:".php?cid=" intext:"/store/"
+inurl:".php?cid=" intext:"/shop/"
+inurl:".php?cid=" intext:"Toys"
+inurl:".php?cat="
+inurl:".php?cat=" intext:"shopping"
+inurl:".php?cat=" intext:"add to cart"
+inurl:".php?cat=" intext:"Buy Now"
+inurl:".php?cat=" intext:"View cart"
+inurl:".php?cat=" intext:"boutique"
+inurl:".php?cat=" intext:"/store/"
+inurl:".php?cat=" intext:"/shop/"
+inurl:".php?cat=" intext:"Toys"
+inurl:".php?catid="
+inurl:".php?catid=" intext:"View cart"
+inurl:".php?catid=" intext:"Buy Now"
+inurl:".php?catid=" intext:"add to cart"
+inurl:".php?catid=" intext:"shopping"
+inurl:".php?catid=" intext:"boutique"
+inurl:".php?catid=" intext:"/store/"
+inurl:".php?catid=" intext:"/shop/"
+inurl:".php?catid=" intext:"Toys"
+inurl:".php?categoryid="
+inurl:".php?categoryid=" intext:"View cart"
+inurl:".php?categoryid=" intext:"Buy Now"
+inurl:".php?categoryid=" intext:"add to cart"
+inurl:".php?categoryid=" intext:"shopping"
+inurl:".php?categoryid=" intext:"boutique"
+inurl:".php?categoryid=" intext:"/store/"
+inurl:".php?categoryid=" intext:"/shop/"
+inurl:".php?categoryid=" intext:"Toys"
+inurl:".php?pid="
+inurl:".php?pid=" intext:"shopping"
+inurl:".php?pid=" intext:"add to cart"
+inurl:".php?pid=" intext:"Buy Now"
+inurl:".php?pid=" intext:"View cart"
+inurl:".php?pid=" intext:"boutique"
+
+
+DORKS RESULTADO/PAGINA CC <3
+
+
+cat.asp?cat=
+productlist.asp?catalogid=
+Category.asp?category_id=
+Category.cfm?category_id=
+category.asp?cid=
+category.cfm?cid=
+category.asp?cat=
+category.cfm?cat=
+category.asp?id=
+index.cfm?pageid=
+category.asp?catid=
+Category.asp?c=
+Category.cfm?c=
+productlist.cfm?catalogid=
+productlist.asp?catalogid=
+viewitem.asp?catalogid=
+viewitem.cfm?catalogid=
+catalog.cfm?catalogId=
+catalog.asp?catalogId=
+department.cfm?dept=
+department.asp?dept=
+itemdetails.cfm?catalogId=
+itemdetails.asp?catalogId=
+product_detail.asp?catalogid=
+product_detail.cfm?catalogid=
+product_list.asp?catalogid=
+product_list.cfm?catalogid=
+ShowProduct.cfm?CatID=
+ShowProduct.asp?CatID=
+search_results.cfm?txtsearchParamCat=
+search_results.asp?txtsearchParamCat=
+itemdetails.cfm?catalogId=
+itemdetails.asp?catalogId=
+store-page.cfm?go=
+store-page.asp?go=
+Detail.cfm?CatalogID=
+Detail.asp?CatalogID=
+browse.cfm?category_id=
+view.cfm?category_id=
+products.cfm?category_id=
+index.cfm?Category_ID=
+detail.cfm?id=
+category.cfm?id=
+showitems.cfm?category_id=
+ViewProduct.asp?PID=
+ViewProduct.cfm?PID=
+shopdisplayproducts.asp?catalogid=
+shopdisplayproducts.cfn?catalogid=
+displayproducts.cfm?category_id=
+displayproducts.asp?category_id=
+DisplayProducts.asp?prodcat=
+DisplayProducts.cfm?prodcat=x
+productDetail.cfm?ProductID=
+products.php?subcat_id=
+showitem.cfm?id=21
+productdetail.cfm?pid=
+default.cfm?action=46
+products_accessories.asp?CatId=
+Store_ViewProducts.asp?Cat=
+category.cfm?categoryID=
+category.asp?category=
+tepeecart.cfm?shopid=
+view_product.asp?productID=
+ProductDetails.asp?prdId=12
+products.cfm?ID=
+detail.asp?product_id=
+product_detail.asp?product_id=
+products.php?subcat_id=
+product.php?product_id=
+view_product.cfm?productID=
+product_details.asp?prodid=
+shopdisplayproducts.cfm?id=
+displayproducts.cfm?id=
+"downloadTrial.asp?intProdID="
+"emailproduct.asp?itemid="
+"emailToFriend.asp?idProduct="
+"events.asp?ID="
+"faq.asp?cartID="
+"faq_list.asp?id="
+"faqs.asp?id="
+"feedback.asp?title="
+"freedownload.asp?bookid="
+"fullDisplay.asp?item="
+"getbook.asp?bookid="
+"GetItems.asp?itemid="
+"giftDetail.asp?id="
+"help.asp?CartId="
+"home.asp?id="
+"index.asp?cart="
+"index.asp?cartID="
+"index.asp?ID="
+"info.asp?ID="
+"item.asp?eid="
+"item.asp?item_id="
+"item.asp?itemid="
+"item.asp?model="
+"item.asp?prodtype="
+"item.asp?shopcd="
+"item_details.asp?catid="
+"item_list.asp?maingroup"
+"item_show.asp?code_no="
+"itemDesc.asp?CartId="
+"itemdetail.asp?item="
+"itemdetails.asp?catalogid="
+"learnmore.asp?cartID="
+"links.asp?catid="
+"list.asp?bookid="
+"List.asp?CatID="
+"listcategoriesandproducts.asp?idCategory="
+"modline.asp?id="
+"myaccount.asp?catid="
+"news.asp?id="
+"order.asp?BookID="
+"order.asp?id="
+"order.asp?item_ID="
+"OrderForm.asp?Cart="
+"page.asp?PartID="
+"payment.asp?CartID="
+"pdetail.asp?item_id="
+"powersearch.asp?CartId="
+"price.asp"
+"privacy.asp?cartID="
+"prodbycat.asp?intCatalogID="
+"prodetails.asp?prodid="
+"prodlist.asp?catid="
+"product.asp?bookID="
+"product.asp?intProdID="
+"product_info.asp?item_id="
+"productDetails.asp?idProduct="
+"productDisplay.asp"
+"productinfo.asp?item="
+"productlist.asp?ViewType=Category&CategoryID= "
+"productpage.asp"
+"products.asp?ID="
+"products.asp?keyword="
+"products_category.asp?CategoryID="
+"products_detail.asp?CategoryID="
+"productsByCategory.asp?intCatalogID="
+"prodView.asp?idProduct="
+"promo.asp?id="
+"promotion.asp?catid="
+"pview.asp?Item="
+"resellers.asp?idCategory="
+"results.asp?cat="
+"savecart.asp?CartId="
+"search.asp?CartID="
+"searchcat.asp?search_id="
+"Select_Item.asp?id="
+"Services.asp?ID="
+"shippinginfo.asp?CartId="
+"shop.asp?a="
+"shop.asp?action="
+"shop.asp?bookid="
+"shop.asp?cartID="
+"shop_details.asp?prodid="
+"shopaddtocart.asp"
+"shopaddtocart.asp?catalogid="
+"shopbasket.asp?bookid="
+"shopbycategory.asp?catid="
+"shopcart.asp?title="
+"shopcreatorder.asp"
+"shopcurrency.asp?cid="
+"shopdc.asp?bookid="
+"shopdisplaycategories.asp"
+"shopdisplayproduct.asp?catalogid="
+"shopdisplayproducts.asp"
+"shopexd.asp"
+"shopexd.asp?catalogid="
+"shopping_basket.asp?cartID="
+"shopprojectlogin.asp"
+"shopquery.asp?catalogid="
+"shopremoveitem.asp?cartid="
+"shopreviewadd.asp?id="
+"shopreviewlist.asp?id="
+"ShopSearch.asp?CategoryID="
+"shoptellafriend.asp?id="
+"shopthanks.asp"
+"shopwelcome.asp?title="
+"show_item.asp?id="
+"show_item_details.asp?item_id="
+"showbook.asp?bookid="
+"showStore.asp?catID="
+"shprodde.asp?SKU="
+"specials.asp?id="
+"store.asp?id="
+"store_bycat.asp?id="
+"store_listing.asp?id="
+"Store_ViewProducts.asp?Cat="
+"store-details.asp?id="
+"storefront.asp?id="
+"storefronts.asp?title="
+"storeitem.asp?item="
+"StoreRedirect.asp?ID="
+"subcategories.asp?id="
+"tek9.asp?"
+"template.asp?Action=Item&pid="
+"topic.asp?ID="
+"tuangou.asp?bookid="
+"type.asp?iType="
+"updatebasket.asp?bookid="
+"updates.asp?ID="
+"view.asp?cid="
+"view_cart.asp?title="
+"view_detail.asp?ID="
+"viewcart.asp?CartId="
+"viewCart.asp?userID="
+"viewCat_h.asp?idCategory="
+"viewevent.asp?EventID="
+"viewitem.asp?recor="
+"viewPrd.asp?idcategory="
+"ViewProduct.asp?misc="
+"voteList.asp?item_ID="
+"whatsnew.asp?idCategory="
+"WsAncillary.asp?ID="
+viewlist.asp?id="
+"ShopSearch.asp?CategoryID="
+"shoptellafriend.asp?id="
+"shopthanks.asp"
+"shopwelcome.asp?title="
+"show_item.asp?id="
+"show_item_details.asp?item_id="
+"showbook.asp?bookid="
+"showStore.asp?catID="
+
+DORKS VIPS/CC <3
+
+user.php?id=
+user.bmlid=
+user.jsp?id=
+user.cfm?id=
+user.htlm?id=
+user.php?CategoryID=
+user.php?shopID=
+user.php?shippingID=
+user.php?infoID=
+user.php?custID=
+user.php?webID=
+user.php?cad=
