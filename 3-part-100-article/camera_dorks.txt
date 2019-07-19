@@ -1,0 +1,120 @@
+Dorks To find ip cameras:
+
+inurl:\view\index.shtml
+inurl:ViewerFrame?Mode=
+inurl:MUltiCameraFrame:?Mode=
+inurl:view/index.shtml
+inurl:indexFrame.shtml Axis
+inurl:"ViewerFrame?Mode="
+intitle:snc-rz30 inurl:home/
+inurl:/view/index.shtml
+inurl:"ViewerFrame?Mode="
+inurl:netw_tcp.shtml
+intitle:"supervisioncam protocol"
+inurl:CgiStart?page=Single
+inurl:indexFrame.shtml?newstyle=Quad
+intitle:liveapplet inurl:LvAppl
+inurl:/showcam.php?camid
+inurl:video.cgi?resolution=
+inurl:image?cachebust=
+intitle:"Live View / - AXIS"
+inurl:view/view.shtml
+intext:"MOBOTIX M1"
+intext:"Open Menu"
+intitle:snc-rz30
+inurl:home/
+inurl:"MultiCameraFrame?Mode="
+intitle:"EvoCam" inurl:"webcam.html"
+intitle:"Live NetSnap Cam-Server feed"
+intitle:"Live View / - AXIS 206M"
+intitle:"Live View / - AXIS 206W"
+intitle:"Live View / - AXIS 210"
+inurl:indexFrame.shtml Axis
+inurl:"ViewerFrame?Mode="
+inurl:"MultiCameraFrame?Mode=Motion"
+intitle:start inurl:cgistart
+intitle:"WJ-NT104 Main Page"
+intext:"MOBOTIX M1" intext:"Open Menu"
+intext:"MOBOTIX M10" intext:"Open Menu"
+intext:"MOBOTIX D10" intext:"Open Menu"
+intitle:snc-z20 inurl:home/
+intitle:snc-cs3 inurl:home/
+intitle:snc-rz30 inurl:home/
+intitle:"sony network camera snc-p1"
+intitle:"sony network camera snc-m1"
+site:.viewnetcam.com -www.viewnetcam.com
+intitle:"Toshiba Network Camera" user login
+intitle:"netcam live image"
+intitle:"i-Catcher Console - Web Monitor"
+inurl:/home/home
+"Kamerainformationen anzeigen"
+intitle:"AXIS 2100 Network Camera Axis 2100 Network Camera 2.02"
+intitle:"Linksys Web Camera" "ver"
+(intitle:(EyeSpyFX|OptiCamFX) “go to camera”)|(inurl:servlet/DetectBrowser)
+inurl:”ViewerFrame?Mode=”
+intitle:”Live View / - AXIS” | inurl:view/view.shtml
+inurl:”MultiCameraFrame?Mode=”
+intitle:”WJ-NT104 Main”
+intitle:”snc-rz30 home” Requiere plugin Active-X.
+inurl:”ViewerFrame?Mode=Motion” Requiere plugin Active-X.
+inurl:LvAppl intitle:liveapplet
+intitle:”Live View / - AXIS” Requiere plugin Active-X.
+intitle:”Powered by webcamXP”
+inurl:indexFrame.shtml “Axis Video Server”
+inurl:”MOBOTIX M1? and “open menu”
+intitle:flexwatch intext:”Copyright by Seyeon TECH Co”
+“axis video server view.shtml”
+“/view/view.shtml axis”
+“adding live video to one of your own pages a very easy task with an AXIS 2100 Network Camera”
+“Live view - / - AXIS”
+“Your browser has JavaScript turned off.For the user interface to work effectively”
+“indexFrame.html axis”
+“Live web imaging unleashed”
+“sample/LvAppl/”
+“/control/userimage.html”
+“(c)copyright 1999-2003 VICTOR COMPANY OF JAPAN, LIMITED. All rights reserved”
+“V.Networks Motion Picture(Java)”
+“Control the Pan/Tilt and move to the Preset Position”
+“/app/idxas.html”
+“Saving & Retrieving Mode”
+“/ViewerFrame?Mode=Motion”
+“TOSHIBA Network Camera - User Login”
+“/home/homeJ.html”
+“my webcamXP server!”
+inurl:/view.shtml
+intitle:”Live View / - AXIS” | inurl:view/view.shtml^
+inurl:ViewerFrame?Mode=
+inurl:ViewerFrame?Mode=Refresh
+inurl:axis-cgi/jpg
+inurl:axis-cgi/mjpg (motion-JPEG)
+inurl:view/indexFrame.shtml
+inurl:view/index.shtml
+inurl:view/view.shtml
+liveapplet
+intitle:”live view” intitle:axis
+intitle:liveapplet
+allintitle:”Network Camera NetworkCamera”
+intitle:axis intitle:”video server”
+intitle:liveapplet inurl:LvAppl
+intitle:”EvoCam” inurl:”webcam.html”
+intitle:”Live NetSnap Cam-Server feed”
+intitle:”Live View / - AXIS”
+intitle:”Live View / - AXIS 206M”
+intitle:”Live View / - AXIS 206W”
+intitle:”Live View / - AXIS 210?
+inurl:indexFrame.shtml Axis
+inurl:”MultiCameraFrame?Mode=Motion”
+intitle:start inurl:cgistart
+intitle:”WJ-NT104 Main Page”
+intext:”MOBOTIX M1? intext:”Open Menu”
+intext:”MOBOTIX M10? intext:”Open Menu”
+intext:”MOBOTIX D10? intext:”Open Menu”
+intitle:snc-z20 inurl:home/
+intitle:snc-cs3 inurl:home/
+intitle:snc-rz30 inurl:home/
+intitle:”sony network camera snc-p1?
+intitle:”sony network camera snc-m1?
+site:.viewnetcam.com -www.viewnetcam.com
+intitle:”Toshiba Network Camera” user login
+intitle:”netcam live image”
+intitle:”i-Catcher Console - Web Monitor”
