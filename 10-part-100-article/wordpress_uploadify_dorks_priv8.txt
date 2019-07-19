@@ -1,0 +1,28 @@
+[+]  Wordpress uploadify Dorks Priv8
+[+] ./Zeeshan Haxor
+[+] ./CyberTeamRox
+
+inurl:/wp-content/plugins/chillybin-competition/js/uploadify/uploadify.php
+inurl:/wp-content/plugins/comments_plugin/uploadify/uploadify.php
+inurl:/wp-content/plugins/wp-crm/third-party/uploadify/uploadify.php
+inurl:/wp-content/plugins/doptg/libraries/php/uploadify.php
+inurl:/wp-content/plugins/pods/js/uploadify.php
+inurl:/wp-content/plugins/wp-property/third-party/uploadify/uploadify.php
+inurl:/wp-content/plugins/qr-color-code-generator-basic/QR-Color-Code-Generator/uploadify/uploadify.php
+inurl:/wp-content/plugins/wp-symposium/uploadify/uploadify.php
+inurl:/wp-content/plugins/uploader/uploadify.php
+inurl:/wp-content/plugins/1-flash-gallery/upload.php
+inurl:/wp-content/themes/zcool-like/uploadify.php
+inurl:/third-party/uploadify/uploadify.php
+inurl:/lib/uploadify/custom.php
+inurl:/wp-content/plugins/html5avmanager/lib/uploadify/custom.php
+inurl:/wp-content/plugins/wp-property/third-party/uploadify/uploadify.php
+inurl:/wp-content/plugins/squace-mobile-publishing-plugin-for-*********/uploadify.php
+inurl:/wp-content/plugins/1-flash-gallery/js/uploadify/uploadify.php
+inurl:/wp-content/themes/aim-theme/lib/js/old/uploadify.php
+inurl:/wp-content/plugins/uploadify/includes/process_upload.php
+inurl:/wp-content/plugins/very-simple-post-images/uploadify/uploadify.php
+inurl:/wp-content/themes/pronto/cjl/pronto/uploadify/check.php
+inurl:/wp-content/plugins/annonces/includes/lib/uploadify/uploadify.php
+inurl:/wp-content/plugins/apptivo-business-site/inc/jobs/files/uploadify/uploadify.php
+inurl:/wp-content/plugins/bulletproof-security/admin/uploadify/uploadify.php
