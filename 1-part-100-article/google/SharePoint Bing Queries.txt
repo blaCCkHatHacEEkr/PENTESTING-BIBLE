@@ -1,0 +1,124 @@
+SharePoint Diggity;;Administrative;;instreamset:url:"_admin" instreamset:url:"aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"adminlayouts"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/AdminRecycleBin.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/bpcf.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/create.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/listfeed.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/managefeatures.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/mcontent.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/mngsiteadmin.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/mngsubwebs.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/newsbweb.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/PageSettings.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/policy.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/policyconfig.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/policycts.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/Policylist.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/recyclebin.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/settings.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/sitemanager.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/storman.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/vsubwebs.aspx"
+SharePoint Diggity;;Administrative;;instreamset:url:"layouts/wrkmng.aspx"
+SharePoint Diggity;;Forms;;instreamset:url:"/forms/allitems.aspx" ext:aspx
+SharePoint Diggity;;Forms;;instreamset:url:"/pages/forms/allitems.aspx"
+SharePoint Diggity;;Forms;;instreamset:url:"Forms" instreamset:url:"allitems.aspx" ext:aspx
+SharePoint Diggity;;Forms;;instreamset:url:"Forms" instreamset:url:"dispform.aspx" ext:aspx
+SharePoint Diggity;;Forms;;instreamset:url:"Forms" instreamset:url:"editform.aspx" ext:aspx
+SharePoint Diggity;;Forms;;instreamset:url:"Forms" instreamset:url:"myitems.aspx" ext:aspx
+SharePoint Diggity;;Forms;;instreamset:url:"Forms" instreamset:url:"newform.aspx" ext:aspx
+SharePoint Diggity;;Forms;;instreamset:url:"layouts/listedit.aspx" ext:aspx
+SharePoint Diggity;;Forms;;instreamset:url:lists instreamset:url:allitems.aspx
+SharePoint Diggity;;Forms;;instreamset:url:lists instreamset:url:editform.aspx
+SharePoint Diggity;;Galleries;;instreamset:url:"_catalogs/lt/forms/allitems.aspx"
+SharePoint Diggity;;Galleries;;instreamset:url:"catalogs/" instreamset:url:forms
+SharePoint Diggity;;Galleries;;instreamset:url:"catalogs/lt/"
+SharePoint Diggity;;Galleries;;instreamset:url:"catalogs/masterpage"
+SharePoint Diggity;;Galleries;;instreamset:url:"catalogs/masterpage/forms/allitems.aspx"
+SharePoint Diggity;;Galleries;;instreamset:url:"catalogs/wp/"
+SharePoint Diggity;;Galleries;;instreamset:url:"catalogs/wp/forms/"
+SharePoint Diggity;;Galleries;;instreamset:url:"catalogs/wp/forms/allitems.aspx"
+SharePoint Diggity;;Galleries;;instreamset:url:"catalogs/wt/"
+SharePoint Diggity;;Galleries;;instreamset:url:"layouts/1033"
+SharePoint Diggity;;Galleries;;instreamset:url:"layouts/AreaTemplateSettings.aspx"
+SharePoint Diggity;;Galleries;;instreamset:url:"layouts/ChangeSiteMasterPage.aspx"
+SharePoint Diggity;;Galleries;;instreamset:url:"layouts/images/"
+SharePoint Diggity;;Galleries;;instreamset:url:"layouts/mngctype.aspx"
+SharePoint Diggity;;Galleries;;instreamset:url:"layouts/mngfield.aspx"
+SharePoint Diggity;;Galleries;;site:com/_catalogs/masterpage/
+SharePoint Diggity;;Galleries;;site:com/_layouts/1033/
+SharePoint Diggity;;Help Pages;;instreamset:url:"layouts/help.aspx" ext:aspx
+SharePoint Diggity;;Help Pages;;instreamset:url:"layouts/help.aspx" instreamset:url:"cid0=" ext:aspx
+SharePoint Diggity;;Lists;;instreamset:url:"layouts/mobile/mbllists.aspx" ext:aspx
+SharePoint Diggity;;Lists;;instreamset:url:"layouts/viewlsts.aspx"
+SharePoint Diggity;;Lists;;instreamset:url:layouts/listedit.aspx"
+SharePoint Diggity;;Login;;instreamset:url:"/pages/login.aspx"
+SharePoint Diggity;;Login;;instreamset:url:"Layouts" instreamset:url:"authenticate.aspx" ext:aspx
+SharePoint Diggity;;Login;;instreamset:url:"layouts/authenticate.aspx" ext:aspx
+SharePoint Diggity;;LookNFeel;;instreamset:url:"layouts/areanavigationsettings.aspx"
+SharePoint Diggity;;LookNFeel;;instreamset:url:"layouts/AreaWelcomePage.aspx"
+SharePoint Diggity;;LookNFeel;;instreamset:url:"layouts/navoptions.aspx"
+SharePoint Diggity;;LookNFeel;;instreamset:url:"layouts/prjsetng.aspx"
+SharePoint Diggity;;LookNFeel;;instreamset:url:"layouts/quiklnch.aspx"
+SharePoint Diggity;;LookNFeel;;instreamset:url:"layouts/themeweb.aspx"
+SharePoint Diggity;;LookNFeel;;instreamset:url:"layouts/topnav.aspx"
+SharePoint Diggity;;Other;;"all site content" site:.com ext:aspx
+SharePoint Diggity;;Other;;"cid0=" instreamset:url:layouts/help.aspx
+SharePoint Diggity;;Other;;"view all site content" "sign in" "people and groups" ext:aspx
+SharePoint Diggity;;Other;;inanchor:"shared documents" instreamset:url:"shared documents" instreamset:url:"forms/"
+SharePoint Diggity;;Other;;inanchor:"shared documents" instreamset:url:"shared documents" instreamset:url:"forms/" ext:aspx
+SharePoint Diggity;;Other;;inbody:"this blog is powered by microsoft sharepoint server 2010"
+SharePoint Diggity;;Other;;instreamset:url:"/directorylayouts/" ext:aspx
+SharePoint Diggity;;Other;;instreamset:url:"/pages/default.aspx"
+SharePoint Diggity;;Other;;instreamset:url:"layouts" instreamset:url:"allitems.aspx"
+SharePoint Diggity;;Other;;instreamset:url:"Layouts" instreamset:url:"RedirectPage.aspx" ext:aspx
+SharePoint Diggity;;Other;;instreamset:url:"layouts/" ext:aspx
+SharePoint Diggity;;Other;;instreamset:url:layouts/help.aspx
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts" instreamset:url:"useredit.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/aclinv.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/addrole.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/associatedgroups.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/editgrp.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/editprms.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/groups.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/myinfo.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/MyPage.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/MyTasks.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/newgrp.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/people.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/permsetup.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/picker.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/role.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/user.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/userdisp.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/userdisp.aspx" ext:aspx
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/useredit.aspx"
+SharePoint Diggity;;UsersGroups;;instreamset:url:"layouts/viewgrouppermissions.aspx"
+SharePoint Diggity;;WebParts;;instreamset:url:"/WPPrevw.aspx"
+SharePoint Diggity;;WebParts;;instreamset:url:"layouts/NewDwp.aspx"
+SharePoint Diggity;;WebParts;;instreamset:url:"layouts/spcf.aspx"
+SharePoint Diggity;;WebServices;;inbody:"http://schemas.microsoft.com/sharepoint/" ext:asmx
+SharePoint Diggity;;WebServices;;inbody:"soapAction=" inbody:"http://microsoft.com/webservices/OfficeServer/" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/alerts.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/AreaService.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/BusinessDataCatalog.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/copy.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/dspsts.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/ExcelService.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/forms.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/lists.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/people.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/Permissions.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/search.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/SharepointEmailWS.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/sitedata.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/sites.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/spscrawl.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/spsdisco.aspx" ext:aspx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/spsearch.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/usergroup.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/UserProfileService.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/versions.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/views.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/webpartpages.asmx" ext:asmx
+SharePoint Diggity;;WebServices;;instreamset:url:"vti_bin/webs.asmx" ext:asmx

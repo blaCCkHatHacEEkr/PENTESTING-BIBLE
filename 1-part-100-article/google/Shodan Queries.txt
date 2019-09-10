@@ -1,0 +1,168 @@
+Administration;;.edu US SSH;;hostname:edu country:us port:22
+Administration;;admin/1234;;admin 1234
+Administration;;admin;;port:80 admin
+Administration;;Allegro;;"200 OK" -Microsoft -Virata -Apache Allegro
+Administration;;AMX Control Systems;;1.1-rr-std-b12 port:80
+Administration;;Anonymous Access Allowed;;"Anonymous+access+allowed"
+Administration;;Anonymous Access Granted;;"anonymous access granted"
+Administration;;APC Management Card;;APC Management Card
+Administration;;apc;;apc
+Administration;;Barracuda targets;;barracuda
+Administration;;bigfix;;bigfix
+Administration;;CarelDataServer;;CarelDataServer
+Administration;;Cern 3.0;;CERN 3.0
+Administration;;Coldfusion Developer Edition;;a license exception
+Administration;;CPU;;computershare
+Administration;;Dell Remote Access Controller;;"Remote Access Controller" port:80
+Administration;;Delta Networks Inc;;delta
+Administration;;DNS;;fast dns port:80
+Administration;;etcd;;etcd
+Administration;;Firewalls;;firewall 200
+Administration;;General SSH;;port:22
+Administration;;Hewlett Packard print ftp;;230-Hewlett-Packard
+Administration;;hitbox;;HitboxGateway9
+Administration;;HP LaserJet 4250;;"HP-ChaiSOE"
+Administration;;JetDirect HP Printer;;jetdirect
+Administration;;Liebert Devices;;liebert - liebert.com
+Administration;;Micro$oft Exchange;;Exchange
+Administration;;ngamil;;nga.mil
+Administration;;Nortel SIP devices;;port:5060 Nortel
+Administration;;ossim;;ossim
+Administration;;Root shell;;port:23 "list of built-in commands"
+Administration;;SAPHIR;;wince Content-Length: 12581
+Administration;;SimpleShare NAS;;SimpleShare
+Administration;;Snom;;snom embedded 
+Administration;;test;;admin 1234 
+Administration;;Watchguard fierwalls;;firewall 200 - date -Internet -netgear -proxy -charset -length -220
+Administration;;ZENworks;;ZENworks
+Administration;;Zhone Single-Line Multi-Service;;Zhone SLMS
+Cisco;;Cisco Devices;;cisco-ios
+Cisco;;cisco elnet web;;cisco port:23,80
+Cisco;;CISCO IOS India;;cisco-ios country:IN
+Cisco;;Cisco Iso in Algeria;;cisco-ios country:DZ
+Cisco;;cisco no brasil;;"cisco-ios" "last-modified" country:BR
+Cisco;;Cisco Open Web Boxs;;cisco last-modified Accept-Ranges: none
+Cisco;;Cisco VPN Concentrator - admin;;Cisco VPN Concentrator admin.html
+Cisco;;Cisco VPN Concentrator;;Cisco VPN Concentrator
+Cisco;;CiscoPhone 7912;;7912 cisco
+Cisco;;CiscoPhone 7940;;7940 cisco
+Cisco;;IOS HACK - old;;1993 "cisco-ios" + "last-modified"
+CMS;;Drupal;;drupal
+CMS;;Joomla;;joomla
+CMS;;Wordpress;;wordpress
+Common Files;;Proxy.php;;proxy.php
+Default Credentials;;default password;;"default password"
+Default Credentials;;Passwords;;"Default Login" Authenticate
+DNS Server;;PowerDNS;;PowerDNS
+Firewall;;dotDefender WAF;;X-dotDefender-denied
+FTP;;Anonymous FTP;;port:21 230
+FTP;;China FTP;;country:CN port:21
+FTP;;Filezilla;;filezilla
+FTP;;FTP anon successful;;"Anonymous user logged in"
+FTP;;FTP anon successful;;"Anonymous+access+allowed"  connected
+FTP;;FTP anonymous or guest access;;ftp 230 -unknown -print
+FTP;;GoldenFTP 4.70;;GoldenFTP
+FTP;;GoldenFTP Server;;Golden FTP Server
+Languages;;PHP;;"X-Powered-By: PHP"
+Operating System;;CentOS;;centos
+Operating System;;Fedora;;Fedora
+Operating System;;IPCop;;IPCop
+Operating System;;RedHat;;RedHat
+Operating System;;Ubuntu;;Ubuntu
+Operating System;;Windows 2000;;Windows 2000
+Operating System;;Windows 2003;;Windows 2003
+Printer;;Fuji Xerox Servers;;Fuji Xerox
+Printer;;JetDirect;;jetdirect
+Printer;;Xerox 4150;;Xerox 4150
+Router;;Airstation;;Airstation
+Router;;DD-WRT;;dd-wrt port:80
+Router;;HUAWEI Routers;;"SmartAX MT882"
+Router;;HUAWEI ROUTERS;;SmartAX MT882 country:RU
+Router;;netgear routers;;netgear 
+Router;;netgear;;netgear
+Router;;Network Switches;;Network Switch
+Router;;OpenWRT;;OpenWRT
+Router;;Router w/ Default Info;;admin+1234
+SCADA and ICS;;BACnet devices;;bacnet
+SCADA and ICS;;Electro Industries GaugeTech;;EIG Embedded Web Server
+SCADA and ICS;;Open SCADA Niagara systems;;niagara_audit -login
+SCADA and ICS;;Photovoltaic;;sunny webbox port:80
+SCADA and ICS;;Rockwell SLC-505 PLC;;slc 505
+SCADA and ICS;;SCADA USA;;scada country:US
+SCADA and ICS;;SCADA;;Niagara Web Server
+SCADA and ICS;;SCADA;;scada
+SCADA and ICS;;Siemens s7;;siemens s7
+SCADA and ICS;;Siemens SIMATIC;;port:161 simatic
+SCADA and ICS;;Simatic NET;;Simatic -S7 -HMI
+SCADA and ICS;;Simatic S7 SCADA;;"Simatic+S7"
+SCADA and ICS;;Simatic S7;;"Simatic S7"
+SCADA and ICS;;Telemetry Gateway;;telemetry gateway
+Server Modules;;W3 Total Cache;;X-Powered-By:W3 Total Cache
+Television;;Allied telesyn equipment;;allied telesys port:23
+Television;;Dreambox SE;;dreambox SE
+Television;;Dreambox/Enigma2 WebInterface;;Enigma2 WebInterface Server
+Television;;Dreambox;;dreambox 
+Television;;spinetix hyper media player;;spinetix
+Television;;Tandberg Television  Web server;;Tandberg Television Web server
+Television;;Ubicom;;Ubicom -401
+VOIP;;AddPac Technology;;AddPac 
+VOIP;;AddPac VoIP;;AddPac
+VOIP;;airtel;;airtel 
+VOIP;;asterisk;;asterisk
+VOIP;;BT Home Hub;;SIP User-Agent BT Home Hub
+VOIP;;Cisco 7940;;7940 cisco
+VOIP;;Cisco SIP proxy;;CISCO 200 port:5060
+VOIP;;firmex.com;;hostname:firmex.com
+VOIP;;Nortel SIP devices;;port:5060 Nortel
+VOIP;;Snom phones without passwords;;snom embedded 200 OK
+VOIP;;Snom SIP;;port:5060 snom
+VOIP;;Snom VOIP phones with no authentication;;snom embedded
+VOIP;;Tenor;;Tenor
+VOIP;;trixbox sip server;;trixbox port:5060
+VOIP;;Web interface for Huawei IP phones--no authentication required;;huawei -301 -302 -400 -401
+Web Server;;"Virata-EmWeb";;"Virata-EmWeb"
+Web Server;;AFHCAN Telehealth;;"apache 0.9*" port:80
+Web Server;;Centos apache;;country:in apache centos hostname:exacttouch.com
+Web Server;;Commodore 64 Web servers;;"Commodore 64"
+Web Server;;Default IIS Web Pages;;iisstart.htm
+Web Server;;F5 Traffic Shield;;F5-TrafficShield
+Web Server;;Google;;google
+Web Server;;Gordian Embedded;;Gordian Embedded
+Web Server;;i.LON;;"200 OK" i.LON
+Web Server;;IBM HTTP Server;;IBM-HTTP-Server
+Web Server;;IIS 3.0 webservers;;IIS 3.0  -"6.0" -"7.0" -"7.5" -"5.0" -"5.1"
+Web Server;;IIS 4.0 in AU;;iis4.0  country:AU
+Web Server;;IIS 4.0 webservers;;IIS 4.0  -"6.0" -"7.0" -"7.5" -"5.0" -"5.1" -"404" -"403" -"302"
+Web Server;;IIS 4.0;;IIS 4.0  -"6.0" -"7.0" -"7.5" -"5.0" -"5.1" -"404" -"403" -"302"
+Web Server;;IIS 4.0;;IIS 4.0  -"6.0" -"7.0" -"7.5" -"5.0" -"5.1" -"404" -"403" -"302" port:80 country:IN
+Web Server;;iis 5.0;;iis 5.0 
+Web Server;;iis 6.0 webDav;;iis 6.0 webdav
+Web Server;;IIS in the US with CSP;;port:80 country:US X-Content-Security-Policy asp.net
+Web Server;;iWeb;;"Server: iWeb" HTTP
+Web Server;;KM MFP HTTP Server;;KM-MFP-http
+Web Server;;lighttpd on iphones;;iPhone lighttpd
+Web Server;;LiteSpeed;;Server: LiteSpeed 
+Web Server;;mod_antiloris;;mod_antiloris
+Web Server;;mod_security;;mod_security
+Web Server;;Oracle Web Listener;;Oracle_Web_Listener
+Web Server;;Profense;;Profense
+Web Server;;SkyX HTTPS gateway;;SkyX HTTPS
+Web Server;;SUCKUP.de: Mein IT-Blog;;nginx de country:DE
+Web Server;;Synology Disk Station;;apache 2.2.13 302 5000
+Web Server;;Test Apache;;apache
+Web Server;;Windows CE;;wince
+Web Server;;WindWeb server;;WindWeb
+Web Server;;Xerver HTTP Server;;Xerver
+Web Server;;z/oS;;(zOS) -Apache -IIS -Extraweb -kerio -sestbc510
+Webcam;;AVTech IP Camera;;linux upnp avtech
+Webcam;;Belkin NetCam;;netcam
+Webcam;;DCS-5220;;dcs 5220
+Webcam;;GeoHttpServer WebCam;;Server: GeoHttpServer
+Webcam;;TeleEye;;TeleEye 
+Webcam;;Vivotek Network Camera;;Vivotek Network Camera 200
+Webcam;;webcam imagiatek;;imagiatek ipcam
+Webcam;;webcam VIDEO WEB SERVER;;sq-webcam
+Webcam;;webcam vipcap vilar;;Boa ipcam
+Webcam;;Webcam;;Server: SQ-WEBCAM
+Windows;;win;;country:BG port:443 os:windows
+ZENworks;;Remote Access Controller;;RAC_ONE_HTTP
